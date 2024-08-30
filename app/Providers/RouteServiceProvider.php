@@ -5,8 +5,10 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -51,6 +53,16 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/admin.php'));
         });
+
+        parent::boot();
+
+        // Set the locale to Arabic by default if not set
+        if (!session()->has('locale')) {
+            session(['locale' => 'ar']);
+            App::setLocale('ar');
+        }
+
+        LaravelLocalization::setLocale(App::getLocale());
     }
 
     /**
