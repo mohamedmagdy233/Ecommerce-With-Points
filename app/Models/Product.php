@@ -16,6 +16,8 @@ class Product extends Model
         'image',
         'quantity',
         'admin_id',
+        'award_points',
+        'category_id',
     ];
 
     public function admin()
@@ -25,6 +27,13 @@ class Product extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class, 'order_product', 'product_id', 'order_id');
+        return $this->belongsToMany(Order::class, 'order_product')
+            ->withPivot('quantity', 'price', 'total_price')
+            ->withTimestamps();
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

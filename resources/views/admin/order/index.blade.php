@@ -11,13 +11,15 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"> {{ trns('products') }} {{ config()->get('app.name') }}</h3>
+                    @can('add_order')
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
+                        <a href="{{route('orders.create')}}" class="btn btn-secondary btn-icon text-white">
 									<span>
 										<i class="fe fe-plus"></i>
-									</span> {{ trns('add new product') }}
-                        </button>
+									</span> {{ trns('add new order') }}
+                        </a>
                     </div>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -28,8 +30,8 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px">{{ trns('customer') }}</th>
                                 <th class="min-w-125px">{{ trns('products') }}</th>
-                                <th class="min-w-50px">{{ trns('points') }}</th>
-                                <th class="min-w-125px">{{ trns('quantity') }}</th>
+                                <th class="min-w-50px">{{ trns('customer_points') }}</th>
+                                <th class="min-w-50px">{{ trns('status') }}</th>
                                 <th class="min-w-125px">{{ trns('total') }}</th>
                                 <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
                             </tr>
@@ -91,9 +93,9 @@
         var columns = [
             {data: 'id', name: 'id'},
             {data: 'customer_id', name: 'customer_id'},
-            {data: 'product_ids', name: 'product_ids'},
+            {data: 'products', name: 'products', orderable: false, searchable: false},
             {data: 'points', name: 'points'},
-            {data: 'quantity', name: 'quantity'},
+            {data: 'status', name: 'status'},
             {data: 'total', name: 'total'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]

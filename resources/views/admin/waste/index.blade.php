@@ -11,6 +11,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"> {{ trns('wastes') }} {{ config()->get('app.name') }}</h3>
+                    @can('add_waste')
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
@@ -18,6 +19,7 @@
 									</span> {{ trns('add new waste') }}
                         </button>
                     </div>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -26,14 +28,11 @@
                             <thead>
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="min-w-25px">#</th>
-                                <th class="min-w-50px">{{ trns('name') }}</th>
-                                <th class="min-w-125px">{{ trns('description') }}</th>
-                                <th class="min-w-50px">{{ trns('value_in_points_per_unit') }}</th>
                                 <th class="min-w-50px">{{ trns('quantity') }}</th>
-                                <th class="min-w-50px">{{ trns('value_in_points') }}</th>
-                                <th class="min-w-50px">{{ trns('added_by') }}</th>
-
+                                <th class="min-w-50px">{{ trns('waste_section') }}</th>
+                                <th class="min-w-50px">{{ trns('points_transferred') }}</th>
                                 <th class="min-w-125px">{{ trns('customer') }}</th>
+                                <th class="min-w-50px">{{ trns('added_by') }}</th>
                                 <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
                             </tr>
                             </thead>
@@ -93,14 +92,11 @@
     <script>
         var columns = [
             {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'description', name: 'description'},
-            {data: 'value_in_points_per_unit', name: 'value_in_points_per_unit'},
             {data: 'quantity', name: 'quantity'},
-            {data: 'value_in_points', name: 'value_in_points'},
-            {data: 'admin_id', name: 'admin_id'},
+            {data: 'waste_section_id', name: 'waste_section_id'},
+            {data: 'points_transferred', name: 'points_transferred'},
             {data: 'customer_id', name: 'customer_id'},
-
+            {data: 'admin_id', name: 'admin_id'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route('wastes.index')}}', columns);

@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone')->nullable()->unique();
+            $table->string('phone')->unique();
+            $table->string('password');
             $table->string('address')->nullable();
             $table->string('points')->default(0);
             $table->string('referral_code')->unique()->nullable();
+            $table->string('link')->unique()->nullable();
             $table->timestamps();
         });
     }

@@ -10,12 +10,11 @@ class Waste extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
-        'customer_id',
-        'value_in_points',
         'quantity',
+        'waste_section_id',
         'admin_id',
+        'customer_id',
+        'points_transferred',
     ];
 
     public function customer()

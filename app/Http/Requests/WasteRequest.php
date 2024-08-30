@@ -34,9 +34,8 @@ class WasteRequest extends FormRequest
     protected function store(): array
     {
         return [
-            'name' => 'required',
-            'description' => 'required',
-            'value_in_points' => 'required',
+            'points_transferred' => 'required',
+            'waste_section_id' => 'required|exists:waste_sections,id',
             'quantity' => 'required',
             'customer_id' => 'required|exists:customers,id',
 
@@ -46,9 +45,8 @@ class WasteRequest extends FormRequest
     protected function update(): array
     {
         return [
-            'name' => 'required',
-            'description' => 'required',
-            'value_in_points' => 'required',
+            'points_transferred' => 'required',
+            'waste_section_id' => 'required|exists:waste_sections,id',
             'quantity' => 'required',
             'customer_id' => 'required|exists:customers,id',
         ];
@@ -57,11 +55,12 @@ class WasteRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'يجب ادخال الاسم',
-            'description.required' => 'يجب ادخال الوصف',
-            'value_in_points.required' => 'يجب ادخال القيمة',
-            'quantity.required' => 'يجب ادخال الكمية',
             'customer_id.required' => 'يجب ادخال العميل',
+            'waste_section_id.required' => 'يجب ادخال القسم',
+            'quantity.required' => 'يجب ادخال الكمية',
+            'points_transferred.required' => 'يجب ادخال نقاط التحويل',
+
+
         ];
     }
 }

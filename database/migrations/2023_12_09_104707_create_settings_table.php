@@ -35,7 +35,7 @@ class CreateSettingsTable extends Migration
             $table->string('terms')->nullable();
             $table->string('privacy')->nullable();
             $table->string('faqs')->nullable();
-            $table->string('price_of_point')->nullable();
+            $table->string('price_of_point')->nullable()->default(1);
             $table->timestamps();
         });
     }

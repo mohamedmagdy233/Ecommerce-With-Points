@@ -51,15 +51,15 @@
                         <i class="fullscreen-button fe fe-maximize-2" id="fullscreen-button3"></i>
                     </a>
                 </div>
-                <div class="dropdown d-none d-lg-flex">
-                    <a class="nav-link icon full-screen-link nav-link-bg">
-                        <i class="fe fe-moon" id="darkModeBtn"></i>
-                    </a>
-                </div>
+{{--                <div class="dropdown d-none d-lg-flex">--}}
+{{--                    <a class="nav-link icon full-screen-link nav-link-bg">--}}
+{{--                        <i class="fe fe-moon" id="darkModeBtn"></i>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
                 <!-- FULL-SCREEN -->
                 <div class="dropdown profile-1">
 {{--                    <a href="#" data-bs-toggle="dropdown" class="nav-link pl-2 pr-2  leading-none d-flex">--}}
-{{--                        <div class="text-center mt-3 d-none d-xl-block">--}}
+{{--                        <div class="text-center mt-3 d-none d-xl-block">--}}حاح
 {{--                            <i class=" mdi mdi-translate mb-0" style="font-size: 20px;color: #5371ad !important;"></i>--}}
 {{--                        </div>--}}
 {{--                    </a>--}}

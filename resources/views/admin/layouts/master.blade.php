@@ -113,34 +113,34 @@
 
 @include('admin/layouts/scripts')
 @yield('ajaxCalls')
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const darkModeToggle = document.getElementById('darkModeBtn');
+{{--<script>--}}
+{{--    document.addEventListener("DOMContentLoaded", function() {--}}
+{{--        const darkModeToggle = document.getElementById('darkModeBtn');--}}
 
-        // Function to toggle dark mode
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            document.body.classList.toggle('dark-menu');
+{{--        // Function to toggle dark mode--}}
+{{--        function toggleDarkMode() {--}}
+{{--            document.body.classList.toggle('dark-mode');--}}
+{{--            document.body.classList.toggle('dark-menu');--}}
 
-            // Update the stored value in localStorage
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('darkMode', 'enabled');
-            } else {
-                localStorage.removeItem('darkMode');
-            }
-        }
+{{--            // Update the stored value in localStorage--}}
+{{--            if (document.body.classList.contains('dark-mode')) {--}}
+{{--                localStorage.setItem('darkMode', 'enabled');--}}
+{{--            } else {--}}
+{{--                localStorage.removeItem('darkMode');--}}
+{{--            }--}}
+{{--        }--}}
 
-        // Event listener for the button
-        darkModeToggle.addEventListener('click', toggleDarkMode);
+{{--        // Event listener for the button--}}
+{{--        darkModeToggle.addEventListener('click', toggleDarkMode);--}}
 
-        // Check localStorage for dark mode setting on page load
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            document.body.classList.add('dark-mode');
-            document.body.classList.add('dark-menu');
-        }
-    });
+{{--        // Check localStorage for dark mode setting on page load--}}
+{{--        if (localStorage.getItem('darkMode') === 'enabled') {--}}
+{{--            document.body.classList.add('dark-mode');--}}
+{{--            document.body.classList.add('dark-menu');--}}
+{{--        }--}}
+{{--    });--}}
 
-</script>
+{{--</script>--}}
 @toastr_js
 @toastr_render
 </body>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
@@ -11,15 +12,15 @@ class Order extends Model
 
     protected $guarded = [];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Automatically generate a unique referral code upon creation
-        static::creating(function ($customer) {
-            $customer->referral_code = Str::random(10); // Generates a random 10-character code
-        });
-    }
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        // Automatically generate a unique referral code upon creation
+//        static::creating(function ($customer) {
+//            $customer->referral_code = Str::random(10); // Generates a random 10-character code
+//        });
+//    }
 
 
     public function customer()
@@ -30,7 +31,9 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_product', 'order_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'order_product')
+            ->withPivot('quantity', 'price', 'total_price')
+            ->withTimestamps();
     }
 
 }

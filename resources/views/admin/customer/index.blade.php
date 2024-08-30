@@ -10,7 +10,8 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ trns('customers') }} {{ config()->get('app.name') }}</h3>
+                    <h3 class="card-title"> {{ trns('customers') }} {{ trns(config()->get('app.name')) }}</h3>
+                    @can('add_customer')
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
@@ -19,6 +20,7 @@
                         </button>
                     </div>
                 </div>
+                @endcan
                 <div class="card-body">
                     <div class="table-responsive">
                         <!--begin::Table-->
@@ -27,9 +29,11 @@
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px">{{ trns('name') }}</th>
-                                <th class="min-w-125px">{{ trns('email') }}</th>
+                                <th class="min-w-125px">{{ trns('WhatsApp') }}</th>
+                                <th class="min-w-125px">{{ trns('referral_code') }}</th>
                                 <th class="min-w-50px">{{ trns('phone') }}</th>
                                 <th class="min-w-125px">{{ trns('address') }}</th>
+                                <th class="min-w-125px">{{ trns('link') }}</th>
                                 <th class="min-w-125px">{{ trns('points') }}</th>
                                 <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
                             </tr>
@@ -91,9 +95,11 @@
         var columns = [
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
+            {data: 'WhatsApp', name: 'WhatsApp'},
+            {data: 'referral_code', name: 'referral_code'},
             {data: 'phone', name: 'phone'},
             {data: 'address', name: 'address'},
+            {data: 'link', name: 'link'},
             {data: 'points', name: 'points'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]

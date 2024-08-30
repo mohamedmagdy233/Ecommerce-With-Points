@@ -11,12 +11,7 @@
                     <input type="text" class="form-control" name="name" id="name" value="{{$customer->name}}">
                 </div>
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="email" class="form-control-label">{{ trns('email') }}</label>
-                    <input type="text" class="form-control" name="email" id="email"  value="{{$customer->email}}">
-                </div>
-            </div>
+
 
             <div class="col-6">
                 <div class="form-group">
@@ -29,6 +24,27 @@
                 <div class="form-group">
                     <label for="address" class="form-control-label">{{  trns('address')}}</label>
                     <input type="text" class="form-control" name="address" id="address"  value="{{$customer->address}}">
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="points" class="form-control-label">{{  trns('points')}}</label>
+                    <input type="text" class="form-control" name="points" id="points"  value="{{$customer->points}}">
+                </div>
+            </div>
+
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="password" class="form-control-label">{{ trns('password') }}</label>
+                    <input type="password" class="form-control" name="password" id="password">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="password" class="form-control-label">{{ trns('password_confirmation') }}</label>
+                    <input type="password" class="form-control" name="password_confirmation" id="password">
                 </div>
             </div>
 

@@ -11,7 +11,7 @@ class ProductService extends BaseService
     protected string $folder = 'admin/product';
     protected string $route = 'products';
 
-    public function __construct(ObjModel $model)
+    public function __construct(ObjModel $model ,protected  CategoryService $categoryService)
     {
         parent::__construct($model);
     }
@@ -23,16 +23,23 @@ class ProductService extends BaseService
             return DataTables::of($products)
                 ->addColumn('action', function ($products) {
                     $buttons = '';
-                    $buttons .= '
+                    if (auth()->user()->can('edit_product')) {
+
+                        $buttons .= '
                             <button type="button" data-id="' . $products->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                             </button>
                        ';
+                    }
+                    if (auth()->user()->can('delete_product')) {
 
-                    $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                        $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                         data-bs-target="#delete_modal" data-id="' . $products->id . '" data-title="' . $products->name . '">
                         <i class="fas fa-trash"></i>
                         </button>';
+
+
+                    }
 
                     return $buttons;
                 })->addColumn('image', function ($products) {
@@ -66,6 +73,7 @@ class ProductService extends BaseService
         return view($this->folder . '/parts/create', [
 
             'route' => route($this->route . '.store'),
+            'categories'=> $this->categoryService->getAll(),
         ]);
     }
 
@@ -93,6 +101,8 @@ class ProductService extends BaseService
         return view($this->folder . '/parts/edit', [
 
             'product' => $product,
+
+            'categories' => $this->categoryService->getAll(),
 
             'route' => route($this->route . '.update', $product->id),
         ]);

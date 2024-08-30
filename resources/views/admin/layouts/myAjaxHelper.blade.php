@@ -41,7 +41,7 @@
                     }
                 },
 
-                dom: 'Bfrtip',
+                // dom: 'Bfrtip',
                 buttons: [
                     {
                         extend: 'copy',
@@ -71,6 +71,7 @@
                 ]
             });
         }
+
 
     function deleteScript(routeTemplate) {
         $(document).ready(function () {

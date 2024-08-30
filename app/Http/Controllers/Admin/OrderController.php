@@ -35,4 +35,22 @@ class OrderController extends Controller
     {
         return $this->service->store($request);
     }
+
+
+    public function edit($id)
+    {
+        return $this->service->edit($id);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        return $this->service->update($request, $id);
+    }
+
+
+    public function destroy($id)
+    {
+        return $this->service->delete($id);
+    }
 }

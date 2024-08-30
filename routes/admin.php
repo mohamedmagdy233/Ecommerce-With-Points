@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\InviteController;
 use App\Http\Controllers\Admin\OrderController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TransferPointsController;
 use App\Http\Controllers\Admin\WasteController;
+use App\Http\Controllers\Admin\WasteSectionController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -47,6 +49,9 @@ Route::group(
             #============================ customers ====================================
             Route::resource('customers', CustomerController::class);
 
+            #============================ customers ====================================
+            Route::resource('categories', CategoryController::class);
+
             #============================ products ====================================
             Route::resource('products', ProductController::class);
 
@@ -54,11 +59,15 @@ Route::group(
             #============================ wastes ====================================
             Route::resource('wastes', WasteController::class);
 
+            #============================ wastes ====================================
+            Route::resource('wastes_section', WasteSectionController::class);
+
             #============================ transfer points ====================================
             Route::resource('transfer_points', TransferPointsController::class);
 
             #============================ transfer points ====================================
             Route::resource('orders', OrderController::class);
+            Route::any('destroy/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
 
             #============================ invasions ====================================
             Route::resource('invite_links', InviteController::class);

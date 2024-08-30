@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\Order as ObjModel;
+use App\Models\OrderProduct;
 use App\Models\Product;
-use http\Env\Response;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
@@ -13,7 +13,7 @@ class OrderService extends BaseService
     protected string $folder = 'admin/order';
     protected string $route = 'orders';
 
-    public function __construct(ObjModel $model ,protected CustomerService $customerService ,protected ProductService $productService)
+    public function __construct(ObjModel $model, protected CustomerService $customerService, protected ProductService $productService)
     {
         parent::__construct($model);
     }
@@ -21,56 +21,60 @@ class OrderService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            // Fetch orders with products and customer relationships eagerly loaded
             $orders = ObjModel::with(['products', 'customer'])->get();
 
             return DataTables::of($orders)
                 ->addColumn('action', function ($order) {
-                    $buttons = '
-                    <button type="button" data-id="' . $order->id . '" class="btn btn-pill btn-info-light editBtn">
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                        data-bs-target="#delete_modal" data-id="' . $order->id . '" data-title="' . $order->name . '">
-                        <i class="fas fa-trash"></i>
-                    </button>';
+                    $buttons = '';
+
+                    if (auth()->user()->can('edit_product')) {
+                        $buttons .= '
+            <a href="' . route($this->route . '.edit', $order->id) . '" class="btn btn-pill btn-info-light">
+                <i class="fa fa-edit"></i>
+            </a>';
+                    }
+
+                    if (auth()->user()->can('delete_order')) {
+                        $buttons .= '
+            <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                    data-bs-target="#delete_modal" data-id="' . $order->id . '" data-title="' . $order->id . '">
+                <i class="fas fa-trash"></i>
+            </button>';
+                    }
+
                     return $buttons;
                 })
-                ->editColumn('points', function ($order) {
-                    return $order->customer->points;
-                })
                 ->editColumn('customer_id', function ($order) {
-                    return $order->customer->name;
+                    return $order->customer ? $order->customer->name : 'N / A';
                 })
-                ->editColumn('products_ids', function ($order)
-                {
-                    $product_ids = json_decode($order->product_ids, true);
-
-                    if (is_array($product_ids)) {
-
-                        $product_names = Product::whereIn('id', $product_ids)->pluck('name')->toArray();
-                        return implode(',', $product_names);
-                    }
-
-                    return '';
+                ->addColumn('products', function ($order) {
+                    $productDetails = $order->products->map(function ($product) {
+                        return $product->name . ' (Qty: ' . $product->pivot->quantity . ')';
+                    })->implode('<br>'); // Correct <br> spacing
+                    return $productDetails;
                 })
-                ->editColumn('quantity', function ($order) {
-
-
-                    $quantities = json_decode($order->quantity, true);
-
-                    if (is_array($quantities)) {
-                        return implode(', ', $quantities);
+                ->editColumn('points', function ($order) {
+                    return $order->customer ? $order->customer->points : 0;
+                })
+                ->addColumn('total', function ($order) {
+                    return $order->total; // Display total order price
+                })
+                ->editColumn('status', function ($order) {
+                    if ($order->status == 'pending') {
+                        return '<span class="badge badge-warning">معلق</span>'; // Corrected badge syntax
+                    } elseif ($order->status == 'delivered') {
+                        return '<span class="badge badge-success">تم التوصيل</span>';
+                    } else {
+                        return '<span class="badge badge-danger">ملغي</span>';
                     }
-
-                    return ''; // Return empty string if JSON decoding fails
                 })
                 ->addIndexColumn()
-                ->escapeColumns([])
+                ->escapeColumns([]) // Ensure all columns are allowed to render HTML
                 ->make(true);
-        } else {
-            return view($this->folder . '/index');
+
         }
+
+        return view($this->folder . '/index');
     }
 
 
@@ -84,83 +88,184 @@ class OrderService extends BaseService
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
-
+    public function store($data)
     {
 
-//            return response()->json($data);
 
+        $validatedData = $data->validate([
+            'customer_id' => 'required | exists:customers,id',
+            'product_ids' => 'required | array',
+            'product_ids .*' => 'exists:products,id',
+            'quantity' => 'required | array',
+            'quantity .*' => 'integer | min:1',
+            'use_points' => 'nullable | integer | min:0',
+            'total_price' => 'required | numeric | min:0',
+            'address' => 'nullable | string',
+            'delivery_type' => 'required | in:1,2',
+            'total_award_points' => 'nullable | min:0',
+        ], [
+            'customer_id . exists' => 'هذا العميل غير موجود',
+            'product_ids .*.exists' => 'هذا المنتج غير موجود',
+            'quantity .*.integer' => 'الكمية يجب ان تكون عدد',
+            'quantity .*.min' => 'الكمية يجب ان تكون عدد',
+            'use_points . integer' => 'النقاط يجب ان تكون عدد',
+            'use_points . min' => 'النقاط يجب ان تكون عدد',
+            'total_price . numeric' => 'السعر يجب ان يكون رقم',
+            'total_price . min' => 'السعر يجب ان يكون رقم',
+            'address . string' => 'العنوان يجب ان يكون نص',
+            'delivery_type . in' => 'نوع التوصيل غير صالح'
+
+
+        ]);
+
+
+        // Extract validated data
+        $customer_id = $validatedData['customer_id'];
+        $product_ids = $validatedData['product_ids'];
+        $quantities = $validatedData['quantity'];
+        $use_points = $validatedData['use_points'] ?? 0;
+        $total_price = $validatedData['total_price'];
+        $address = $validatedData['address'];
+        $total_award_points = $validatedData['total_award_points'] ?? 0;
+
+        $customer = $this->customerService->getById($customer_id);
+
+        if ($customer->points < $use_points) {
+            return response()->json(['status' => 400, 'message' => 'Insufficient points . ']);
+        }
+
+        $customer->points -= $use_points;
+        $customer->save();
+
+
+        // Create a new order
+        $order = new ObjModel();
+        $order->customer_id = $customer_id;
+        $order->address = $address;
+        $order->use_points = $use_points;
+        $order->status = 'pending';
+        $order->total = $total_price;
+        $order->save();
+
+        foreach ($product_ids as $index => $product_id) {
+            $product = Product::find($product_id);
+            $order->products()->attach($product_id, [
+                'quantity' => $quantities[$index],
+                'price' => $product->price,
+                'total_price' => $product->price * $quantities[$index]
+            ]);
+        }
+
+        // Update customer's award points
+        $customer->points += $total_award_points;
+        $customer->save();
+
+
+        return redirect()->route($this->route . '.index');
+    }
+
+    public
+    function edit($id)
+    {
+        return view($this->folder . '/parts/edit', [
+
+            'customers' => $this->customerService->getAll(),
+            'products' => $this->productService->getAll(),
+            'order' => $this->getById($id),
+            'route' => route($this->route . '.update', $id),
+        ]);
+    }
+
+    public
+    function update($data, $id)
+    {
+        // Validate the incoming request data
         $validatedData = $data->validate([
             'customer_id' => 'required|exists:customers,id',
             'product_ids' => 'required|array',
             'product_ids.*' => 'exists:products,id',
             'quantity' => 'required|array',
             'quantity.*' => 'integer|min:1',
-            'use_points' => 'nullable|integer|min:0'
+            'use_points' => 'nullable|integer|min:0',
+            'total_price' => 'required|numeric|min:0',
+            'address' => 'nullable|string',
+            'delivery_type' => 'required|in:1,2',
+            'total_award_points' => 'nullable|min:0',
+            'status' => 'required|string',
+
+        ], [
+            'customer_id.exists' => 'هذا العميل غير موجود',
+            'product_ids.*.exists' => 'هذا المنتج غير موجود',
+            'quantity.*.integer' => 'الكمية يجب ان تكون عدد',
+            'quantity.*.min' => 'الكمية يجب ان تكون عدد',
+            'use_points.integer' => 'النقاط يجب ان تكون عدد',
+            'use_points.min' => 'النقاط يجب ان تكون عدد',
+            'total_price.numeric' => 'السعر يجب ان يكون رقم',
+            'total_price.min' => 'السعر يجب ان يكون رقم',
+            'address.string' => 'العنوان يجب ان يكون نص',
+            'delivery_type.in' => 'نوع التوصيل غير صالح'
         ]);
 
-        // Get the validated data
+        // Extract validated data
         $customer_id = $validatedData['customer_id'];
         $product_ids = $validatedData['product_ids'];
         $quantities = $validatedData['quantity'];
+        $use_points = $validatedData['use_points'] ?? 0;
+        $total_price = $validatedData['total_price'];
+        $address = $validatedData['address'];
+        $status = $validatedData['status'];
+        $total_award_points = $validatedData['total_award_points'] ?? 0;
 
+        $customer = $this->customerService->getById($customer_id);
 
-
-        $customer=$this->customerService->getById($customer_id);
-
-        if($customer->points < $data->input('use_points')){
-            return response()->json(['status' => 400]);
-        }else{
-            $customer->points = $customer->points - $data->input('use_points');
-            $customer->save();
+        if ($customer->points < $use_points) {
+            return response()->json(['status' => 400, 'message' => 'Insufficient points.']);
         }
 
-        $product_ids_json = json_encode($product_ids);
-        $quantities_json = json_encode($quantities);
+        $customer->points -= $use_points;
+        $customer->save();
 
-        $order = new ObjModel();
+        // Find the order by ID and update its details
+        $order = ObjModel::find($id);
         $order->customer_id = $customer_id;
-        $order->product_ids = $product_ids_json;
-        $order->quantity = $quantities_json;
-        $order->total = $data->input('total_price');
-        $order->use_points = $data->input('use_points');
+        $order->address = $address;
+        $order->use_points = $use_points;
+        $order->status = $status;
+        $order->total = $total_price;
         $order->save();
 
-        if ( $order->save()) {
-            return response()->json(['status' => 200]);
-        } else {
-            return response()->json(['status' => 405]);
+        // Detach existing products from the order
+        $order->products()->detach();
+
+        // Attach updated product data to the order
+        foreach ($product_ids as $index => $product_id) {
+            $product = Product::find($product_id);
+            $order->products()->attach($product_id, [
+                'quantity' => $quantities[$index],
+                'price' => $product->price,
+                'total_price' => $product->price * $quantities[$index]
+            ]);
         }
+
+        // Update customer's award points
+        $customer->points += $total_award_points;
+        $customer->save();
+
+        return redirect()->route($this->route . '.index');
     }
 
-    public function edit($product)
+    public
+    function destroy($id)
     {
-        return view($this->folder . '/parts/edit', [
+        $order = $this->getById($id);
+        $productOrders = OrderProduct::where('order_id', $order->id)->get();
 
-            'product' => $product,
-
-            'route' => route($this->route . '.update', $product->id),
-        ]);
-    }
-
-    public function update($data, $id)
-    {
-
-        $product = $this->getById($id);
-
-        if(array_key_exists('image', $data)){
-
-            Storage::delete('public/'.$product->image);
-
-            $data['image'] = $data['image']->store('uploads/products', 'public');
+        foreach ($productOrders as $productOrder) {
+            $productOrder->delete();
         }
+        $order->delete();
+        return redirect()->route($this->route . '.index');
 
-        $data['admin_id'] = auth('admin')->user()->id;
-        if ($this->updateData($id, $data)) {
-            return response()->json(['status' => 200]);
-        } else {
-            return response()->json(['status' => 405]);
-        }
     }
 
 }

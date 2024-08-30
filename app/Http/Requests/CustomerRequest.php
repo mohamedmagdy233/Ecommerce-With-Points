@@ -35,8 +35,8 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:customers,email',
             'phone' => 'required|unique:customers,phone',
+            'password' => 'required|min:6|confirmed',
             'address' => 'required',
         ];
     }
@@ -45,15 +45,10 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('customers', 'email')->ignore($this->id),
-            ],
-
             'phone' => ['required',
                 Rule::unique('customers', 'phone')->ignore($this->id)],
             'address' => 'required',
+            'password' => 'nullable|min:6|confirmed',
         ];
     }
 
@@ -62,8 +57,7 @@ class CustomerRequest extends FormRequest
         return [
 
             'name.required' => 'يجب ادخال الاسم',
-            'email.required' => 'يجب ادخال البريد الالكتروني',
-            'email.unique' => 'البريد الالكتروني مستخدم من قبل',
+
             'phone.required' => 'يجب ادخال رقم الهاتف',
             'phone.unique' => 'رقم الهاتف مستخدم من قبل',
             'address.required' => 'يجب ادخال العنوان',

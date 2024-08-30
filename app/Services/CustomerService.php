@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Customer as ObjModel;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
@@ -23,19 +24,34 @@ class CustomerService extends BaseService
             return DataTables::of($customers)
                 ->addColumn('action', function ($customers) {
                     $buttons = '';
+                    if (auth()->user()->can('edit_customer')) {
+
                         $buttons .= '
                             <button type="button" data-id="' . $customers->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                             </button>
                        ';
+                    }
+
+                    if (auth()->user()->can('delete_customer')) {
+
 
                         $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                         data-bs-target="#delete_modal" data-id="' . $customers->id . '" data-title="' . $customers->name . '">
                         <i class="fas fa-trash"></i>
                         </button>';
 
+
+                    }
+
                     return $buttons;
-                })
+                })->addColumn('WhatsApp', function ($customers) {
+
+                    return '<a target="_blank" href="https://wa.me/'.$customers->phone.'"><i class="fab fa-2x   fa-whatsapp"></i></a>';
+                })->editColumn('link', function ($customers) {
+
+                    return url('/').'/register?user_id='.$customers->id;
+                 })
 
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -58,6 +74,9 @@ class CustomerService extends BaseService
     public function store($data): \Illuminate\Http\JsonResponse
     {
         $data['referral_code']=$this->generateCode();
+
+        $data['password'] = Hash::make($data['password']);
+
         $model = $this->createData($data);
         if ($model) {
             return response()->json(['status' => 200]);
@@ -85,6 +104,13 @@ class CustomerService extends BaseService
 
     public function update($data ,$id)
     {
+        if ($data['password'] && $data['password'] != null) {
+
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
         if ($this->updateData($id, $data)) {
             return response()->json(['status' => 200]);
         } else {

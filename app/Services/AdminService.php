@@ -26,25 +26,33 @@ class AdminService extends BaseService
             return DataTables::of($admins)
                 ->addColumn('action', function ($admins) {
                     $buttons = '';
-                    if ($admins->id != 1 || auth()->guard('admin')->user()->id == 1) {
-                        $buttons .= '
+                    $currentAdmin = auth()->guard('admin')->user();
+
+                    if ($admins->id != 1 || $currentAdmin->id == 1) {
+                        if ($currentAdmin->can('edit_admin')) {
+                            $buttons .= '
                             <button type="button" data-id="' . $admins->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                             </button>
-                       ';
+                        ';
+                        }
                     }
 
-                    if (auth()->guard('admin')->user()->id != $admins->id && $admins->id != 1) {
-                        $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                    // Show delete button if the current admin is not the same as the listed admin and is not a super admin
+                    if ($currentAdmin->id != $admins->id && $admins->id != 1) {
+                        if ($currentAdmin->can('delete_admin')) {
+                            $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                         data-bs-target="#delete_modal" data-id="' . $admins->id . '" data-title="' . $admins->name . '">
                         <i class="fas fa-trash"></i>
                         </button>';
+                        }
                     }
 
                     return $buttons;
                 })
-                ->addColumn('role', function ($admins) {
-                    return RoleEnum::tryFrom($admins->roles[0]->id)->lang();
+                ->addColumn('permissions', function ($admins) {
+                    // Display a comma-separated list of permissions for each admin
+                    return substr(implode(', ', $admins->permissions->pluck('name')->toArray()), 0, 50);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -70,10 +78,19 @@ class AdminService extends BaseService
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
+        // Hash the password before storing
         $data['password'] = Hash::make($data['password']);
+
+        // Create the user data using the createData method or however you're handling user creation
         $model = $this->createData($data);
+
         if ($model) {
-            $model->assignRole($data['role_id']);
+            // Assign permissions directly to the user
+            if (isset($data['permissions'])) {
+                $permissions = $data['permissions']; // Assuming this is an array of permission names or IDs
+                $model->syncPermissions($permissions);
+            }
+
             return response()->json(['status' => 200]);
         } else {
             return response()->json(['status' => 405]);

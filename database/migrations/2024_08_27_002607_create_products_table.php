@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->longText('description');
             $table->string('price');
+            $table->string('award_points')->default(0);
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('image');
             $table->integer('quantity')->default(1);
             $table->foreignId('admin_id')->constrained()->onDelete('cascade');

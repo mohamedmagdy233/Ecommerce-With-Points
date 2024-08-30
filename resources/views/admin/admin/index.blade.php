@@ -11,6 +11,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"> {{ trns('admins') }} {{ config()->get('app.name') }}</h3>
+                    @can('add_admin')
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
@@ -18,6 +19,7 @@
 									</span> {{ trns('add new admin') }}
                         </button>
                     </div>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -29,7 +31,8 @@
                                 <th class="min-w-50px">{{ trns('name') }}</th>
                                 <th class="min-w-50px">{{ trns('code') }}</th>
                                 <th class="min-w-125px">{{ trns('email') }}</th>
-                                <th class="min-w-125px">{{ trns('role') }}</th>
+                                <th class="min-w-125px">{{ trns('phone') }}</th>
+                                <th class="min-w-125px">{{ trns('permissions') }}</th>
                                 <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
                             </tr>
                             </thead>
@@ -92,7 +95,8 @@
             {data: 'name', name: 'name'},
             {data: 'code', name: 'code'},
             {data: 'email', name: 'email'},
-            {data: 'role', name: 'role'},
+            {data: 'phone', name: 'phone'},
+            {data: 'permissions', name: 'permissions'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route('admins.index')}}', columns);

@@ -12,15 +12,20 @@
             font-size: 16px !important;
         }
 
-        body.dark-mode {
-            color: #c5c9e6;
-            background-color: #212741; }
+        /*body.dark-mode {*/
+        /*    color: #c5c9e6;*/
+        /*    background-color: #212741; }*/
     </style>
 
     <style>
-        body.dark-mode {
-            background-color: #212741;
-            color: #ffffff;
+        /*body.dark-mode {*/
+        /*    background-color: #212741;*/
+        /*    color: #ffffff;*/
+        /*}*/
+
+        body{
+            background-color:#d0d0d0;
+            color: #212741;
         }
 
         .swal2-popup,
@@ -28,26 +33,26 @@
             font-size: 16px !important;
         }
 
-        .dark-mode .swal2-popup,
-        .dark-mode .swal2-modal {
-            background-color: #212741;
-            color: #fff;
-        }
+        /*.dark-mode .swal2-popup,*/
+        /*.dark-mode .swal2-modal {*/
+        /*    background-color: #212741;*/
+        /*    color: #fff;*/
+        /*}*/
 
-        .dark-mode .input-text {
-            background-color: #212741;
-            color: #fff;
-        }
+        /*.dark-mode .input-text {*/
+        /*    background-color: #212741;*/
+        /*    color: #fff;*/
+        /*}*/
 
-        .dark-mode .btn-login,
-        .dark-mode .btn-language {
-            /*background-color: #444;*/
-            color: #fff;
-        }
+        /*.dark-mode .btn-login,*/
+        /*.dark-mode .btn-language {*/
+        /*    !*background-color: #444;*!*/
+        /*    color: #fff;*/
+        /*}*/
 
-        .dark-mode .input-icon i {
-            color: #bbb;
-        }
+        /*.dark-mode .input-icon i {*/
+        /*    color: #bbb;*/
+        /*}*/
 
         .signup-container,
         .welcome-container {
@@ -59,13 +64,13 @@
 
 <body class="dark-mode">
 <div class="container">
-    <div class="language-switcher">
-        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"
-           class="btn btn-language">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>
-    </div>
-    <div class="dark-switcher">
-        <a id="toggleDarkMode" class="btn btn-language">{{ trns('dark_mode') }}</a>
-    </div>
+{{--    <div class="language-switcher">--}}
+{{--        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"--}}
+{{--           class="btn btn-language">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>--}}
+{{--    </div>--}}
+{{--    <div class="dark-switcher">--}}
+{{--        <a id="toggleDarkMode" class="btn btn-language">{{ trns('dark_mode') }}</a>--}}
+{{--    </div>--}}
 
     <main class="signup-container" style="margin-top: 40px">
         <h1 class="heading-primary">{{ trns('login') }}<span class="span-blue">.</span></h1>

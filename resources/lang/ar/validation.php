@@ -1,6 +1,6 @@
 <?php return array (
   'accepted' => 'يجب قبول السمة:.',
-  'accepted_if' => 'يجب قبول السمة: عندما تكون القيمة:other.',
+  'accepted_if' => 'يجب قبول السمة: عندما تكون قيمة:other.',
   'active_url' => 'السمة: ليست عنوان URL صالحًا.',
   'after' => 'يجب أن تكون السمة: تاريخًا بعد:date.',
   'after_or_equal' => 'يجب أن تكون السمة: تاريخًا بعد أو يساوي:date.',
@@ -13,7 +13,7 @@
   'between' => 
   array (
     'numeric' => 'يجب أن تكون السمة: بين:min و:max.',
-    'file' => 'يجب أن تكون السمة بين :min و:max كيلو بايت.',
+    'file' => 'يجب أن تكون السمة: بين:min و:max كيلو بايت.',
     'string' => 'يجب أن تكون السمة: بين أحرف:min و:max.',
     'array' => 'يجب أن تحتوي السمة: على عناصر بين:min و:max.',
   ),
@@ -47,7 +47,7 @@
   array (
     'numeric' => 'يجب أن تكون السمة: أكبر من أو تساوي: القيمة.',
     'file' => 'يجب أن تكون السمة: أكبر من أو تساوي: القيمة بالكيلوبايت.',
-    'string' => 'يجب أن تكون السمة أكبر من أو تساوي أحرف القيمة:.',
+    'string' => 'يجب أن تكون السمة: أكبر من أو تساوي أحرف القيمة:.',
     'array' => 'يجب أن تحتوي السمة: على عناصر قيمة أو أكثر.',
   ),
   'image' => 'يجب أن تكون السمة: صورة.',
@@ -96,7 +96,7 @@
   'password' => 'كلمة المرور غير صحيحة.',
   'present' => 'يجب أن يكون حقل السمة موجودًا.',
   'prohibited' => 'حقل :attribute محظور.',
-  'prohibited_if' => 'يُحظر حقل السمة عندما تكون القيمة :other.',
+  'prohibited_if' => 'يُمنع حقل :attribute عندما يكون :other هو :value.',
   'prohibited_unless' => 'حقل :attribute محظور ما لم يكن :other موجودًا في :values.',
   'prohibits' => 'يمنع حقل :attribute :other من التواجد.',
   'regex' => 'تنسيق السمة: غير صالح.',
@@ -106,7 +106,7 @@
   'required_unless' => 'حقل :attribute مطلوب ما لم يكن :other موجودًا في :values.',
   'required_with' => 'حقل :attribute مطلوب عند وجود :values.',
   'required_with_all' => 'حقل :attribute مطلوب عند وجود :values.',
-  'required_without' => 'حقل السمة مطلوب عندما لا تكون القيم موجودة.',
+  'required_without' => 'حقل :attribute مطلوب في حالة عدم وجود :values.',
   'required_without_all' => 'حقل :attribute مطلوب في حالة عدم وجود أي من :values.',
   'same' => 'يجب أن تتطابق السمة: و:other.',
   'size' => 

@@ -11,6 +11,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"> {{ trns('products') }} {{ config()->get('app.name') }}</h3>
+                    @can('add_product')
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
@@ -18,6 +19,7 @@
 									</span> {{ trns('add new product') }}
                         </button>
                     </div>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -28,7 +30,8 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px">{{ trns('name') }}</th>
                                 <th class="min-w-125px">{{ trns('description') }}</th>
-                                <th class="min-w-50px">{{ trns('price') }}</th>
+                                <th class="min-w-50px">{{ trns('price_of_sale') }}</th>
+                                <th class="min-w-50px">{{ trns('award_points') }}</th>
                                 <th class="min-w-125px">{{ trns('image') }}</th>
                                 <th class="min-w-125px">{{ trns('quantity') }}</th>
                                 <th class="min-w-125px">{{ trns('added by') }}</th>
@@ -94,6 +97,7 @@
             {data: 'name', name: 'name'},
             {data: 'description', name: 'description'},
             {data: 'price', name: 'price'},
+            {data: 'award_points', name: 'award_points'},
             {data: 'image', name: 'image'},
             {data: 'quantity', name: 'quantity'},
             {data: 'admin_id', name: 'admin_id'},

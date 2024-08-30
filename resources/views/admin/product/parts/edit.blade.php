@@ -20,6 +20,23 @@
                     <input type="text" class="form-control" name="name" id="name" value="{{$product->name}}">
                 </div>
             </div>
+
+            <div class="col-6">
+                <label for="category_id" class="form-control-label">{{ trns('category') }}</label>
+                <select name="category_id" class="form-control product-select">
+                    <option value="" disabled selected>{{ trns('choose') }}</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @if($product->category_id == $category->id) selected @endif>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="award_points" class="form-control-label">{{ trns('award_points') }}</label>
+                    <input type="number" class="form-control" name="award_points" id="award_points" value="{{$product->award_points}}">
+                </div>
+            </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="description" class="form-control-label">{{ trns('description') }}</label>

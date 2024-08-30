@@ -15,14 +15,11 @@ return new class extends Migration
     {
         Schema::create('wastes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->longText('description')->nullable();
-            $table->integer('value_in_points')->default(0);
-            $table->string('quantity')->default(1);
-
+            $table->string('quantity');
+            $table->string('points_transferred');
+            $table->foreignId('waste_section_id')->constrained('waste_sections');
             $table->foreignId('admin_id')->constrained();
             $table->foreignId('customer_id')->constrained();
-
             $table->timestamps();
         });
     }
