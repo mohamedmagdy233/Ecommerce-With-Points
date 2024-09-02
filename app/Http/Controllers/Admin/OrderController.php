@@ -53,4 +53,22 @@ class OrderController extends Controller
     {
         return $this->service->delete($id);
     }
+
+    public function showOrder(Request $request)
+    {
+        return $this->service->showOrder($request);
+
+    }
+
+    public function changeOrderStatus($id)
+    {
+        return $this->service->changeOrderStatus($id);
+
+    }
+
+    public function updateOrderStatus(Request $request,$id)
+    {
+        return $this->service->updateOrderStatus($request,$id);
+
+    }
 }

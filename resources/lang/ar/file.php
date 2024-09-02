@@ -171,4 +171,5 @@
   'system_permissions' => 'أذونات النظام',
   'select_permissions' => 'حدد الأذونات',
   'permissions' => 'الأذونات',
+  'show_order' => 'عرض الطلب',
 );

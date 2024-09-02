@@ -68,6 +68,9 @@ Route::group(
             #============================ transfer points ====================================
             Route::resource('orders', OrderController::class);
             Route::any('destroy/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
+            Route::any('orders/show/order', [OrderController::class, 'showOrder'])->name('orders.showOrder');
+            Route::any('orders/change/order/status/{id}', [OrderController::class, 'changeOrderStatus'])->name('changeOrderStatus');
+            Route::any('orders/update/order/status/{id}', [OrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
 
             #============================ invasions ====================================
             Route::resource('invite_links', InviteController::class);

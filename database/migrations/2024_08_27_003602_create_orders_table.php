@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained();
             $table->string('address')->nullable();
             $table->string('use_points')->nullable();
-            $table->enum('status', ['pending', 'delivered', 'canceled']);
+            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered', 'canceled', 'returned']);
             $table->string('total');
             $table->timestamps();
         });

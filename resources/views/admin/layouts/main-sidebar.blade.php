@@ -90,6 +90,15 @@
             </li>
         @endcan
 
+        @can('view_orders')
+            <li class="slide">
+                <a class="side-menu__item {{ Route::currentRouteName() == 'orders.showOrder' ? 'active' : '' }}" href="{{ route('orders.showOrder') }}">
+                    <i class="fa fa-list side-menu__icon"></i>
+                    <span class="side-menu__label">عرض الطلبات</span>
+                </a>
+            </li>
+        @endcan
+
         @can('view_invite_links')
             <li class="slide">
                 <a class="side-menu__item {{ Route::currentRouteName() == 'invite_links.index' ? 'active' : '' }}" href="{{ route('invite_links.index') }}">

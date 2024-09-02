@@ -173,4 +173,5 @@ return array (
   'select_permissions' => 'Select Permissions',
   'permissions' => 'Permissions',
   'price_of_sale' => 'Price Of Sale',
+  'show_order' => 'show order',
 );

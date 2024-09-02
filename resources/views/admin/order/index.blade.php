@@ -1,16 +1,16 @@
 @extends('admin/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ trns('products') }}
+    {{ config()->get('app.name') }} | {{ trns('orders') }}
 @endsection
-@section('page_name') {{ trns('products') }} @endsection
+@section('page_name') {{ trns('orders') }} @endsection
 @section('content')
 
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ trns('products') }} {{ config()->get('app.name') }}</h3>
+                    <h3 class="card-title"> {{ trns('orders') }} {{ config()->get('app.name') }}</h3>
                     @can('add_order')
                     <div class="">
                         <a href="{{route('orders.create')}}" class="btn btn-secondary btn-icon text-white">

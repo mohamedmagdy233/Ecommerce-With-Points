@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order as ObjModel;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
@@ -60,12 +61,21 @@ class OrderService extends BaseService
                     return $order->total; // Display total order price
                 })
                 ->editColumn('status', function ($order) {
-                    if ($order->status == 'pending') {
-                        return '<span class="badge badge-warning">معلق</span>'; // Corrected badge syntax
-                    } elseif ($order->status == 'delivered') {
-                        return '<span class="badge badge-success">تم التوصيل</span>';
-                    } else {
-                        return '<span class="badge badge-danger">ملغي</span>';
+                    switch ($order->status) {
+                        case 'pending':
+                            return '<span class="badge badge-warning">معلق</span>';
+                        case 'processing':
+                            return '<span class="badge badge-info">قيد الإجراء</span>';
+                        case 'shipped':
+                            return '<span class="badge badge-primary">تم الشحن</span>';
+                        case 'delivered':
+                            return '<span class="badge badge-success">تم التوصيل</span>';
+                        case 'returned':
+                            return '<span class="badge badge-secondary">تم الإرجاع</span>';
+                        case 'canceled':
+                            return '<span class="badge badge-danger">ملغي</span>';
+                        default:
+                            return '<span class="badge badge-light">غير معروف</span>'; // For any unhandled statuses
                     }
                 })
                 ->addIndexColumn()
@@ -75,6 +85,91 @@ class OrderService extends BaseService
         }
 
         return view($this->folder . '/index');
+    }
+
+
+    public function showOrder($request)
+    {
+        if ($request->ajax()) {
+            $orders = ObjModel::with(['products', 'customer'])->get();
+
+            return DataTables::of($orders)
+                ->addColumn('action', function ($order) {
+                    $buttons = '';
+
+                    if (auth()->user()->can('edit_product')) {
+                        $buttons .= '
+            <a href="' . route('changeOrderStatus', $order->id) . '" class="btn btn-pill btn-info-light">
+                <i class="fa fa-edit"></i>
+            </a>';
+                    }
+
+                    if (auth()->user()->can('delete_order')) {
+                        $buttons .= '
+            <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                    data-bs-target="#delete_modal" data-id="' . $order->id . '" data-title="' . $order->id . '">
+                <i class="fas fa-trash"></i>
+            </button>';
+                    }
+
+                    return $buttons;
+                })
+                ->editColumn('status', function ($order) {
+                    switch ($order->status) {
+                        case 'pending':
+                            return '<span class="badge badge-warning">معلق</span>';
+                        case 'processing':
+                            return '<span class="badge badge-info">قيد الإجراء</span>';
+                        case 'shipped':
+                            return '<span class="badge badge-primary">تم الشحن</span>';
+                        case 'delivered':
+                            return '<span class="badge badge-success">تم التوصيل</span>';
+                        case 'returned':
+                            return '<span class="badge badge-secondary">تم الإرجاع</span>';
+                        case 'canceled':
+                            return '<span class="badge badge-danger">ملغي</span>';
+                        default:
+                            return '<span class="badge badge-light">غير معروف</span>'; // For any unhandled statuses
+                    }
+
+                })->editColumn('customer_id', function ($order) {
+                        return $order->customer ? $order->customer->name : 'N / A';
+
+                    })->addColumn('products', function ($order) {
+                            $productDetails = $order->products->map(function ($product) {
+                                return $product->name . ' (Qty: ' . $product->pivot->quantity . ')';
+                            })->implode('<br>'); // Correct <br> spacing
+                            return $productDetails;
+
+                })
+                ->addIndexColumn()
+                ->escapeColumns([])
+                ->make(true);
+
+        }
+
+        return view($this->folder . '/showOrder');
+    }
+
+
+    public function changeOrderStatus($id)
+    {
+        return view($this->folder . '/parts/changeOrderStatus', [
+            'order' => $this->getById($id),
+
+            'route' => route('updateOrderStatus', $id),
+        ]);
+
+    }
+
+
+    Public function updateOrderStatus( $request,$id)
+    {
+        $this->getById($id)->update([
+            'status' => $request->status
+        ]);
+
+        return redirect( )->route('orders.showOrder')->with('success', 'تم تغيير حالة الطلب بنجاح');
     }
 
 

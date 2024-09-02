@@ -84,7 +84,7 @@ class CustomerService extends BaseService
             return response()->json(['status' => 405]);
         }
     }
-    protected function generateCode(): string
+    public function generateCode(): string
     {
         do {
             $referral_code = Str::random(11);
@@ -117,5 +117,12 @@ class CustomerService extends BaseService
             return response()->json(['status' => 405]);
         }
     }
+
+    public function getByPhone($phone)
+    {
+        return $this->model->where('phone', $phone)->first();
+
+    }
+
 
 }
