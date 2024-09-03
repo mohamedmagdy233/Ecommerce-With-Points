@@ -174,4 +174,6 @@ return array (
   'permissions' => 'Permissions',
   'price_of_sale' => 'Price Of Sale',
   'show_order' => 'show order',
+  'أسواق الأمتياز' => 'أسواق الأمتياز',
+  'map_url' => 'Map Url',
 );

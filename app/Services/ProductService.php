@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\OrderProduct;
 use App\Models\Product as ObjModel;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
@@ -126,6 +127,35 @@ class ProductService extends BaseService
         } else {
             return response()->json(['status' => 405]);
         }
+    }
+
+
+    public function getRelatedProducts()
+    {
+        $productWithCategory = $this->model->with('category')->get();
+
+
+        return $productWithCategory;
+
+    }
+
+    public function getBestSellers()
+    {
+
+        $bestSellers = OrderProduct:: select('product_id', \DB::raw('count(*) as total'));
+
+        $bestSellers = $bestSellers->groupBy('product_id')->orderBy('total', 'desc')->take(5)->get();
+        return $bestSellers;
+
+
+    }
+
+    public function getByCategoryId($id)
+    {
+
+        $products = $this->model->where('category_id', $id)->get();
+        return $products;
+
     }
 
 }

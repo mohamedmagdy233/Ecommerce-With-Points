@@ -2,19 +2,23 @@
 
 namespace App\Services\user;
 
+use App\Models\Contact;
 use App\Models\Waste as ObjModel;
 use App\Services\BaseService;
+use App\Services\CategoryService;
 use App\Services\CustomerService;
+use App\Services\ProductService;
 use App\Services\WasteSectionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class mainService extends BaseService
 {
     protected string $folder = 'user';
-    protected string $route = 'wastes';
-    public function __construct(ObjModel $model ,protected CustomerService $customerService ,protected WasteSectionService $wasteSectionService)
+//    protected string $route = 'wastes';
+    public function __construct(ObjModel $model ,protected CustomerService $customerService ,protected ProductService $productService,protected CategoryService $categoryService)
     {
         parent::__construct($model);
     }
@@ -36,13 +40,27 @@ class mainService extends BaseService
 
     public function login($data){
 
+        $validator = Validator::make($data->all(), [
+            'phone' => 'required|exists:customers,phone',
+            'password' => 'required',
+        ], [
+            'phone.required' => 'يجب ادخال رقم الهاتف',
+            'phone.exists' => 'رقم الهاتف غير صحيح',
+            'password.required' => 'يجب ادخال كلمة المرور',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->with('error', 'حدث خطأ');
+        }
+
        $customer=$this->customerService->getByPhone($data['phone']);
 
        if($customer){
 
            if (Hash::check($data['password'], $customer->password)) {
                Auth::login($customer);
-               return redirect()->route('main.index');
+               return redirect()->route('main.index')->with(['success' => 'تم تسجيل الدخول بنجاح']);
            }
 
        }
@@ -74,52 +92,125 @@ class mainService extends BaseService
     }
 
 
-    public function index($request)
+
+
+
+
+//    public function showProducts($type)
+//    {
+//        $products=$this->productService->getAll();
+//        if ($type=='slider') {
+//            return view($this->folder . '/parts/slider',[
+//                'products' => $products,
+//            ]);
+//        }
+//
+//
+//
+//    }
+
+    public function productDetails($id)
     {
-        if ($request->ajax()) {
-            $wastes = $this->getDataTable();
-            return DataTables::of($wastes)
-                ->addColumn('action', function ($wastes) {
-                    $buttons = '';
-//                        $buttons .= '
-//                            <button type="button" data-id="' . $wastes->id . '" class="btn btn-pill btn-info-light editBtn">
-//                            <i class="fa fa-edit"></i>
-//                            </button>
-//                       ';
-                    if (auth()->user()->can('delete_waste')) {
+        $productDetails=$this->productService->getById($id);
+        $relatedProducts=$this->productService->getRelatedProducts();
+            return view($this->folder . '/parts/product-details',[
+            'productDetails' => $productDetails,
+            'relatedProducts' => $relatedProducts,
+        ]);
 
-
-                        $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                        data-bs-target="#delete_modal" data-id="' . $wastes->id . '" data-title="' . $wastes->name . '">
-                        <i class="fas fa-trash"></i>
-                        </button>';
-
-                    }
-
-                    return $buttons;
-                })->editColumn('description', function ($wastes) {
-
-                    return substr($wastes->description, 0, 50) . '...';
-
-                })->editColumn('customer_id', function ($wastes) {
-
-                    return $wastes->customer->name;
-                })->editColumn('admin_id', function ($wastes) {
-
-                    return $wastes->admin->name;
-                })->addColumn('value_in_points_per_unit', function ($wastes) {
-
-                    return $wastes->value_in_points/$wastes->quantity;
-
-                })
-
-                ->addIndexColumn()
-                ->escapeColumns([])
-                ->make(true);
-        } else {
-            return view($this->folder . '/index');
-        }
     }
+
+    public function index()
+    {
+        $products=$this->productService->getAll();
+        $bestSellers=$this->productService->getBestSellers();
+        $categories=$this->categoryService->getAll();
+
+        return view($this->folder . '/index',[
+            'products' => $products,
+            'bestSellers' => $bestSellers,
+            'categories' => $categories,
+        ]);
+
+    }
+
+    public function productsByCategory($id)
+    {
+        $products=$this->productService->getByCategoryId($id);
+        $category=$this->categoryService->getById($id);
+
+        return view($this->folder . '/parts/products-by-category',[
+            'products' => $products,
+            'category' => $category,
+        ]);
+
+    }
+
+
+    public function ShowContact()
+    {
+        return view($this->folder . '/parts/contact');
+
+    }
+
+    public function storeContact($request)
+    {
+        $data=$request->all();
+
+       Contact::create($data);
+
+        return redirect()->route('main.index')->with('success', 'تم الإرسال بنجاح');
+
+    }
+
+    public function about()
+    {
+        return view($this->folder . '/parts/about');
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

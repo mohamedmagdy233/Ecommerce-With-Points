@@ -2,12 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     @include('user/layouts/head')
-    <style>
-        .axil-signin-banner, .axil-signin-form-wrap {
-            overflow: hidden; /* Prevent scrolling within these areas */
-            max-height: 100vh; /* Optional: limit the height to the viewport height */
-        }
-    </style>
+
 </head>
 
 <body>
@@ -35,7 +30,7 @@
             </div>
         </div>
         <div class="col-lg-6 offset-xl-2">
-            <div class="axil-signin-form-wrap"  style="overflow: hidden; max-height: 100vh;">
+            <div class="axil-signin-form-wrap" >
                 <div class="axil-signin-form">
                     <h3 class="title">انشاء حساب</h3>
                     <p class="b2 mb--55">املي الحقول التاليه</p>

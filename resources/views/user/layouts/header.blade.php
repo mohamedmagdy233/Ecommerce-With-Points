@@ -6,10 +6,10 @@
         <div class="container">
             <div class="header-navbar">
                 <div class="header-brand">
-                    <a href="index.html" class="logo logo-dark">
+                    <a href="{{route('main.index')}}" class="logo logo-dark">
                         <img src="{{asset('user/assets/images/logo/logo.png')}}" alt="Site Logo">
                     </a>
-                    <a href="index.html" class="logo logo-light">
+                    <a href="{{route('main.index')}}" class="logo logo-light">
                         <img src="{{asset('user/assets/images/logo/logo-light.png')}}" alt="Site Logo">
                     </a>
                 </div>
@@ -17,71 +17,11 @@
                     <!-- Start Mainmanu Nav -->
                     <nav class="mainmenu-nav">
                         <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
-                        <div class="mobile-nav-brand">
-                            <a href="index.html" class="logo">
-                                <img src="{{asset('user/assets/images/logo/logo.png')}}" alt="Site Logo">
-                            </a>
-                        </div>
+
                         <ul class="mainmenu">
-                            <li class="menu-item-has-children">
-                                <a href="#">Home</a>
-                                <ul class="axil-submenu">
-                                    <li><a href="index-1.html">Home - Electronics</a></li>
-                                    <li><a href="index-2.html">Home - NFT</a></li>
-                                    <li><a href="index-3.html">Home - Fashion</a></li>
-                                    <li><a href="index-4.html">Home - Jewellery</a></li>
-                                    <li><a href="index-5.html">Home - Furniture</a></li>
-                                    <li><a href="index-7.html">Home - Multipurpose</a></li>
-                                    <li><a href="https://new.axilthemes.com/demo/template/etrade-rtl/">RTL Version</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Shop</a>
-                                <ul class="axil-submenu">
-                                    <li><a href="shop-sidebar.html">Shop With Sidebar</a></li>
-                                    <li><a href="shop.html">Shop no Sidebar</a></li>
-                                    <li><a href="single-product.html">Product Variation 1</a></li>
-                                    <li><a href="single-product-2.html">Product Variation 2</a></li>
-                                    <li><a href="single-product-3.html">Product Variation 3</a></li>
-                                    <li><a href="single-product-4.html">Product Variation 4</a></li>
-                                    <li><a href="single-product-5.html">Product Variation 5</a></li>
-                                    <li><a href="single-product-6.html">Product Variation 6</a></li>
-                                    <li><a href="single-product-7.html">Product Variation 7</a></li>
-                                    <li><a href="single-product-8.html">Product Variation 8</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Pages</a>
-                                <ul class="axil-submenu">
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="my-account.html">Account</a></li>
-                                    <li><a href="sign-up.html">Sign Up</a></li>
-                                    <li><a href="sign-in.html">Sign In</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                    <li><a href="reset-password.html">Reset Password</a></li>
-                                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                    <li><a href="coming-soon.html">Coming Soon</a></li>
-                                    <li><a href="404.html">404 Error</a></li>
-                                    <li><a href="typography.html">Typography</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="about-us.html">About</a></li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Blog</a>
-                                <ul class="axil-submenu">
-                                    <li><a href="blog.html">Blog List</a></li>
-                                    <li><a href="blog-grid.html">Blog Grid</a></li>
-                                    <li><a href="blog-details.html">Standard Post</a></li>
-                                    <li><a href="blog-gallery.html">Gallery Post</a></li>
-                                    <li><a href="blog-video.html">Video Post</a></li>
-                                    <li><a href="blog-audio.html">Audio Post</a></li>
-                                    <li><a href="blog-quote.html">Quote Post</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="{{route('main.index')}}">الرئيسيه</a></li>
+                            <li><a href="{{route('main.ShowContact')}}">تواصل معنا</a></li>
+                            <li><a href="{{route('main.about')}}">من نحن</a></li>
                         </ul>
                     </nav>
                     <!-- End Mainmanu Nav -->
@@ -139,5 +79,31 @@
             </div>
         </div>
     </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <script>
+        @if(Session::has('success'))
+        toastr.success("{{ session('success') }}");
+        @endif
+
+        @if(Session::has('error'))
+        toastr.error("{{ session('error') }}");
+        @endif
+
+        @if(Session::has('info'))
+        toastr.info("{{ session('info') }}");
+        @endif
+
+        @if(Session::has('warning'))
+        toastr.warning("{{ session('warning') }}");
+        @endif
+    </script>
+
+
     <!-- End Mainmenu Area -->
 </header>

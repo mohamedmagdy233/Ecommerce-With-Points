@@ -12,11 +12,11 @@
     @extends('user.layouts.header')
 
 
-    @extends('user.layouts.category')
+    @extends('user.parts.category')
 
-    @extends('user.layouts.bestSeller')
+    @extends('user.parts.bestSeller')
 
-    @extends('user.layouts.product')
+    @extends('user.parts.product')
 
     @extends('user.layouts.nft')
 
