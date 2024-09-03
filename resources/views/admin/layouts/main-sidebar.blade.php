@@ -94,7 +94,7 @@
             <li class="slide">
                 <a class="side-menu__item {{ Route::currentRouteName() == 'orders.showOrder' ? 'active' : '' }}" href="{{ route('orders.showOrder') }}">
                     <i class="fa fa-list side-menu__icon"></i>
-                    <span class="side-menu__label">عرض الطلبات</span>
+                    <span class="side-menu__label">طلبات التوصيل</span>
                 </a>
             </li>
         @endcan

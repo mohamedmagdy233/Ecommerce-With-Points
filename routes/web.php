@@ -27,12 +27,13 @@ Route::get('login', [MainController::class, 'ShowLoginForm'])->name('main.login'
 Route::post('login', [MainController::class, 'login'])->name('login');
 Route::get('register', [MainController::class, 'showRegisterForm'])->name('main.register');
 Route::post('register', [MainController::class, 'registerNewCustomer'])->name('registerNewCustomer');
-Route::group(['middleware:auth'], function () {
+Route::group(['middleware' => 'web-auth'], function () {
 
 
     Route::get('logout', [MainController::class, 'logout'])->name('logout');
     Route::get('add/to/cart/{id}', [MainController::class, 'addToCart'])->name('addToCart');
-    Route::get('add/to/fav/{id}', [MainController::class, 'addToFav'])->name('addToFav');
+    Route::post('add/to/fav/{id}', [MainController::class, 'addToFav'])->name('addToFav');
+    Route::get('get/wishlist', [MainController::class, 'getWishlist'])->name('wishlist');
 
 
 
@@ -51,6 +52,7 @@ Route::get('products/by/category/{id}', [MainController::class, 'productsByCateg
 Route::get('contact', [MainController::class, 'ShowContact'])->name('main.ShowContact');
 Route::get('about', [MainController::class, 'about'])->name('main.about');
 Route::post('store/contact', [MainController::class, 'storeContact'])->name('main.storeContact');
+Route::get('terms/privacy/faqs', [MainController::class, 'termsAndPrivacyAndFaqs'])->name('termsAndPrivacyAndFaqs');
 
 
 

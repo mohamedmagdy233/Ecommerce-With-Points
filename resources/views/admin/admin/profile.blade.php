@@ -2,7 +2,7 @@
 @section('title') {{isset($setting) ? $setting->title : ''}} | Profile @endsection
 
 @section('page_name')
-    My Profile
+    الملف الشخصي
 @endsection
 @section('content')
     <div class="row">
@@ -30,7 +30,7 @@
                     <div class="tab-menu-heading">
                         <div class="tabs-menu1">
                             <ul class="nav">
-                                <li class=""><a href="#tab-51" class="active show" data-toggle="tab">Information</a></li>
+                                <li class=""><a href="#tab-51" class="active show" data-toggle="tab">المعلومات</a></li>
                             </ul>
                         </div>
                     </div>
@@ -42,23 +42,23 @@
                         <div class="card-body">
                             <div id="profile-log-switch">
                                 <div class="media-heading">
-                                    <h5><strong>Personal Information</strong></h5>
+                                    <h5><strong>المعلومات الشخصيه</strong></h5>
                                 </div>
                                 <div class="table-responsive ">
                                     <table class="table row table-borderless">
                                         <tbody class="col-lg-12 col-xl-4 p-0">
                                         <tr>
-                                            <td class="text-capitalize"><strong>Name :</strong> {{$admin->name}}</td>
+                                            <td class="text-capitalize"><strong>الاسم :</strong> {{$admin->name}}</td>
                                         </tr>
                                         </tbody>
                                         <tbody class="col-lg-12 col-xl-4 p-0">
                                         <tr>
-                                            <td><strong>Email :</strong> {{$admin->email}}</td>
+                                            <td><strong>الايميل :</strong> {{$admin->email}}</td>
                                         </tr>
                                         </tbody>
                                         <tbody class="col-lg-12 col-xl-4 p-0">
                                         <tr>
-                                            <td><strong>Register Date :</strong> {{$admin->created_at->diffForHumans()}}</td>
+                                            <td><strong>تم تسجيل الدخول في  :</strong> {{$admin->created_at->diffForHumans()}}</td>
                                         </tr>
                                         </tbody>
                                     </table>

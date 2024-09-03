@@ -7,11 +7,9 @@
             <div class="header-navbar">
                 <div class="header-brand">
                     <a href="{{route('main.index')}}" class="logo logo-dark">
-                        <img src="{{asset('user/assets/images/logo/logo.png')}}" alt="Site Logo">
+                        <img width="100px" height="100px" src="{{asset($setting->logo)}}" alt="Site Logo">
                     </a>
-                    <a href="{{route('main.index')}}" class="logo logo-light">
-                        <img src="{{asset('user/assets/images/logo/logo-light.png')}}" alt="Site Logo">
-                    </a>
+
                 </div>
                 <div class="header-main-nav">
                     <!-- Start Mainmanu Nav -->
@@ -31,7 +29,7 @@
 
 
                         <li class="wishlist">
-                            <a href="wishlist.html">
+                            <a href="{{route('wishlist')}}">
                                 <i class="flaticon-heart"></i>
                             </a>
                         </li>

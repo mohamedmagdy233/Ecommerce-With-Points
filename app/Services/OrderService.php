@@ -50,7 +50,7 @@ class OrderService extends BaseService
                 })
                 ->addColumn('products', function ($order) {
                     $productDetails = $order->products->map(function ($product) {
-                        return $product->name . ' (Qty: ' . $product->pivot->quantity . ')';
+                        return ' اسم المنتج :  ' . $product->name . ' (الكميه : ' . $product->pivot->quantity . ')';
                     })->implode('<br>'); // Correct <br> spacing
                     return $productDetails;
                 })
@@ -94,50 +94,33 @@ class OrderService extends BaseService
             $orders = ObjModel::with(['products', 'customer'])->get();
 
             return DataTables::of($orders)
-                ->addColumn('action', function ($order) {
-                    $buttons = '';
 
-                    if (auth()->user()->can('edit_product')) {
-                        $buttons .= '
-            <a href="' . route('changeOrderStatus', $order->id) . '" class="btn btn-pill btn-info-light">
-                <i class="fa fa-edit"></i>
-            </a>';
-                    }
-
-                    if (auth()->user()->can('delete_order')) {
-                        $buttons .= '
-            <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                    data-bs-target="#delete_modal" data-id="' . $order->id . '" data-title="' . $order->id . '">
-                <i class="fas fa-trash"></i>
-            </button>';
-                    }
-
-                    return $buttons;
-                })
                 ->editColumn('status', function ($order) {
-                    switch ($order->status) {
-                        case 'pending':
-                            return '<span class="badge badge-warning">معلق</span>';
-                        case 'processing':
-                            return '<span class="badge badge-info">قيد الإجراء</span>';
-                        case 'shipped':
-                            return '<span class="badge badge-primary">تم الشحن</span>';
-                        case 'delivered':
-                            return '<span class="badge badge-success">تم التوصيل</span>';
-                        case 'returned':
-                            return '<span class="badge badge-secondary">تم الإرجاع</span>';
-                        case 'canceled':
-                            return '<span class="badge badge-danger">ملغي</span>';
-                        default:
-                            return '<span class="badge badge-light">غير معروف</span>'; // For any unhandled statuses
+                    $select = '<select class="form-select form-select-sm status-select" style="width: 100px;" data-order-id="' . $order->id . '">';
+                    $statuses = [
+                        'pending' => 'معلق',
+                        'processing' => 'قيد الإجراء',
+                        'shipped' => 'تم الشحن',
+                        'delivered' => 'تم التوصيل',
+                        'returned' => 'تم الإرجاع',
+                        'canceled' => 'ملغي'
+                    ];
+
+                    foreach ($statuses as $value => $label) {
+                        $selected = $order->status == $value ? 'selected' : '';
+                        $select .= '<option value="' . $value . '" ' . $selected . '>' . $label . '</option>';
                     }
 
-                })->editColumn('customer_id', function ($order) {
+                    $select .= '</select>';
+                    return $select;
+                })
+
+                ->editColumn('customer_id', function ($order) {
                         return $order->customer ? $order->customer->name : 'N / A';
 
                     })->addColumn('products', function ($order) {
                             $productDetails = $order->products->map(function ($product) {
-                                return $product->name . ' (Qty: ' . $product->pivot->quantity . ')';
+                                return ' اسم المنتج :  ' . $product->name . ' (الكميه : ' . $product->pivot->quantity . ')';
                             })->implode('<br>'); // Correct <br> spacing
                             return $productDetails;
 
@@ -161,6 +144,23 @@ class OrderService extends BaseService
         ]);
 
     }
+
+    public function updateStatus($request)
+    {
+
+        $order = $this->getById($request->id);
+        if ($order) {
+            $order->status = $request->status;
+            $order->save();
+
+            return response()->json(['success' => true, 'message' => 'تم تحديث الحالة بنجاح.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'فشل تحديث الحالة.']);
+        }
+    }
+
+
+
 
 
     Public function updateOrderStatus( $request,$id)

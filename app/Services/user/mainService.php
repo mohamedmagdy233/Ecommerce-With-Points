@@ -3,6 +3,7 @@
 namespace App\Services\user;
 
 use App\Models\Contact;
+use App\Models\Fav;
 use App\Models\Waste as ObjModel;
 use App\Services\BaseService;
 use App\Services\CategoryService;
@@ -120,6 +121,43 @@ class mainService extends BaseService
 
     }
 
+    public function addToFav($id)
+    {
+
+        $fav = Fav::where('product_id', $id)->where('customer_id', auth('web')->user()->id)->first();
+        if (!$fav) {
+            $fav = new Fav();
+            $fav->product_id = $id;
+            $fav->customer_id = auth('web')->user()->id;
+            $fav->save();
+
+            return response()->json(['status' => 200]);
+
+        }else{
+            $fav->delete();
+
+            return response()->json(['status' => 201]);
+        }
+
+
+
+    }
+
+    public function getWishlist()
+    {
+
+        $fav = Fav::where('customer_id', auth('web')->user()->id)->get();
+        $products = [];
+        foreach ($fav as $item) {
+            array_push($products, $this->productService->getById($item->product_id));
+        }
+
+        return view($this->folder . '/parts/wishlist',[
+            'products' => $products,
+        ]);
+
+    }
+
     public function index()
     {
         $products=$this->productService->getAll();
@@ -166,6 +204,12 @@ class mainService extends BaseService
     public function about()
     {
         return view($this->folder . '/parts/about');
+
+    }
+
+    public function termsAndPrivacyAndFaqs()
+    {
+        return view($this->folder . '/parts/termsAndPrivacyAndFaqs');
 
     }
 

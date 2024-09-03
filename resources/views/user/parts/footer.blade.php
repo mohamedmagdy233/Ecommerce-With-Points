@@ -7,21 +7,20 @@
                 <div class="col-md-3 col-sm-12">
                     <div class="axil-footer-widget">
                         <div class="logo mb--30">
-                            <a href="index.html">
-                                <img class="light-logo" src="{{asset('user/assets/images/logo/logo-light.png')}}" alt="Logo Images">
+                            <a href="{{route('main.index')}}">
+                                <img class="light-logo" src="{{isset($setting->logo) ? asset($setting->logo) : asset('user/assets/images/logo/logo.png')}}"
+                                     alt="Logo Images">
                             </a>
                         </div>
                         <div class="inner">
-                            <p>685 Market Street <br>
-                                Las Vegas, LA 95820, <br>
-                                United States.
+                            <p>
+                                {{$setting->location}}
                             </p>
                             <div class="social-share">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-discord"></i></a>
+                                <a href="{{$setting->facebook}}"><i class="fab fa-facebook-f"></i></a>
+                                <a href="{{$setting->instagram}}"><i class="fab fa-instagram"></i></a>
+                                <a href="{{$setting->twitter}}"><i class="fab fa-twitter"></i></a>
+                                <a href="{{$setting->youtube}}"><i class="fab fa-youtube"></i></a>
                             </div>
                         </div>
                     </div>
@@ -30,14 +29,12 @@
                 <!-- Start Single Widget  -->
                 <div class="col-md-3 col-sm-4">
                     <div class="axil-footer-widget">
-                        <h5 class="widget-title">ABOUT</h5>
+                        <h5 class="widget-title">من نحن</h5>
                         <div class="inner">
                             <ul>
-                                <li><a href="about-us.html">About</a></li>
-                                <li><a href="about-us.html">Who We Are</a></li>
-                                <li><a href="blog.html">Latest Post</a></li>
-                                <li><a href="shop-sidebar.html">New Arraival</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="{{route('main.about')}}">ماذا عنا</a></li>
+                                <li><a href="{{route('main.products')}}">عن المنتجات الجديده</a></li>
+                                <li><a href="{{route('main.ShowContact')}}">تواصل معنا</a></li>
                             </ul>
                         </div>
                     </div>
@@ -46,14 +43,11 @@
                 <!-- Start Single Widget  -->
                 <div class="col-md-3 col-sm-4">
                     <div class="axil-footer-widget">
-                        <h5 class="widget-title">ACCOUNT</h5>
+                        <h5 class="widget-title">الحسابات</h5>
                         <div class="inner">
                             <ul>
-                                <li><a href="my-account.html">My Account</a></li>
-                                <li><a href="sign-up.html">Login / Register</a></li>
-                                <li><a href="cart.html">Cart</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
-                                <li><a href="shop.html">Shop</a></li>
+                                <li><a href="{{route('main.login')}}">تسجيل الدخول</a></li>
+                                <li><a href="{{route('main.register')}}">تسجيل جديد </a></li>
                             </ul>
                         </div>
                     </div>
@@ -62,13 +56,12 @@
                 <!-- Start Single Widget  -->
                 <div class="col-md-3 col-sm-4">
                     <div class="axil-footer-widget">
-                        <h5 class="widget-title">SUPPORT</h5>
+                        <h5 class="widget-title">الدعم</h5>
                         <div class="inner">
                             <ul>
-                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                <li><a href="terms-of-service.html">Terms Of Use</a></li>
-                                <li><a href="#">FAQ</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{{route('termsAndPrivacyAndFaqs')}}">الخصوصيه</a></li>
+                                <li><a href="{{route('termsAndPrivacyAndFaqs')}}">السياسة</a></li>
+                                <li><a href="{{route('termsAndPrivacyAndFaqs')}}">الشروط</a></li>
                             </ul>
                         </div>
                     </div>
@@ -85,17 +78,19 @@
                 <div class="col-xl-7 col-lg-12">
                     <div class="copyright-left d-flex flex-wrap justify-content-xl-start justify-content-center">
                         <ul class="quick-link">
-                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                            <li><a href="terms-of-service.html">Terms of Service</a></li>
+                            <li><a href="{{route('termsAndPrivacyAndFaqs')}}">الخصوصيه</a></li>
+                            <li><a href="{{route('termsAndPrivacyAndFaqs')}}">السياسة</a></li>
                         </ul>
                         <ul class="quick-link">
-                            <li>© 2023. All rights reserved by <a target="_blank" href="https://axilthemes.com/">Axilthemes</a>.</li>
+                            <li> كل الحقوق محفوظة بواسطه : <a target="_blank" href="https://github.com/mohamedmagdy233">فريق العاصفه</a>.
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-xl-5 col-lg-12">
-                    <div class="copyright-right d-flex flex-wrap justify-content-xl-end justify-content-center align-items-center">
-                        <span class="card-text">Accept For</span>
+                    <div
+                        class="copyright-right d-flex flex-wrap justify-content-xl-end justify-content-center align-items-center">
+                        <span class="card-text">الدفع من خلال</span>
                         <ul class="payment-icons-bottom quick-link">
                             <li><img src="{{asset('user/assets/images/icons/cart/cart-1.pn')}}g" alt="paypal cart"></li>
                             <li><img src="{{asset('user/assets/images/icons/cart/cart-2.png')}}" alt="paypal cart"></li>

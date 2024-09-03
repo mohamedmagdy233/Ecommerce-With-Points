@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    @include('user/layouts/head')
+    @include('user.parts.head')
 
 </head>
 
@@ -12,7 +12,8 @@
     <div class="signin-header">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <a href="{{url('/')}}" class="site-logo"><img src="{{asset('user/assets/images/logo/logo.png')}}" alt="logo"></a>
+                <a href="{{url('/')}}" class="site-logo"><img src="{{asset('user/assets/images/logo/logo.png')}}"
+                                                              alt="logo"></a>
             </div>
             <div class="col-md-6">
                 <div class="singin-header-btn">
@@ -30,16 +31,17 @@
             </div>
         </div>
         <div class="col-lg-6 offset-xl-2">
-            <div class="axil-signin-form-wrap" >
+            <div class="axil-signin-form-wrap">
                 <div class="axil-signin-form">
                     <h3 class="title">انشاء حساب</h3>
                     <p class="b2 mb--55">املي الحقول التاليه</p>
-                    <form class="singin-form" method="post" action="{{route('registerNewCustomer')}}" enctype="multipart/form-data">
+                    <form class="singin-form" method="post" action="{{route('registerNewCustomer')}}"
+                          enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group">
                             <label>الاسم </label>
-                            <input type="text" class="form-control" name="name" >
+                            <input type="text" class="form-control" name="name">
                         </div>
 
                         <div class="form-group">
@@ -54,12 +56,12 @@
 
                         <div class="form-group">
                             <label>كلمة المرور</label>
-                            <input type="password" class="form-control" name="password" >
+                            <input type="password" class="form-control" name="password">
                         </div>
 
                         <div class="form-group">
                             <label>تاكيد كلمة المرور</label>
-                            <input type="password" class="form-control" name="password_confirmation" >
+                            <input type="password" class="form-control" name="password_confirmation">
                         </div>
                         <div class="form-group">
                             <input type="submit" class="axil-btn btn-bg-primary submit-btn" value="انشاء حساب">

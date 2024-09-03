@@ -66,9 +66,9 @@ class OrderController extends Controller
 
     }
 
-    public function updateOrderStatus(Request $request,$id)
+    public function updateStatus(Request $request)
     {
-        return $this->service->updateOrderStatus($request,$id);
+        return $this->service->updateStatus($request);
 
     }
 }

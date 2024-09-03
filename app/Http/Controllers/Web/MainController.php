@@ -68,8 +68,9 @@ class MainController extends Controller
 
     }
 
-    public function addToCart($id)
+    public function addToCart()
     {
+
 
 
     }
@@ -85,6 +86,14 @@ class MainController extends Controller
     public function addToFav($id)
     {
 
+        return $this->objService->addToFav($id);
+
+    }
+
+    public function getWishlist()
+    {
+
+        return $this->objService->getWishlist();
 
     }
 
@@ -106,6 +115,13 @@ class MainController extends Controller
     {
 
         return $this->objService->storeContact($request);
+    }
+
+    public function termsAndPrivacyAndFaqs()
+    {
+
+        return $this->objService->termsAndPrivacyAndFaqs();
+
     }
 
 

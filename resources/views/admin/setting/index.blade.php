@@ -36,41 +36,35 @@
                             <div class="row">
                                 <div class="col-6">
 
-                                    <label for="title_ar" class="form-control-label">{{ trns('title_arabic') }}</label>
-                                    <input type="text" class="form-control" name="title_ar" id="title_ar"
-                                           value="{{isset($setting) ? $setting->title_ar : ''}}">
+                                    <label for="title" class="form-control-label">العنوان</label>
+                                    <input type="text" class="form-control" name="title" id="title"
+                                           value="{{isset($setting) ? $setting->title : ''}}">
                                 </div>
+
                                 <div class="col-6">
-                                    <label for="title_en" class="form-control-label">{{ trns('title_english') }}</label>
-                                    <input type="text" class="form-control" name="title_en" id="title_en"
-                                           value="{{isset($setting) ? $setting->title_en : ''}}">
+                                    <label for="youtube" class="form-control-label"> {{ trns('price_of_point') }}</label>
+                                    <input type="number" class="form-control" name="price_of_point"
+                                           value="{{isset($setting) ? $setting->price_of_point : ''}}" min="0" step="0.01">
                                 </div>
+
                             </div>
 
                             <div class="row">
                                 <div class="col-6">
 
-                                    <label for="location_ar" class="form-control-label">{{ trns('location_arabic') }}</label>
-                                    <input type="text" class="form-control" name="location_ar" id="location_ar"
-                                           value="{{isset($setting) ? $setting->location_ar : ''}}">
+                                    <label for="location" class="form-control-label">الموقع</label>
+                                    <input type="text" class="form-control" name="location" id="location"
+                                           value="{{isset($setting) ? $setting->location : ''}}">
                                 </div>
-                                <div class="col-6">
-                                    <label for="location_en" class="form-control-label">{{ trns('location_english') }}</label>
-                                    <input type="text" class="form-control" name="location_en" id="location_en"
-                                           value="{{isset($setting) ? $setting->location_en : ''}}">
-                                </div>
+
 
                                 <div class="col-6">
 
-                                    <label for="location_ar" class="form-control-label">{{ trns('footer_arabic') }}</label>
-                                    <input type="text" class="form-control" name="footer_ar" id="footer_ar"
-                                           value="{{isset($setting) ? $setting->location_ar : ''}}">
+                                    <label for="location" class="form-control-label">{{ trns('footer') }}</label>
+                                    <input type="text" class="form-control" name="footer" id="footer"
+                                           value="{{isset($setting) ? $setting->footer : ''}}">
                                 </div>
-                                <div class="col-6">
-                                    <label for="location_en" class="form-control-label">{{ trns('footer_english') }}</label>
-                                    <input type="text" class="form-control" name="footer_en" id="footer_en"
-                                           value="{{isset($setting) ? $setting->location_en : ''}}">
-                                </div>
+
 
 
                                 <div class="col-12">
@@ -87,11 +81,13 @@
                                     <input type="email" class="form-control" name="email" id="email"
                                            value="{{ isset($setting) ? $setting->email : ''}}">
                                 </div>
+
                                 <div class="col-4">
                                     <label for="phone" class="form-control-label"> {{ trns('phone') }}</label>
                                     <input type="text" class="form-control" name="phone" id="phone"
                                            value="{{ isset($setting) ? $setting->phone : ''}}">
                                 </div>
+
                                 <div class="col-4">
                                     <label for="phone" class="form-control-label">{{ trns('working_hours') }}</label>
                                     <input type="text" class="form-control" name="working_hours" id="working_hours"
@@ -114,7 +110,7 @@
                                            id="privacy">{{isset($setting) ? $setting->privacy : ''}}</textarea>
                                 </div>
                                 <div class="col-12">
-                                    <label for="faqs" class="form-control-label">{{ trns('faqs') }}</label>
+                                    <label for="faqs" class="form-control-label">الاحكام</label>
                                     <textarea class="form-control editor" rows="10" name="faqs"
                                            id="faqs">{{isset($setting) ? $setting->faqs : ''}}</textarea>
                                 </div>
@@ -123,32 +119,28 @@
                             <h4 class="text-center">{{  trns('social_media')}}</h4>
 
                             <div class="row">
-{{--                                <div class="col-6">--}}
-{{--                                    <label for="facebook" class="form-control-label">{{ trns('facebook') }}</label>--}}
-{{--                                    <input type="url" class="form-control" name="facebook"--}}
-{{--                                           id="footer_ar" value="{{isset($setting) ? $setting->facebook : ''}}">--}}
-{{--                                </div>--}}
-{{--                                <div class="col-6">--}}
-{{--                                    <label for="twitter" class="form-control-label"> {{ trns('twitter') }}</label>--}}
-{{--                                    <input type="url" class="form-control" name="twitter"--}}
-{{--                                           id="footer_ar" value="{{isset($setting) ? $setting->twitter : ''}}">--}}
-{{--                                </div>--}}
-{{--                                <div class="col-6">--}}
-{{--                                    <label for="instagram" class="form-control-label"> {{ trns('instagram') }}</label>--}}
-{{--                                    <input type="url" class="form-control" name="instagram"--}}
-{{--                                           id="footer_ar" value="{{isset($setting) ? $setting->instagram : ''}}">--}}
-{{--                                </div>--}}
-{{--                                <div class="col-6">--}}
-{{--                                    <label for="youtube" class="form-control-label"> {{ trns('youtube') }}</label>--}}
-{{--                                    <input type="url" class="form-control" name="youtube"--}}
-{{--                                           id="footer_ar" value="{{isset($setting) ? $setting->youtube : ''}}">--}}
-{{--                                </div>--}}
-
                                 <div class="col-6">
-                                    <label for="youtube" class="form-control-label"> {{ trns('price_of_point') }}</label>
-                                    <input type="number" class="form-control" name="price_of_point"
-                                            value="{{isset($setting) ? $setting->price_of_point : ''}}" min="0" step="0.01">
+                                    <label for="facebook" class="form-control-label">{{ trns('facebook') }}</label>
+                                    <input type="url" class="form-control" name="facebook"
+                                           id="footer_ar" value="{{isset($setting) ? $setting->facebook : ''}}">
                                 </div>
+                                <div class="col-6">
+                                    <label for="twitter" class="form-control-label"> تويتر</label>
+                                    <input type="url" class="form-control" name="twitter"
+                                           id="footer_ar" value="{{isset($setting) ? $setting->twitter : ''}}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="instagram" class="form-control-label"> {{ trns('instagram') }}</label>
+                                    <input type="url" class="form-control" name="instagram"
+                                           id="footer_ar" value="{{isset($setting) ? $setting->instagram : ''}}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="youtube" class="form-control-label"> {{ trns('youtube') }}</label>
+                                    <input type="url" class="form-control" name="youtube"
+                                           id="footer_ar" value="{{isset($setting) ? $setting->youtube : ''}}">
+                                </div>
+
+
                             </div>
                         </div>
                         <div class="modal-footer">

@@ -1,7 +1,7 @@
-<html lang="ar" dir="rtl">
+<html lang="ar" >
 <head>
 
-    @include('user/layouts/head')
+    @include('user.parts.head')
 
 </head>
 
@@ -13,7 +13,7 @@
 
 <main class="main-wrapper">
 
-    @include('user.layouts.header')
+    @include('user.parts.header')
     @include('user.parts.slider')
     @include('user.parts.bestSeller')
     @include('user.parts.category')
@@ -25,7 +25,7 @@
 </main>
 
 
-@include('user.layouts.footer')
+@include('user.parts.footer')
 
 @include('user.layouts.cart')
 @include('user.layouts.js')

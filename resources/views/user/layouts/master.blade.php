@@ -1,7 +1,7 @@
 <html lang="ar" dir="rtl">
 <head>
 
-    @extends('user/layouts/head')
+    @extends('user.parts.head')
 
 </head>
 
@@ -9,7 +9,7 @@
 
 <main class="main-wrapper">
 
-    @extends('user.layouts.header')
+    @extends('user.parts.header')
 
 
     @extends('user.parts.category')
@@ -23,7 +23,7 @@
 
     @extends('user.layouts.VideoBanner')
 
-    @extends('user.layouts.footer')
+    @extends('user.parts.footer')
 
     @extends('user.layouts.cart')
     @extends('user.layouts.js')

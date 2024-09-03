@@ -21,6 +21,28 @@
                                     <div class="product-hover-action">
                                         <ul class="cart-action">
                                             <li class="select-option"><a href="{{route('addToCart', $product->id)}}">اضف الى السلة</a></li>
+                                            <span class="col-1"> </span>
+                                            @auth('web')
+                                                @if(\App\Models\Fav::where('customer_id', Auth::user('web')->id)->where('product_id', $product->id)->exists())
+
+                                                    <div class="product-variation quantity-variant-wrapper">
+
+                                                        <a href="javascript:void(0);" class="add-to-wishlist" data-id="{{ $product->id }}">
+                                                            <i class="fas fa-heart fa-3x" style="color: red;"></i>
+                                                        </a>
+
+                                                    </div>
+                                                @else
+                                                    <div class="product-variation quantity-variant-wrapper">
+                                                        <a href="javascript:void(0);" class="add-to-wishlist" data-id="{{ $product->id }}">
+                                                            <i class="far fa-heart fa-3x"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
+
+
+
+                                            @endauth
                                         </ul>
                                     </div>
                                 </div>

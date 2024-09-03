@@ -1,7 +1,6 @@
-
 <html class="no-js" lang="ar">
 
-@include('user.layouts.head')
+@include('user.parts.head')
 <style>
     .product-action-wrapper {
         display: flex;
@@ -52,6 +51,7 @@
         border-radius: 5px;
         cursor: pointer;
     }
+
     .product-action-wrapper {
         display: flex;
         align-items: center; /* Align items vertically */
@@ -108,9 +108,7 @@
 </style>
 
 
-
-
-    @include('user.layouts.header')
+@include('user.parts.header')
 
 <main class="main-wrapper">
     <!-- Start Shop Area  -->
@@ -138,36 +136,68 @@
                                         <div class="price-amount price-offer-amount">
                                             <span class="price current-price">${{$productDetails->price}}</span>
                                         </div>
-                                        <div class="product-action-wrapper d-flex align-items-center justify-content-start">
+                                        <div
+                                            class="product-action-wrapper d-flex align-items-center justify-content-start">
                                             <!-- Product Quantity -->
                                             <div class="product-variation quantity-variant-wrapper">
                                                 <h6 class="title mb-2">الكمية</h6>
                                                 <div class="pro-qty">
-                                                    <button class="dec qty-btn">-</button>
                                                     <input type="text" value="1" aria-label="Product Quantity">
-                                                    <button class="inc qty-btn">+</button>
+
                                                 </div>
                                             </div>
-
                                             <!-- Start Product Action -->
                                             <ul class="product-action action-style-two mb-0">
                                                 <li class="add-to-cart">
-                                                    <a href="{{ route('addToCart', $productDetails->id) }}" class="axil-btn btn-bg-primary">
-                                                        اضف الى السلة
+                                                    <a href="{{ route('addToCart', $productDetails->id) }}"
+                                                       class="axil-btn btn-bg-primary">
+
+
+                                                        +
                                                     </a>
+
                                                 </li>
+
                                             </ul>
+                                            @auth('web')
+                                                @if(\App\Models\Fav::where('customer_id', Auth::user('web')->id)->where('product_id', $productDetails->id)->exists())
+
+                                                    <div class="product-variation quantity-variant-wrapper">
+
+                                                    <a href="javascript:void(0);" class="add-to-wishlist" data-id="{{ $productDetails->id }}">
+                                                        <i class="fas fa-heart" style="color: red;"></i>
+                                                    </a>
+
+                                                </div>
+                                                @else
+                                                    <div class="product-variation quantity-variant-wrapper">
+                                                        <a href="javascript:void(0);" class="add-to-wishlist" data-id="{{ $productDetails->id }}">
+                                                            <i class="far fa-heart"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
+
+
+
+                                            @endauth
+
+
+
+
                                         </div>
 
                                         <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white nft-info-tabs">
                                             <div class="container">
                                                 <ul class="nav tabs" id="myTab" role="tablist">
                                                     <li class="nav-item" role="presentation">
-                                                        <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">الوصف</a>
+                                                        <a class="active" id="description-tab" data-bs-toggle="tab"
+                                                           href="#description" role="tab" aria-controls="description"
+                                                           aria-selected="true">الوصف</a>
                                                     </li>
                                                 </ul>
                                                 <div class="tab-content" id="myTabContent">
-                                                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                                                    <div class="tab-pane fade show active" id="description"
+                                                         role="tabpanel" aria-labelledby="description-tab">
                                                         <div class="product-additional-info">
                                                             <p class="mb--15"><strong>عن المنتج</strong></p>
                                                             <p>{{$productDetails->description}}</p>
@@ -210,22 +240,30 @@
                                 <div class="axil-product product-style-one">
                                     <div class="thumbnail">
                                         <a href="{{route('product.details', $relatedProduct->id)}}">
-                                            <img  data-sal-delay="400" data-sal-duration="1500"  src="{{asset('storage/'.$relatedProduct->image)}}" alt="Product Images">
+                                            <img data-sal-delay="400" data-sal-duration="1500"
+                                                 src="{{asset('storage/'.$relatedProduct->image)}}"
+                                                 alt="Product Images">
                                         </a>
                                         <div class="product-hover-action">
                                             <ul class="cart-action">
                                                 <li class="select-option">
-                                                    <a href="{{ route('addToCart',  $relatedProduct->id) }}" class="add-to-cart-link">
+                                                    <a href="{{ route('addToCart',  $relatedProduct->id) }}"
+                                                       class="add-to-cart-link">
                                                         أضف إلى السلة
                                                     </a>
                                                 </li>
                                             </ul>
+
+
                                         </div>
 
                                     </div>
                                     <div class="product-content">
                                         <div class="inner">
-                                            <h5 class="title"><a href="{{route('product.details', $relatedProduct->id)}}"> #00{{$relatedProduct->id}} <span class="verified-icon"><i class="fas fa-badge-check"></i></span></a></h5>
+                                            <h5 class="title"><a
+                                                    href="{{route('product.details', $relatedProduct->id)}}">
+                                                    #00{{$relatedProduct->id}} <span class="verified-icon"><i
+                                                            class="fas fa-badge-check"></i></span></a></h5>
                                             <div class="product-price-variant">
                                                 <span class="price current-price">${{$relatedProduct->price}}</span>
                                             </div>
@@ -243,14 +281,13 @@
 </main>
 
 
-
-
-
-@include('user.layouts.footer')
+@include('user.parts.footer')
+@include('user.layouts.cart')
+@include('user.layouts.js')
 
 <script>
-    document.querySelectorAll('.qty-btn').forEach(function(button) {
-        button.addEventListener('click', function() {
+    document.querySelectorAll('.qty-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
             var input = this.parentNode.querySelector('input[type="text"]');
             var currentValue = parseInt(input.value, 10);
             if (this.classList.contains('inc')) {

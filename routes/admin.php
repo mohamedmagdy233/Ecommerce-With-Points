@@ -70,7 +70,8 @@ Route::group(
             Route::any('destroy/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
             Route::any('orders/show/order', [OrderController::class, 'showOrder'])->name('orders.showOrder');
             Route::any('orders/change/order/status/{id}', [OrderController::class, 'changeOrderStatus'])->name('changeOrderStatus');
-            Route::any('orders/update/order/status/{id}', [OrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
+//            Route::any('orders/update/order/status/{id}', [OrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
+            Route::any('/orders/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
             #============================ invasions ====================================
             Route::resource('invite_links', InviteController::class);

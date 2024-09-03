@@ -176,4 +176,9 @@ return array (
   'show_order' => 'show order',
   'أسواق الأمتياز' => 'أسواق الأمتياز',
   'map_url' => 'Map Url',
+  'title' => 'Title',
+  'location' => 'Location',
+  'footer' => 'Footer',
+  'active' => 'Active',
+  'inactive' => 'Inactive',
 );

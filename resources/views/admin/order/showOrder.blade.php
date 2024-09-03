@@ -23,7 +23,6 @@
                                 <th class="min-w-50px">{{ trns('customer') }}</th>
                                 <th class="min-w-125px">{{ trns('products') }}</th>
                                 <th class="min-w-50px">{{ trns('status') }}</th>
-                                <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
                             </tr>
                             </thead>
                         </table>
@@ -61,7 +60,6 @@
             {data: 'customer_id', name: 'customer_id'},
             {data: 'products', name: 'products', orderable: false, searchable: false},
             {data: 'status', name: 'status'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route('orders.showOrder')}}', columns);
         // Delete Using Ajax
@@ -69,6 +67,34 @@
         // Add Using Ajax
         showEditModal('{{route('changeOrderStatus',':id')}}');
         editScript();
+    </script>
+
+    <script>
+        $(document).on('change', '.status-select', function() {
+            var orderId = $(this).data('order-id');
+            var status = $(this).val();
+
+            $.ajax({
+                url: '{{ route('orders.updateStatus') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: orderId,
+                    status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function(xhr) {
+                    toastr.error('حدث خطأ أثناء تحديث الحالة.');
+                }
+            });
+        });
+    </script>
     </script>
 @endsection
 

@@ -2,14 +2,12 @@
 <html class="no-js" lang="ar">
 
 
-@include('user.layouts.head')
+@include('user.parts.head')
 
 
 
 
-@include('user.layouts.header')
-
-
+@include('user.parts.header')
 
 
 <main class="main-wrapper">
@@ -51,10 +49,13 @@
                         <span class="text-heading">يمكن أن يساعدك alesforce B2C Commerce في إنشاء تجارب تجارية رقمية موحدة وذكية - سواء عبر الإنترنت أو في المتجر.</span>
                         <div class="row">
                             <div class="col-xl-6">
-                                <p>قم بتمكين فرق المبيعات لديك من خلال حلول مصممة خصيصًا للصناعة والتي تدعم الشركات المصنعة أثناء انتقالها إلى الرقمنة، والتكيف مع الأسواق والعملاء المتغيرين بشكل أسرع من خلال إنشاء أعمال جديدة.</p>
+                                <p>قم بتمكين فرق المبيعات لديك من خلال حلول مصممة خصيصًا للصناعة والتي تدعم الشركات
+                                    المصنعة أثناء انتقالها إلى الرقمنة، والتكيف مع الأسواق والعملاء المتغيرين بشكل أسرع
+                                    من خلال إنشاء أعمال جديدة.</p>
                             </div>
                             <div class="col-xl-6">
-                                <p class="mb--0">توفر خدمة Salesforce B2B Commerce للمشترين تجربة التسوق عبر الإنترنت السلسة والذاتية الخدمة مع جميع خدمات B2B</p>
+                                <p class="mb--0">توفر خدمة Salesforce B2B Commerce للمشترين تجربة التسوق عبر الإنترنت
+                                    السلسة والذاتية الخدمة مع جميع خدمات B2B</p>
                             </div>
                         </div>
                     </div>
@@ -65,25 +66,6 @@
     <!-- End About Area  -->
 
 
-    <!-- Start Axil Newsletter Area  -->
-    <div class="axil-newsletter-area axil-section-gap">
-        <div class="container">
-            <div class="etrade-newsletter-wrapper bg_image bg_image--5">
-                <div class="newsletter-content">
-                    <span class="title-highlighter highlighter-primary2"><i class="fas fa-envelope-open"></i>Newsletter</span>
-                    <h2 class="title mb--40 mb_sm--30">Get weekly update</h2>
-                    <div class="input-group newsletter-form">
-                        <div class="position-relative newsletter-inner mb--15">
-                            <input placeholder="example@gmail.com" type="text">
-                        </div>
-                        <button type="submit" class="axil-btn mb--15">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End .container -->
-    </div>
-    <!-- End Axil Newsletter Area  -->
 </main>
 
 
@@ -138,4 +120,6 @@
     </div>
 </div>
 
-@include('user.layouts.footer')
+@include('user.parts.footer')
+@include('user.layouts.cart')
+@include('user.layouts.js')
