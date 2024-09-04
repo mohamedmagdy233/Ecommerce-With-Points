@@ -22,6 +22,7 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px">{{ trns('customer') }}</th>
                                 <th class="min-w-125px">{{ trns('products') }}</th>
+                                <th class="min-w-50px">العنوان</th>
                                 <th class="min-w-50px">{{ trns('status') }}</th>
                             </tr>
                             </thead>
@@ -59,6 +60,7 @@
             {data: 'id', name: 'id'},
             {data: 'customer_id', name: 'customer_id'},
             {data: 'products', name: 'products', orderable: false, searchable: false},
+            {data: 'address', name: 'address'},
             {data: 'status', name: 'status'},
         ]
         showData('{{route('orders.showOrder')}}', columns);

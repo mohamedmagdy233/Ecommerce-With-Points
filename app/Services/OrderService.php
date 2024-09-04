@@ -124,7 +124,11 @@ class OrderService extends BaseService
                             })->implode('<br>'); // Correct <br> spacing
                             return $productDetails;
 
+                })->editColumn('address', function ($order) {
+
+                    return $order->address==null?'الاستلام في المحل ':$order->address;
                 })
+
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
