@@ -25,7 +25,7 @@
 
     @extends('user.parts.footer')
 
-    @extends('user.layouts.cart')
+    @extends('user.parts.cart')
     @extends('user.layouts.js')
 
     <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>

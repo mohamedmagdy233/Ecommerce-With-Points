@@ -134,54 +134,55 @@
                                     <div class="inner">
                                         <h2 class="product-title">{{$productDetails->name}}</h2>
                                         <div class="price-amount price-offer-amount">
-                                            <span class="price current-price">${{$productDetails->price}}</span>
+                                            <span class="price current-price">السعر : {{$productDetails->price}}</span>
                                         </div>
                                         <div
                                             class="product-action-wrapper d-flex align-items-center justify-content-start">
-                                            <!-- Product Quantity -->
-                                            <div class="product-variation quantity-variant-wrapper">
-                                                <h6 class="title mb-2">الكمية</h6>
-                                                <div class="pro-qty">
-                                                    <input type="text" value="1" aria-label="Product Quantity">
+                                            <form action="{{route('addToCart')}}" method="post">
+                                                @csrf
+                                                <!-- Product Quantity -->
+                                                <div class="product-variation quantity-variant-wrapper">
+                                                    <input type="hidden" name="product_id"
+                                                           value="{{ $productDetails->id }}">
+                                                    <h6 class="title mb-2">الكمية</h6>
+                                                    <div class="pro-qty">
+                                                        <input type="text" value="1" name="quantity"
+                                                               aria-label="Product Quantity">
 
-                                                </div>
-                                            </div>
-                                            <!-- Start Product Action -->
-                                            <ul class="product-action action-style-two mb-0">
-                                                <li class="add-to-cart">
-                                                    <a href="{{ route('addToCart', $productDetails->id) }}"
-                                                       class="axil-btn btn-bg-primary">
-
-
-                                                        +
-                                                    </a>
-
-                                                </li>
-
-                                            </ul>
-                                            @auth('web')
-                                                @if(\App\Models\Fav::where('customer_id', Auth::user('web')->id)->where('product_id', $productDetails->id)->exists())
-
-                                                    <div class="product-variation quantity-variant-wrapper">
-
-                                                    <a href="javascript:void(0);" class="add-to-wishlist" data-id="{{ $productDetails->id }}">
-                                                        <i class="fas fa-heart" style="color: red;"></i>
-                                                    </a>
-
-                                                </div>
-                                                @else
-                                                    <div class="product-variation quantity-variant-wrapper">
-                                                        <a href="javascript:void(0);" class="add-to-wishlist" data-id="{{ $productDetails->id }}">
-                                                            <i class="far fa-heart"></i>
-                                                        </a>
                                                     </div>
-                                                @endif
+                                                </div>
+                                                <!-- Start Product Action -->
+                                                <ul class="product-action action-style-two mb-0">
+                                                    <li class="add-to-cart">
+                                                        <input type="submit" class="axil-btn btn-bg-primary" value="+">
+
+
+                                                    </li>
+
+                                                </ul>
+                                                @auth('web')
+                                                    @if(\App\Models\Fav::where('customer_id', Auth::user('web')->id)->where('product_id', $productDetails->id)->exists())
+
+                                                        <div class="product-variation quantity-variant-wrapper">
+
+                                                            <a href="javascript:void(0);" class="add-to-wishlist"
+                                                               data-id="{{ $productDetails->id }}">
+                                                                <i class="fas fa-heart" style="color: red;"></i>
+                                                            </a>
+
+                                                        </div>
+                                                    @else
+                                                        <div class="product-variation quantity-variant-wrapper">
+                                                            <a href="javascript:void(0);" class="add-to-wishlist"
+                                                               data-id="{{ $productDetails->id }}">
+                                                                <i class="far fa-heart"></i>
+                                                            </a>
+                                                        </div>
+                                            @endif
 
 
 
                                             @endauth
-
-
 
 
                                         </div>
@@ -265,7 +266,7 @@
                                                     #00{{$relatedProduct->id}} <span class="verified-icon"><i
                                                             class="fas fa-badge-check"></i></span></a></h5>
                                             <div class="product-price-variant">
-                                                <span class="price current-price">${{$relatedProduct->price}}</span>
+                                                <span class="price current-price">{{$relatedProduct->price}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -282,7 +283,7 @@
 
 
 @include('user.parts.footer')
-@include('user.layouts.cart')
+@include('user.parts.cart')
 @include('user.layouts.js')
 
 <script>

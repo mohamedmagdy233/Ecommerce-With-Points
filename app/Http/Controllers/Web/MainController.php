@@ -68,8 +68,21 @@ class MainController extends Controller
 
     }
 
-    public function addToCart()
+    public function addToCart(Request $request)
     {
+
+
+        return $this->objService->addToCart($request);
+
+
+
+    }
+
+    public function showCart()
+    {
+
+
+        return $this->objService->showCart();
 
 
 

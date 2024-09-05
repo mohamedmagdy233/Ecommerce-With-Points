@@ -4,23 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use mysql_xdevapi\Table;
 
-class OrderProduct extends Model
+class cart extends Model
 {
     use HasFactory;
 
-    protected $table = 'order_product';
+    protected $fillable = [
+        'customer_id',
+        'product_id',
+        'quantity',
+    ];
 
-    protected $guarded = [];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function order()
+    public function customer()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Customer::class);
     }
 }

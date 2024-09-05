@@ -8,9 +8,8 @@
 
 
 @include('user.parts.header')
-
-
 <main class="main-wrapper">
+
     <!-- Start Breadcrumb Area  -->
     <div class="axil-breadcrumb-area">
         <div class="container">
@@ -20,7 +19,7 @@
                         <ul class="axil-breadcrumb">
                             <li class="axil-breadcrumb-item"><a href="{{route('main.index')}}">الرئيسيه</a></li>
                             <li class="separator"></li>
-                            <li class="axil-breadcrumb-item active" aria-current="page">Contact</li>
+                            <li class="axil-breadcrumb-item active" aria-current="page">تواصل معنا</li>
                         </ul>
                         <h1 class="title">تواصل معنا</h1>
                     </div>
@@ -88,6 +87,7 @@
 
             </div>
         </div>
+
         <!-- End Contact Area  -->
 
 
@@ -144,10 +144,13 @@
 
     </div>
 
-    </div>
+
+</main>
 
 @include('user.parts.footer')
-@include('user.layouts.cart')
+
+
+@include('user.parts.cart')
 @include('user.layouts.js')
 
 </html>

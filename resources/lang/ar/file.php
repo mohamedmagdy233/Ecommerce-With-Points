@@ -153,7 +153,7 @@
   'waste_section' => 'قسم النفايات',
   'waste_sections' => 'أقسام النفايات',
   'add new section' => 'إضافة قسم جديد',
-  'point_per_one' => 'نقطة لكل واحد',
+  'point_per_one' => ' كم نقطة لكل وحده',
   'points_transferred' => 'النقاط المحولة',
   'section' => 'قسم',
   'add new order' => 'إضافة طلب جديد',

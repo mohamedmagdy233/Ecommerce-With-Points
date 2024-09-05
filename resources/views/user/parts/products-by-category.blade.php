@@ -29,13 +29,13 @@
                 <div class="col-lg-6 col-md-4">
                     <div class="inner">
                         <img
-                            alt="Image"
-                            width="100px"
-                            height="100px"
-                            onclick="window.open(this.src)"
-                            style="margin-right: 453px;"
-                            class="avatar rounded-circle right-aligned"
-                            src="{{ asset('storage/' . $category->image) }}"
+                                alt="Image"
+                                width="100px"
+                                height="100px"
+                                onclick="window.open(this.src)"
+                                style="margin-right: 453px;"
+                                class="avatar rounded-circle right-aligned"
+                                src="{{ asset('storage/' . $category->image) }}"
                         >
 
 
@@ -66,29 +66,30 @@
                                 <div class="product-hover-action">
                                     <ul class="cart-action">
                                         @auth('web')
-                                        <li class="wishlist">
-                                            <a href="javascript:void(0);" class="add-to-wishlist" data-id="{{ $product->id }}">
-                                                <i class="far fa-heart"></i>
-                                            </a>
-                                        </li>
+                                            <li class="wishlist">
+                                                <a href="javascript:void(0);" class="add-to-wishlist"
+                                                   data-id="{{ $product->id }}">
+                                                    <i class="far fa-heart"></i>
+                                                </a>
+                                            </li>
                                         @endauth
 
                                         <li class="select-option"><a href="{{route('addToCart', $product->id)}}"><i
-                                                    class="fas fa-shopping-bag"></i></a></li>
+                                                        class="fas fa-shopping-bag"></i></a></li>
                                         <li class="quickview"><a href="{{route('product.details', $product->id)}}"
                                                                  data-bs-toggle="modal"
                                                                  data-bs-target="#quick-view-modal"><i
-                                                    class="far fa-eye"></i></a></li>
+                                                        class="far fa-eye"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="product-content">
                                 <div class="inner">
                                     <h5 class="title"><a
-                                            href="{{route('product.details', $product->id)}}">{{$product->name}}</a>
+                                                href="{{route('product.details', $product->id)}}">{{$product->name}}</a>
                                     </h5>
                                     <div class="product-price-variant">
-                                        <span class="price current-price">${{$product->price}}</span>
+                                        <span class="price current-price">{{$product->price}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -102,12 +103,10 @@
         </div>
 
 
-
-
-@include('user.parts.footer')
-@include('user.layouts.cart')
-@include('user.layouts.js')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        @include('user.parts.footer')
+        @include('user.parts.cart')
+        @include('user.layouts.js')
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </html>

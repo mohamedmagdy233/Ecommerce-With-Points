@@ -19,7 +19,7 @@
                             <div class="product-content">
                                 <div class="inner">
                                     <div class="product-price-variant">
-                                        <span class="price current-price" STYLE="color: #0a0c0d">${{$bestSeller->product->price}}</span>
+                                        <span class="price current-price" STYLE="color: #0a0c0d">{{$bestSeller->product->price}}</span>
                                     </div>
                                     <h5 class="title"><a href="{{route('product.details', $bestSeller->product_id)}}">#00{{$bestSeller->product_id}}</a></h5>
                                     <div class="product-hover-action">

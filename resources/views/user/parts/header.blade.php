@@ -7,7 +7,7 @@
             <div class="header-navbar">
                 <div class="header-brand">
                     <a href="{{route('main.index')}}" class="logo logo-dark">
-                        <img width="100px" height="100px" src="{{asset($setting->logo)}}" alt="Site Logo">
+                        <img width="100px" height="100px" src="{{isset($setting->logo) ? asset($setting->logo) : asset('assets/upload/no-data.gif')}}" alt="Site Logo">
                     </a>
 
                 </div>
@@ -18,6 +18,8 @@
 
                         <ul class="mainmenu">
                             <li><a href="{{route('main.index')}}">الرئيسيه</a></li>
+                            <li><a href="{{route('main.products')}}">المنتجات</a></li>
+                            <li><a href="#category">الاقسام</a></li>
                             <li><a href="{{route('main.ShowContact')}}">تواصل معنا</a></li>
                             <li><a href="{{route('main.about')}}">من نحن</a></li>
                         </ul>
@@ -33,8 +35,9 @@
                                 <i class="flaticon-heart"></i>
                             </a>
                         </li>
+
                         <li class="shopping-cart">
-                            <a href="#" class="cart-dropdown-btn">
+                            <a href="{{route('showCart')}}" class="cart-dropdown-btn">
                                 <span class="cart-count">3</span>
                                 <i class="flaticon-shopping-cart"></i>
                             </a>

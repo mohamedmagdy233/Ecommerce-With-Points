@@ -13,9 +13,10 @@
                             </a>
                         </div>
                         <div class="inner">
-                            <p>
-                                {{$setting->location}}
-                            </p>
+                            <a    href="{{isset($setting->location_url) ? $setting->location_url : '#'}}" style="color :#acacac;" >
+
+                                {{isset($setting->location) ? $setting->location : 'الموقع'}}
+                            </a>
                             <div class="social-share">
                                 <a href="{{$setting->facebook}}"><i class="fab fa-facebook-f"></i></a>
                                 <a href="{{$setting->instagram}}"><i class="fab fa-instagram"></i></a>
@@ -72,7 +73,7 @@
     </div>
     <!-- End Footer Top Area  -->
     <!-- Start Copyright Area  -->
-    <div class="copyright-area copyright-default separator-top">
+    <div class="copyright-area copyright-default separator-top ">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-xl-7 col-lg-12">
@@ -81,25 +82,13 @@
                             <li><a href="{{route('termsAndPrivacyAndFaqs')}}">الخصوصيه</a></li>
                             <li><a href="{{route('termsAndPrivacyAndFaqs')}}">السياسة</a></li>
                         </ul>
-                        <ul class="quick-link">
+                        <ul class="quick-link ">
                             <li> كل الحقوق محفوظة بواسطه : <a target="_blank" href="https://github.com/mohamedmagdy233">فريق العاصفه</a>.
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-5 col-lg-12">
-                    <div
-                        class="copyright-right d-flex flex-wrap justify-content-xl-end justify-content-center align-items-center">
-                        <span class="card-text">الدفع من خلال</span>
-                        <ul class="payment-icons-bottom quick-link">
-                            <li><img src="{{asset('user/assets/images/icons/cart/cart-1.pn')}}g" alt="paypal cart"></li>
-                            <li><img src="{{asset('user/assets/images/icons/cart/cart-2.png')}}" alt="paypal cart"></li>
-                            <li><img src="{{asset('user/assets/images/icons/cart/cart-3.pn')}}g" alt="paypal cart"></li>
-                            <li><img src="{{asset('user/assets/images/icons/cart/cart-6.png')}}" alt="paypal cart"></li>
-                            <li><img src="{{asset('user/assets/images/icons/cart/cart-5.png')}}" alt="paypal cart"></li>
-                        </ul>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

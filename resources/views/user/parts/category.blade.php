@@ -1,4 +1,4 @@
-<div class="axil-categorie-area bg-color-white axil-section-gap pb--0">
+<div class="axil-categorie-area bg-color-white axil-section-gap pb--0" id="category" >
     <div class="container">
         <div class="product-area pb--50">
             <div class="section-title-wrapper">

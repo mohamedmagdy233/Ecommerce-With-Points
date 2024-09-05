@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 
-class AuthService 
+class AuthService
 {
     public function index()
     {
@@ -30,14 +30,29 @@ class AuthService
             ]
         );
 
-        $admin = Admin::where('user_name', $data['input'])->first();
+        $admin = Admin::where('user_name', $data['input'])
+                 ->Orwhere('email',$data['input'])
+                 ->first();
         $credentials = [];
-        if ($admin) {
-            $credentials['user_name'] = $data['input'];
-        } else {
-            $credentials['code'] = $data['input'];
+        if ($admin){
+
+
+            if ($admin->user_name==$data['input']) {
+                $credentials['user_name'] = $data['input'];
+
+            }elseif($admin->email==$data['input']){
+
+                $credentials['email'] = $data['input'];
+
+            } else {
+                $credentials['code'] = $data['input'];
+            }
+            $credentials['password'] = $data['password'];
+
+
         }
-        $credentials['password'] = $data['password'];
+
+
 
 
 

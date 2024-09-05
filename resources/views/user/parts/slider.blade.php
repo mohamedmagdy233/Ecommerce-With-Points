@@ -27,7 +27,7 @@
                                                 <a href="{{ route('product.details', $product->id) }}">#00{{ $product->id }}</a>
                                             </h5>
                                             <div class="product-price-variant">
-                                                <span class="price current-price">${{ $product->price }}</span>
+                                                <span class="price current-price">{{ $product->price }}</span>
                                             </div>
                                             <ul class="cart-action">
                                                 <li class="select-option">

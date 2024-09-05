@@ -31,7 +31,8 @@ Route::group(['middleware' => 'web-auth'], function () {
 
 
     Route::get('logout', [MainController::class, 'logout'])->name('logout');
-    Route::get('add/to/cart/{id}', [MainController::class, 'addToCart'])->name('addToCart');
+    Route::post('add/to/cart', [MainController::class, 'addToCart'])->name('addToCart');
+    Route::get('show/cart', [MainController::class, 'showCart'])->name('showCart');
     Route::post('add/to/fav/{id}', [MainController::class, 'addToFav'])->name('addToFav');
     Route::get('get/wishlist', [MainController::class, 'getWishlist'])->name('wishlist');
 

@@ -50,7 +50,7 @@
                                     <div class="inner">
                                         <h5 class="title"><a href="{{route('product.details', $product->id)}} ">#00{{ $product->id }} <span class="verified-icon"><i class="fas fa-badge-check"></i></span></a></h5>
                                         <div class="product-price-variant">
-                                            <span class="price current-price">${{$product->price}}</span>
+                                            <span class="price current-price">{{$product->price}}</span>
                                         </div>
                                     </div>
                                 </div>

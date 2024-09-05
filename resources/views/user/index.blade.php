@@ -1,4 +1,4 @@
-<html lang="ar" >
+<html lang="ar">
 <head>
 
     @include('user.parts.head')
@@ -27,7 +27,7 @@
 
 @include('user.parts.footer')
 
-@include('user.layouts.cart')
+@include('user.parts.cart')
 @include('user.layouts.js')
 
 <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>

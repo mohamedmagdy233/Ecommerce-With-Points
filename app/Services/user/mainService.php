@@ -2,6 +2,7 @@
 
 namespace App\Services\user;
 
+use App\Models\cart;
 use App\Models\Contact;
 use App\Models\Fav;
 use App\Models\Waste as ObjModel;
@@ -114,32 +115,94 @@ class mainService extends BaseService
     {
         $productDetails=$this->productService->getById($id);
         $relatedProducts=$this->productService->getRelatedProducts();
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+        }else
+        {
+            $carts = [];
+        }
             return view($this->folder . '/parts/product-details',[
             'productDetails' => $productDetails,
             'relatedProducts' => $relatedProducts,
+            'carts' => $carts
         ]);
 
     }
 
-    public function addToFav($id)
+    public function addToCart($request)
     {
-
-        $fav = Fav::where('product_id', $id)->where('customer_id', auth('web')->user()->id)->first();
-        if (!$fav) {
-            $fav = new Fav();
-            $fav->product_id = $id;
-            $fav->customer_id = auth('web')->user()->id;
-            $fav->save();
-
-            return response()->json(['status' => 200]);
-
-        }else{
-            $fav->delete();
-
-            return response()->json(['status' => 201]);
+        $vaildator = Validator::make($request->all(), [
+            'quantity' => 'required',
+            'product_id' => 'required|exists:products,id',
+        ], [
+            'quantity.required' => 'يجب ادخال الكمية',
+            'product_id.required' => 'يجب ادخال المنتج',
+            'product_id.exists' => 'المنتج غير موجود',
+        ]);
+        if ($vaildator->fails()) {
+            return redirect()->back()->withErrors($vaildator)->with('error', 'حدث خطأ ما');
         }
 
+        $cart= cart::where('product_id', $request->product_id)
+            ->where('customer_id', auth('web')->user()->id)
+            ->first();
 
+
+        if ($cart){
+
+            $cart->update([
+                'quantity' =>$cart->quantity + $request->quantity
+            ]);
+            return redirect()->back()->with('success', 'تم التعديل بنجاح');
+        }
+
+        $addToCart = cart::create([
+
+            'product_id' => $request->product_id,
+            'quantity' => $request->quantity,
+            'customer_id' => auth('web')->user()->id,
+        ]);
+
+        if ($addToCart) {
+            return redirect()->back()->with('success', 'تم الاضافة بنجاح');
+
+
+        }
+
+        function addToFav($id)
+        {
+
+            $fav = Fav::where('product_id', $id)->where('customer_id', auth('web')->user()->id)->first();
+            if (!$fav) {
+                $fav = new Fav();
+                $fav->product_id = $id;
+                $fav->customer_id = auth('web')->user()->id;
+                $fav->save();
+
+                return response()->json(['status' => 200]);
+
+            } else {
+                $fav->delete();
+
+                return response()->json(['status' => 201]);
+            }
+
+
+        }
+    }
+
+
+    public function showCart()
+    {
+
+        $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+
+
+
+
+        return view($this->folder . '/parts/cart',[
+            'carts' => $carts
+        ]);
 
     }
 
@@ -163,11 +226,23 @@ class mainService extends BaseService
         $products=$this->productService->getAll();
         $bestSellers=$this->productService->getBestSellers();
         $categories=$this->categoryService->getAll();
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+        }else
+        {
+            $carts = [];
+        }
+
+
+
+
+
 
         return view($this->folder . '/index',[
             'products' => $products,
             'bestSellers' => $bestSellers,
             'categories' => $categories,
+            'carts' => $carts
         ]);
 
     }
@@ -176,10 +251,17 @@ class mainService extends BaseService
     {
         $products=$this->productService->getByCategoryId($id);
         $category=$this->categoryService->getById($id);
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+        }else
+        {
+            $carts = [];
+        }
 
         return view($this->folder . '/parts/products-by-category',[
             'products' => $products,
             'category' => $category,
+            'carts' => $carts
         ]);
 
     }

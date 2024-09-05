@@ -121,5 +121,5 @@
 </div>
 
 @include('user.parts.footer')
-@include('user.layouts.cart')
+@include('user.parts.cart')
 @include('user.layouts.js')

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order as ObjModel;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
@@ -248,7 +249,9 @@ class OrderService extends BaseService
 
         foreach ($product_ids as $index => $product_id) {
             $product = Product::find($product_id);
-            $order->products()->attach($product_id, [
+            $product->quantity = $product->quantity - $quantities[$index];
+            $product->save();
+             $order->products()->attach($product_id, [
                 'quantity' => $quantities[$index],
                 'price' => $product->price,
                 'total_price' => $product->price * $quantities[$index]
@@ -291,7 +294,6 @@ class OrderService extends BaseService
             'delivery_type' => 'required|in:1,2',
             'total_award_points' => 'nullable|min:0',
             'status' => 'required|string',
-
         ], [
             'customer_id.exists' => 'هذا العميل غير موجود',
             'product_ids.*.exists' => 'هذا المنتج غير موجود',
@@ -326,6 +328,10 @@ class OrderService extends BaseService
 
         // Find the order by ID and update its details
         $order = ObjModel::find($id);
+
+        // Get the current product quantities in the order
+        $currentOrderProducts = $order->products->pluck('pivot.quantity', 'id')->toArray();
+
         $order->customer_id = $customer_id;
         $order->address = $address;
         $order->use_points = $use_points;
@@ -336,9 +342,17 @@ class OrderService extends BaseService
         // Detach existing products from the order
         $order->products()->detach();
 
-        // Attach updated product data to the order
+        // Attach updated product data to the order and update product quantities
         foreach ($product_ids as $index => $product_id) {
             $product = Product::find($product_id);
+            $currentQuantity = $currentOrderProducts[$product_id] ?? 0;
+
+            // Calculate new product quantity
+            $product->quantity = $product->quantity + $currentQuantity - $quantities[$index];
+
+            // Save updated product quantity
+            $product->save();
+
             $order->products()->attach($product_id, [
                 'quantity' => $quantities[$index],
                 'price' => $product->price,
