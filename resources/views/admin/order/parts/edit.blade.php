@@ -3,6 +3,13 @@
 @section('title')
     {{ config()->get('app.name') }} | {{ trns('Edit Order') }}
 @endsection
+<style>
+    .side-app {
+        padding-top: 0 !important;
+        background-color: #ffffff;
+
+    }
+</style>
 
 @section('page_name')
     {{ trns('Edit Order') }}

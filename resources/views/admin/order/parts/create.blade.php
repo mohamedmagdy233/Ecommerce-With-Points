@@ -3,10 +3,18 @@
 @section('title')
     {{ config()->get('app.name') }} | {{ trns('products') }}
 @endsection
+<style>
+    .side-app {
+        padding-top: 0 !important;
+        background-color: #ffffff;
+
+    }
+</style>
 
 @section('page_name')
     {{ trns('products') }}
 @endsection
+
 
 @section('content')
     <form method="POST" enctype="multipart/form-data" action="{{$route}}">
