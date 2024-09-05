@@ -10,7 +10,7 @@
 
     }
 </style>
-//test
+{{--test--}}
 
 @section('page_name')
     {{ trns('Edit Order') }}

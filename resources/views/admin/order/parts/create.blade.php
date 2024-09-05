@@ -10,6 +10,7 @@
 
     }
 </style>
+{{--test--}}
 
 @section('page_name')
     {{ trns('products') }}
