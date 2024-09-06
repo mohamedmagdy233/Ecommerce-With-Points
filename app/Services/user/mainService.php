@@ -117,14 +117,22 @@ class mainService extends BaseService
         $relatedProducts=$this->productService->getRelatedProducts();
         if (auth('web')->check()) {
             $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
         }else
         {
             $carts = [];
+            $total = 0;
+
         }
             return view($this->folder . '/parts/product-details',[
             'productDetails' => $productDetails,
             'relatedProducts' => $relatedProducts,
-            'carts' => $carts
+            'carts' => $carts,
+            'total' => $total
         ]);
 
     }
@@ -140,7 +148,7 @@ class mainService extends BaseService
             'product_id.exists' => 'المنتج غير موجود',
         ]);
         if ($vaildator->fails()) {
-            return redirect()->back()->withErrors($vaildator)->with('error', 'حدث خطأ ما');
+            return redirect('/')->withErrors($vaildator)->with('error', 'حدث خطأ ما');
         }
 
         $cart= cart::where('product_id', $request->product_id)
@@ -153,7 +161,7 @@ class mainService extends BaseService
             $cart->update([
                 'quantity' =>$cart->quantity + $request->quantity
             ]);
-            return redirect()->back()->with('success', 'تم التعديل بنجاح');
+            return redirect('/')->with('success', 'تم التعديل بنجاح');
         }
 
         $addToCart = cart::create([
@@ -164,31 +172,157 @@ class mainService extends BaseService
         ]);
 
         if ($addToCart) {
-            return redirect()->back()->with('success', 'تم الاضافة بنجاح');
+            return redirect('/')->with('success', 'تم الاضافة بنجاح');
 
 
         }
 
-        function addToFav($id)
-        {
 
-            $fav = Fav::where('product_id', $id)->where('customer_id', auth('web')->user()->id)->first();
-            if (!$fav) {
-                $fav = new Fav();
-                $fav->product_id = $id;
-                $fav->customer_id = auth('web')->user()->id;
-                $fav->save();
 
-                return response()->json(['status' => 200]);
+    }
 
+
+    public function addOrder ($request)
+    {
+
+    {
+        $customer = Auth::guard('web')->user();
+
+        if (!$customer) {
+            return redirect('/')->with('error', 'يجب تسجيل الدخول');
+        }
+
+        $validatedData = $request->validate([
+            'product_ids' => 'required|array',
+            'product_ids.*' => 'exists:products,id',
+            'quantity' => 'required|array',
+            'quantity.*' => 'integer|min:1',
+            'total_price' => 'required|numeric|min:0',
+            'address' => 'nullable|string',
+        ], [
+            'product_ids.*.exists' => 'هذا المنتج غير موجود',
+            'quantity.*.integer' => 'الكمية يجب ان تكون عدد صحيح',
+            'quantity.*.min' => 'الكمية يجب ان تكون على الأقل واحد',
+            'total_price.numeric' => 'السعر يجب ان يكون رقم',
+            'total_price.min' => 'السعر يجب ان يكون على الأقل صفر',
+        ]);
+
+        // Extract validated data
+        $product_ids = $validatedData['product_ids'];
+        $quantities = $validatedData['quantity'];
+        $use_points = $validatedData['use_points'] ?? 0;
+        $total_price = $validatedData['total_price'];
+        $address = $validatedData['address'];
+        $total_award_points = $validatedData['total_award_points'] ?? 0;
+
+        if ($customer->points < $use_points) {
+            return response()->json(['status' => 400, 'message' => 'Insufficient points.']);
+        }
+
+        $customer->points -= $use_points;
+        $customer->save();
+
+        // Create a new order
+        $order = new Order(); // Assuming Order is the model for orders
+        $order->customer_id = $customer->id; // Use authenticated customer's ID
+        $order->address = $address;
+        $order->use_points = $use_points;
+        $order->status = 'pending';
+        $order->total = $total_price;
+        $order->lastPointOfOrder = $total_award_points;
+        $order->save();
+
+        // Loop through product_ids and quantities
+        foreach ($product_ids as $product_id) {
+            $product = Product::find($product_id);
+            $product->quantity -= $quantities[$product_id];
+            $product->save();
+
+            // Attach product to order with quantity and price
+            $order->products()->attach($product_id, [
+                'quantity' => $quantities[$product_id],
+                'price' => $product->price,
+                'total_price' => $product->price * $quantities[$product_id]
+            ]);
+        }
+
+        // Update customer's award points
+        $customer->points += $total_award_points;
+        $customer->save();
+
+        return redirect()->route('orders.index')->with('success', 'Your order has been placed successfully.');
+    }
+    }
+
+
+    public function addToFav($id)
+    {
+
+        $fav = Fav::where('product_id', $id)->where('customer_id', auth('web')->user()->id)->first();
+        if (!$fav) {
+            $fav = new Fav();
+            $fav->product_id = $id;
+            $fav->customer_id = auth('web')->user()->id;
+            $fav->save();
+
+            return response()->json(['status' => 200]);
+
+        } else {
+            $fav->delete();
+
+            return response()->json(['status' => 201]);
+        }
+
+
+    }
+
+
+    public function addOneProductToCart($id)
+    {
+
+        $product = $this->productService->getById($id);
+
+        if (auth('web')->check()) {
+            $cart = cart::create([
+                'product_id' => $product->id,
+                'quantity' => 1,
+                'customer_id' => auth('web')->user()->id,
+            ]);
+            if ($cart) {
+                return redirect('/')->with('success', 'تم الاضافة بنجاح');
             } else {
-                $fav->delete();
-
-                return response()->json(['status' => 201]);
+                return redirect('/')->with('error', 'حدث خطأ ما');
             }
-
-
         }
+
+
+    }
+
+    public function updateQuantityOfCart($request)
+    {
+
+        $cart = cart::where('product_id', $request->product_id)->where('customer_id', auth('web')->user()->id)->first();
+        if ($cart) {
+            $cart->update([
+                'quantity' => $request->quantity
+            ]);
+            return response()->json(['status' => 200]);
+        }
+
+        return response()->json(['status' => 201]);
+
+    }
+
+    public function deleteFromCart($id)
+    {
+
+        $cart = cart::where('product_id', $id)->where('customer_id', auth('web')->user()->id)->first();
+
+        if ($cart) {
+            $cart->delete();
+            return response()->json(['status' => 200]);
+        }
+
     }
 
 
@@ -196,6 +330,11 @@ class mainService extends BaseService
     {
 
         $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+
+        if (!$carts){
+
+            $carts = [];
+        }
 
 
 
@@ -211,12 +350,28 @@ class mainService extends BaseService
 
         $fav = Fav::where('customer_id', auth('web')->user()->id)->get();
         $products = [];
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+
         foreach ($fav as $item) {
             array_push($products, $this->productService->getById($item->product_id));
         }
 
         return view($this->folder . '/parts/wishlist',[
             'products' => $products,
+            'carts' => $carts,
+            'total' => $total
         ]);
 
     }
@@ -228,9 +383,16 @@ class mainService extends BaseService
         $categories=$this->categoryService->getAll();
         if (auth('web')->check()) {
             $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+         $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
         }else
         {
             $carts = [];
+            $total = 0;
+
         }
 
 
@@ -242,7 +404,8 @@ class mainService extends BaseService
             'products' => $products,
             'bestSellers' => $bestSellers,
             'categories' => $categories,
-            'carts' => $carts
+            'carts' => $carts,
+            'total' => $total
         ]);
 
     }
@@ -253,15 +416,23 @@ class mainService extends BaseService
         $category=$this->categoryService->getById($id);
         if (auth('web')->check()) {
             $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
         }else
         {
             $carts = [];
+            $total = 0;
+
         }
 
         return view($this->folder . '/parts/products-by-category',[
             'products' => $products,
             'category' => $category,
-            'carts' => $carts
+            'carts' => $carts,
+            'total' => $total
         ]);
 
     }
@@ -291,7 +462,23 @@ class mainService extends BaseService
 
     public function termsAndPrivacyAndFaqs()
     {
-        return view($this->folder . '/parts/termsAndPrivacyAndFaqs');
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+        return view($this->folder . '/parts/termsAndPrivacyAndFaqs',[
+            'carts' => $carts,
+            'total' => $total
+        ]);
 
     }
 

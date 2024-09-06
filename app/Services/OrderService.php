@@ -245,6 +245,7 @@ class OrderService extends BaseService
         $order->use_points = $use_points;
         $order->status = 'pending';
         $order->total = $total_price;
+        $order->lastPointOfOrder=$total_award_points;
         $order->save();
 
         foreach ($product_ids as $index => $product_id) {
@@ -320,37 +321,40 @@ class OrderService extends BaseService
         $customer = $this->customerService->getById($customer_id);
 
         if ($customer->points < $use_points) {
-            return response()->json(['status' => 400, 'message' => 'Insufficient points.']);
+            return response()->json(['status' => 400, 'message' => 'النقاط المتبقية غير كافية.']);
         }
 
         $customer->points -= $use_points;
         $customer->save();
 
-        // Find the order by ID and update its details
         $order = ObjModel::find($id);
 
-        // Get the current product quantities in the order
         $currentOrderProducts = $order->products->pluck('pivot.quantity', 'id')->toArray();
+        $lastPointOfOrder=$order->lastPointOfOrder;
+
+        $customer->points =$customer->points - $lastPointOfOrder + $total_award_points;
+        $customer->save();
+
+
+
+
 
         $order->customer_id = $customer_id;
         $order->address = $address;
         $order->use_points = $use_points;
         $order->status = $status;
         $order->total = $total_price;
+        $order->lastPointOfOrder=$total_award_points;
         $order->save();
 
-        // Detach existing products from the order
         $order->products()->detach();
 
-        // Attach updated product data to the order and update product quantities
         foreach ($product_ids as $index => $product_id) {
             $product = Product::find($product_id);
             $currentQuantity = $currentOrderProducts[$product_id] ?? 0;
 
-            // Calculate new product quantity
             $product->quantity = $product->quantity + $currentQuantity - $quantities[$index];
 
-            // Save updated product quantity
             $product->save();
 
             $order->products()->attach($product_id, [
@@ -360,9 +364,6 @@ class OrderService extends BaseService
             ]);
         }
 
-        // Update customer's award points
-        $customer->points += $total_award_points;
-        $customer->save();
 
         return redirect()->route($this->route . '.index');
     }

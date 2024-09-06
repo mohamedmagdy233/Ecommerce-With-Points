@@ -78,6 +78,27 @@ class MainController extends Controller
 
     }
 
+    public function addOneProductToCart($id)
+    {
+
+        return $this->objService->addOneProductToCart($id);
+
+    }
+
+    public function updateQuantityOfCart(Request $request)
+    {
+
+        return $this->objService->updateQuantityOfCart($request);
+
+    }
+
+    public function deleteFromCart($id)
+    {
+
+        return $this->objService->deleteFromCart($id);
+
+    }
+
     public function showCart()
     {
 
@@ -107,6 +128,13 @@ class MainController extends Controller
     {
 
         return $this->objService->getWishlist();
+
+    }
+
+    public function addOrder(Request $request)
+    {
+
+        return $this->objService->addOrder($request);
 
     }
 

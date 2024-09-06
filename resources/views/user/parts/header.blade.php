@@ -18,7 +18,7 @@
 
                         <ul class="mainmenu">
                             <li><a href="{{route('main.index')}}">الرئيسيه</a></li>
-                            <li><a href="{{route('main.products')}}">المنتجات</a></li>
+                            <li><a href="#products">المنتجات</a></li>
                             <li><a href="#category">الاقسام</a></li>
                             <li><a href="{{route('main.ShowContact')}}">تواصل معنا</a></li>
                             <li><a href="{{route('main.about')}}">من نحن</a></li>
@@ -38,7 +38,7 @@
 
                         <li class="shopping-cart">
                             <a href="{{route('showCart')}}" class="cart-dropdown-btn">
-                                <span class="cart-count">3</span>
+                                <span class="cart-count">{{App\Models\Cart::count()}}</span>
                                 <i class="flaticon-shopping-cart"></i>
                             </a>
                         </li>
@@ -47,13 +47,7 @@
                                 <i class="flaticon-person"></i>
                             </a>
                             <div class="my-account-dropdown">
-                                <ul>
-                                    <li>
-                                        <a href="my-account.html">My Account</a>
-                                    </li>
 
-
-                                </ul>
                                 @if(Auth('web')->check())
 
                                     <a class="axil-btn btn-bg-primary" href="{{route('logout')}}">تسجيل خروج</a>

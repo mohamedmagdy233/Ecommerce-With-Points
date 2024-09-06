@@ -199,12 +199,15 @@
             function calculateTotalAwardPoints() {
                 var totalAwardPoints = 0;
 
-                $('.award-points').each(function () {
-                    totalAwardPoints += parseFloat($(this).val()) || 0;
+                $('.product-row').each(function () {
+                    var awardPoints = parseFloat($(this).find('.award-points').val()) || 0;
+                    var quantity = parseInt($(this).find('.quantity-input').val()) || 1;
+                    totalAwardPoints += awardPoints * quantity;
                 });
 
                 $('#total_award_points').val(totalAwardPoints.toFixed(2));
             }
+
 
             $('#to_customer').on('change', function () {
                 var points = $(this).find('option:selected').data('points') || 0;

@@ -1,4 +1,4 @@
-<div class="axil-product-area bg-color-white axil-section-gap pb--0">
+<div class="axil-product-area bg-color-white axil-section-gap pb--0 " id="products">
     <div class="container">
         <div class="product-area pb--20">
             <div class="axil-isotope-wrapper">
@@ -20,7 +20,7 @@
                                     </a>
                                     <div class="product-hover-action">
                                         <ul class="cart-action">
-                                            <li class="select-option"><a href="{{route('addToCart', $product->id)}}">اضف الى السلة</a></li>
+                                            <li class="select-option"><a href="{{route('addOneProductToCart', $product->id)}}">اضف الى السلة</a></li>
                                             <span class="col-1"> </span>
                                             @auth('web')
                                                 @if(\App\Models\Fav::where('customer_id', Auth::user('web')->id)->where('product_id', $product->id)->exists())

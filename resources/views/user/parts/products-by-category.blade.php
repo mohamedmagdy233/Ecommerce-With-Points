@@ -74,7 +74,7 @@
                                             </li>
                                         @endauth
 
-                                        <li class="select-option"><a href="{{route('addToCart', $product->id)}}"><i
+                                        <li class="select-option"><a href="{{route('addOneProductToCart', $product->id)}}"><i
                                                         class="fas fa-shopping-bag"></i></a></li>
                                         <li class="quickview"><a href="{{route('product.details', $product->id)}}"
                                                                  data-bs-toggle="modal"

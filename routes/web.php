@@ -32,9 +32,15 @@ Route::group(['middleware' => 'web-auth'], function () {
 
     Route::get('logout', [MainController::class, 'logout'])->name('logout');
     Route::post('add/to/cart', [MainController::class, 'addToCart'])->name('addToCart');
+    Route::get('add/to/cart/{id}', [MainController::class, 'addOneProductToCart'])->name('addOneProductToCart');
+    Route::post('update/to/cart', [MainController::class, 'updateQuantityOfCart'])->name('updateQuantityOfCart');
+    Route::post('delete/from/cart/{id}', [MainController::class, 'deleteFromCart'])->name('deleteFromCart');
     Route::get('show/cart', [MainController::class, 'showCart'])->name('showCart');
     Route::post('add/to/fav/{id}', [MainController::class, 'addToFav'])->name('addToFav');
     Route::get('get/wishlist', [MainController::class, 'getWishlist'])->name('wishlist');
+
+
+    Route::get('add/order', [MainController::class, 'addOrder'])->name('addOrder');
 
 
 

@@ -111,6 +111,8 @@
 @include('user.parts.header')
 
 <main class="main-wrapper">
+
+
     <!-- Start Shop Area  -->
     <div class="axil-single-product-area bg-color-white">
         <div class="single-product-thumb axil-section-gap pb--30 pb_sm--20">
@@ -119,9 +121,10 @@
                     <div class="col-lg-6 mb--40">
                         <div class="h-100">
                             <div class="position-sticky sticky-top">
-                                <div class="single-product-thumbnail axil-product">
+                                <div class="single-product-thumbnail axil-product text-center">
                                     <div class="thumbnail">
-                                        <img src="{{asset('storage/'.$productDetails->image)}}" alt="Product Images">
+                                        <img src="{{asset('storage/'.$productDetails->image)}}" alt="Product Images"
+                                             class="img-fluid">
                                     </div>
                                 </div>
                             </div>
@@ -134,60 +137,49 @@
                                     <div class="inner">
                                         <h2 class="product-title">{{$productDetails->name}}</h2>
                                         <div class="price-amount price-offer-amount">
-                                            <span class="price current-price">السعر : {{$productDetails->price}}</span>
+                                            <span class="price current-price">جمالي : {{$productDetails->price}}</span>
                                         </div>
                                         <div
-                                            class="product-action-wrapper d-flex align-items-center justify-content-start">
-                                            <form action="{{route('addToCart')}}" method="post">
+                                            class="product-action-wrapper d-flex align-items-center justify-content-start mt-3">
+                                            <form action="{{route('addToCart')}}" method="post"
+                                                  class="d-flex align-items-center">
                                                 @csrf
                                                 <!-- Product Quantity -->
-                                                <div class="product-variation quantity-variant-wrapper">
+                                                <div class="product-variation quantity-variant-wrapper mr-3">
                                                     <input type="hidden" name="product_id"
                                                            value="{{ $productDetails->id }}">
-                                                    <h6 class="title mb-2">الكمية</h6>
-                                                    <div class="pro-qty">
-                                                        <input type="text" value="1" name="quantity"
-                                                               aria-label="Product Quantity">
-
+                                                    <div class="pro-qty item-quantity">
+                                                        <input type="number" data-id="{{ $productDetails->id }}"
+                                                               class="quantity-input" name="quantity" id="quantity-of-product"
+                                                               value="1">
                                                     </div>
                                                 </div>
                                                 <!-- Start Product Action -->
-                                                <ul class="product-action action-style-two mb-0">
-                                                    <li class="add-to-cart">
-                                                        <input type="submit" class="axil-btn btn-bg-primary" value="+">
+                                                <button type="submit" class="btn btn-primary btn-sm ml-3">
+                                                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                                                </button>
+                                            </form>
 
-
-                                                    </li>
-
-                                                </ul>
-                                                @auth('web')
-                                                    @if(\App\Models\Fav::where('customer_id', Auth::user('web')->id)->where('product_id', $productDetails->id)->exists())
-
-                                                        <div class="product-variation quantity-variant-wrapper">
-
-                                                            <a href="javascript:void(0);" class="add-to-wishlist"
-                                                               data-id="{{ $productDetails->id }}">
-                                                                <i class="fas fa-heart" style="color: red;"></i>
-                                                            </a>
-
-                                                        </div>
-                                                    @else
-                                                        <div class="product-variation quantity-variant-wrapper">
-                                                            <a href="javascript:void(0);" class="add-to-wishlist"
-                                                               data-id="{{ $productDetails->id }}">
-                                                                <i class="far fa-heart"></i>
-                                                            </a>
-                                                        </div>
-                                            @endif
-
-
-
+                                            @auth('web')
+                                                @if(\App\Models\Fav::where('customer_id', Auth::user('web')->id)->where('product_id', $productDetails->id)->exists())
+                                                    <div class="ml-3">
+                                                        <a href="javascript:void(0);" class="add-to-wishlist"
+                                                           data-id="{{ $productDetails->id }}">
+                                                            <i class="fas fa-heart" style="color: red;"></i>
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    <div class="ml-3">
+                                                        <a href="javascript:void(0);" class="add-to-wishlist"
+                                                           data-id="{{ $productDetails->id }}">
+                                                            <i class="far fa-heart"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
                                             @endauth
-
-
                                         </div>
 
-                                        <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white nft-info-tabs">
+                                        <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white nft-info-tabs mt-4">
                                             <div class="container">
                                                 <ul class="nav tabs" id="myTab" role="tablist">
                                                     <li class="nav-item" role="presentation">
@@ -206,9 +198,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-
+                                        </div> <!-- end woocommerce-tabs -->
                                     </div>
                                 </div>
                             </div>
@@ -239,32 +229,36 @@
 
                             <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30 product music">
                                 <div class="axil-product product-style-one">
-                                    <div class="thumbnail">
+                                    <div class="thumbnail text-center">
                                         <a href="{{route('product.details', $relatedProduct->id)}}">
                                             <img data-sal-delay="400" data-sal-duration="1500"
-                                                 src="{{asset('storage/'.$relatedProduct->image)}}"
-                                                 alt="Product Images">
+                                                 src="{{asset('storage/'.$relatedProduct->image)}}" alt="Product Images"
+                                                 class="img-fluid">
                                         </a>
                                         <div class="product-hover-action">
-                                            <ul class="cart-action">
-                                                <li class="select-option">
-                                                    <a href="{{ route('addToCart',  $relatedProduct->id) }}"
-                                                       class="add-to-cart-link">
-                                                        أضف إلى السلة
-                                                    </a>
-                                                </li>
-                                            </ul>
 
+
+                                                <!-- Start Product Action -->
+                                                <ul class="product-action list-unstyled mb-0 d-flex justify-content-center">
+                                                    <li class="add-to-cart">
+                                                        <a href="{{route('addOneProductToCart', $relatedProduct->id)}}"
+                                                               style="background-color: red;    font-size: large; border-color: red;"
+                                                               class="add-to-cart-link btn btn-danger btn-sm"
+                                                               >أضف إلى السلة
+                                                            </a>
+                                                    </li>
+                                                </ul>
 
                                         </div>
-
                                     </div>
-                                    <div class="product-content">
+                                    <div class="product-content text-center">
                                         <div class="inner">
                                             <h5 class="title"><a
                                                     href="{{route('product.details', $relatedProduct->id)}}">
-                                                    #00{{$relatedProduct->id}} <span class="verified-icon"><i
-                                                            class="fas fa-badge-check"></i></span></a></h5>
+                                                    #00{{$relatedProduct->id}}
+                                                    <span class="verified-icon"><i
+                                                            class="fas fa-badge-check"></i></span></a>
+                                            </h5>
                                             <div class="product-price-variant">
                                                 <span class="price current-price">{{$relatedProduct->price}}</span>
                                             </div>
