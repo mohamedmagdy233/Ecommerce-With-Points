@@ -1,5 +1,4 @@
 /node_modules
-/storage/*.key
 /bootstrap/cache/*
 .env
 .env.backup
@@ -13,4 +12,3 @@ yarn-error.log
 /.vscode
 vendor
 /vendor/*
-/storage/*

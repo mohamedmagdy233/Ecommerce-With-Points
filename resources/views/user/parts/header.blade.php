@@ -38,7 +38,7 @@
 
                         <li class="shopping-cart">
                             <a href="{{route('showCart')}}" class="cart-dropdown-btn">
-                                <span class="cart-count">{{App\Models\Cart::count()}}</span>
+                                <span class="cart-count">{{App\Models\cart::count()}}</span>
                                 <i class="flaticon-shopping-cart"></i>
                             </a>
                         </li>
