@@ -38,7 +38,7 @@
                 <div class="col-xl-4 col-lg-6">
                     <div class="about-thumbnail">
                         <div class="thumbnail">
-                            <img src="{{asset('user/assets/images/about/about-01.png')}}" alt="About Us">
+                            <img src="{{asset('user/assets/images/about/about-01.jpg')}}" alt="About Us">
                         </div>
                     </div>
                 </div>

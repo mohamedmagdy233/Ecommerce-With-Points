@@ -34,10 +34,48 @@ class MainController extends Controller
         return $this->objService->login($request);
     }
 
-    public function registerNewCustomer(RegisterRequest $request)
+    public function registerNewCustomer(Request $request )
+    {
+        $userId = $request->user_id;
+        $data = $request->all();
+        $data['user_id'] = $userId;
+
+        return $this->objService->registerNewCustomer($data);
+    }
+
+    public function updateProfile(Request $request)
     {
 
-        return $this->objService->registerNewCustomer($request->all());
+        return $this->objService->updateProfile($request);
+
+    }
+
+    public function transferPoints()
+    {
+
+        return $this->objService->transferPoints();
+
+    }
+
+    public function storeTransferPoints(Request $request)
+    {
+
+        return $this->objService->storeTransferPoints($request->all());
+
+    }
+
+    public function deleteTransferPoints($id)
+    {
+
+        return $this->objService->deleteTransferPoints($id);
+
+    }
+
+    public function referralCustomers()
+    {
+
+        return $this->objService->referralCustomers();
+
     }
 
 
@@ -45,6 +83,13 @@ class MainController extends Controller
     {
 
         return $this->objService->logout();
+    }
+
+    public function editProfile()
+    {
+
+        return $this->objService->editProfile();
+
     }
 
 
@@ -106,6 +151,13 @@ class MainController extends Controller
         return $this->objService->showCart();
 
 
+
+    }
+
+    public function showCheckout()
+    {
+
+        return $this->objService->showCheckout();
 
     }
 

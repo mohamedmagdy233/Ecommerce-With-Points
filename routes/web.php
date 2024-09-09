@@ -27,15 +27,22 @@ Route::get('login', [MainController::class, 'ShowLoginForm'])->name('main.login'
 Route::post('login', [MainController::class, 'login'])->name('login');
 Route::get('register', [MainController::class, 'showRegisterForm'])->name('main.register');
 Route::post('register', [MainController::class, 'registerNewCustomer'])->name('registerNewCustomer');
+Route::put('update/profile', [MainController::class, 'updateProfile'])->name('customer.updateProfile');
+Route::get('transfer/points', [MainController::class, 'transferPoints'])->name('transfer.points.customer');
+Route::post('store/transfer/points', [MainController::class, 'storeTransferPoints'])->name('storeTransferPoints');
+Route::get('delete/transfer/points/{id}', [MainController::class, 'deleteTransferPoints'])->name('deleteTransferPoints');
+Route::get('referral/customers', [MainController::class, 'referralCustomers'])->name('referral.customers');
 Route::group(['middleware' => 'web-auth'], function () {
 
 
     Route::get('logout', [MainController::class, 'logout'])->name('logout');
+    Route::get('edit/profile', [MainController::class, 'editProfile'])->name('editProfile');
     Route::post('add/to/cart', [MainController::class, 'addToCart'])->name('addToCart');
     Route::get('add/to/cart/{id}', [MainController::class, 'addOneProductToCart'])->name('addOneProductToCart');
     Route::post('update/to/cart', [MainController::class, 'updateQuantityOfCart'])->name('updateQuantityOfCart');
     Route::post('delete/from/cart/{id}', [MainController::class, 'deleteFromCart'])->name('deleteFromCart');
     Route::get('show/cart', [MainController::class, 'showCart'])->name('showCart');
+    Route::get('show/checkout', [MainController::class, 'showCheckout'])->name('showCheckout');
     Route::post('add/to/fav/{id}', [MainController::class, 'addToFav'])->name('addToFav');
     Route::get('get/wishlist', [MainController::class, 'getWishlist'])->name('wishlist');
 

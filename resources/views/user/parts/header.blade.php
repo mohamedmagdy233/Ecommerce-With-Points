@@ -38,7 +38,7 @@
 
                         <li class="shopping-cart">
                             <a href="{{route('showCart')}}" class="cart-dropdown-btn">
-                                <span class="cart-count">{{App\Models\cart::count()}}</span>
+                                <span class="cart-count">{{auth('web')->user() !== null ? App\Models\Cart::where('customer_id', auth('web')->user()->id)->count() : 0}}</span>
                                 <i class="flaticon-shopping-cart"></i>
                             </a>
                         </li>
@@ -51,6 +51,13 @@
                                 @if(Auth('web')->check())
 
                                     <a class="axil-btn btn-bg-primary" href="{{route('logout')}}">تسجيل خروج</a>
+                                   <hr>
+                                    <a class="axil-btn btn-bg-secondary" href="{{route('editProfile')}}">تعديل حسابي</a>
+
+                                    <hr>
+                                    <a class="axil-btn btn-bg-primary" href="{{route('referral.customers')}}">العملاء المرتبطين</a>
+                                    <hr>
+                                    <a class="axil-btn btn-bg-secondary" href="{{route('transfer.points.customer')}}">تحويل نقاط</a>
 
                                 @else
                                 <div class="login-btn">

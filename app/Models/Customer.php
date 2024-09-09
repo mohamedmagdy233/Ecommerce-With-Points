@@ -18,10 +18,19 @@ class Customer extends Model implements AuthenticatableContract
         'referral_code',
         'points',
         'password',
+        'customer_id',
     ];
 
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function customers()
+    {
+
+        return $this->hasMany(Customer::class);
+
+
     }
 }

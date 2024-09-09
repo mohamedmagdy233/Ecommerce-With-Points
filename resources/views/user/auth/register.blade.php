@@ -2,6 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
     @include('user.parts.head')
+    <style>
+        .bg_image--10 {
+            background-image: url({{asset('user/assets/images/banner/banner-9.jpg')}});
+        }
+    </style>
+
 
 </head>
 
@@ -12,8 +18,7 @@
     <div class="signin-header">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <a href="{{url('/')}}" class="site-logo"><img src="{{asset('user/assets/images/logo/logo.png')}}"
-                                                              alt="logo"></a>
+
             </div>
             <div class="col-md-6">
                 <div class="singin-header-btn">
@@ -38,6 +43,7 @@
                     <form class="singin-form" method="post" action="{{route('registerNewCustomer')}}"
                           enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="user_id" value="{{ request()->query('user_id') }}">
 
                         <div class="form-group">
                             <label>الاسم </label>

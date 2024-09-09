@@ -2,6 +2,11 @@
 <head>
 
     @include('user.parts.head')
+<style>
+    .bg_image--9 {
+        background-image: url({{asset('user/assets/images/banner/banner-9.jpg')}});
+    }
+</style>
 
 </head>
 
@@ -13,8 +18,8 @@
     <div class="signin-header">
         <div class="row align-items-center">
             <div class="col-sm-4">
-                <a href="{{url('/')}}" class="site-logo"><img src="{{asset('user/assets/images/logo/logo.png')}}"
-                                                              alt="logo"></a>
+{{--                <a href="{{url('/')}}" class="site-logo"><img src="{{asset('user/assets/images/logo/logo.png')}}"--}}
+{{--                                                              alt="logo"></a>--}}
             </div>
             <div class="col-sm-8">
                 <div class="singin-header-btn">
@@ -58,7 +63,6 @@
                         </div>
                         <div class="form-group d-flex align-items-center justify-content-between">
                             <input type="submit" class="axil-btn btn-bg-primary submit-btn" value="تسجيل الدخول">
-                            <a href="forgot-password.html" class="forgot-btn">نسيت كلمه المرور</a>
                         </div>
                     </form>
                 </div>

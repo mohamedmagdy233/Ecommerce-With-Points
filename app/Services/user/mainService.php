@@ -4,7 +4,9 @@ namespace App\Services\user;
 
 use App\Models\cart;
 use App\Models\Contact;
+use App\Models\Customer;
 use App\Models\Fav;
+use App\Models\TransferPoints;
 use App\Models\Waste as ObjModel;
 use App\Services\BaseService;
 use App\Services\CategoryService;
@@ -70,12 +72,20 @@ class mainService extends BaseService
     }
 
 
-    public function registerNewCustomer($data){
+    public function registerNewCustomer($data ){
 
+        if (isset($data['user_id'])) {
+            $data['customer_id'] = $data['user_id'];
+        }
 
         $data['password'] = Hash::make($data['password']);
         $data['referral_code'] = $this->customerService->generateCode();
+
+
         $customer = $this->customerService->createData($data);
+
+
+
 
 
         if($customer){
@@ -86,11 +96,160 @@ class mainService extends BaseService
         }
     }
 
+    public function updateProfile($data)
+    {
+        $validator = Validator::make($data->all(), [
+            'name' => 'nullable',
+            'phone' => 'nullable|exists:customers,phone',
+            'password' => 'nullable|min:6|confirmed',
+            'address' => 'nullable',
+
+        ], [
+            'name.required' => 'يجب ادخال الاسم',
+            'phone.exists' => 'رقم الهاتف غير صحيح',
+            'password.confirmed' => 'كلمة المرور غير متطابقة',
+            'password.min' => 'يجب ان تكون كلمة المرور على الاقل 6 حروف',
+            'address.required' => 'يجب ادخال العنوان',
+        ]);
+
+
+        $customer = Auth::guard('web')->user();
+        if ($data->has('password')) {
+        $data['password'] = Hash::make($data['password']);
+
+        }
+
+
+        $customer->update($data->all());
+        return redirect('/')->with(['success' => 'تم تحديث الملف الشخصي بنجاح']);
+
+    }
+
+    public function transferPoints()
+    {
+         $customers = Customer::where('id','!=',auth('web')->user()->id)->get();
+         $transferPoints=TransferPoints::where('from_id',auth('web')->user()->id)
+//                                      ->orWhere('to_id',auth('web')->user()->id)
+                                      ->get();
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+        return view($this->folder . '/parts/transferPoints',[
+            'customers' => $customers,
+            'carts' => $carts,
+            'total' => $total,
+            'transferPoints' => $transferPoints
+        ]);
+
+    }
+
+    public function storeTransferPoints($data)
+    {
+
+        $data['from_id']=auth('web')->user()->id;
+
+        $customerFrom = Customer::find($data['from_id']);
+        if ($data['points'] > $customerFrom->points) {
+
+            return redirect('/')->with('error', 'لا يوجد نقاط كافية');
+        }
+        $customerFrom->points -= $data['points'];
+        $customerFrom->save();
+
+        $customerTo = Customer::find($data['to_id']);
+        $customerTo->points += $data['points'];
+        $customerTo->save();
+
+
+        $transferPoints=TransferPoints::create($data);
+
+        return redirect('/')->with('success', 'تمت العملية بنجاح');
+
+    }
+
+    public function deleteTransferPoints($id)
+    {
+
+        $transferPoints=TransferPoints::find($id);
+        $returnPointsToCustomerFrom=Customer::find($transferPoints->from_id);
+        $returnPointsToCustomerFrom->points += $transferPoints->points;
+        $returnPointsToCustomerFrom->save();
+
+        $returnPointsFromCustomerTo=Customer::find($transferPoints->to_id);
+        $returnPointsFromCustomerTo->points -= $transferPoints->points;
+        $returnPointsFromCustomerTo->save();
+
+        $transferPoints->delete();
+        return redirect('/')->with('success', 'تمت العملية بنجاح');
+
+    }
+
+    public function referralCustomers()
+    {
+
+        $customer = Auth::guard('web')->user();
+        $relatedCustomers =Customer::where('customer_id',$customer->id)->get();
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+
+        return view($this->folder . '/parts/referralCustomers', [
+            'relatedCustomers' => $relatedCustomers,
+            'carts' => $carts,
+            'total' => $total
+        ]);
+
+    }
+
 
     public function logout()
     {
         Auth::guard('web')->logout();
         return redirect()->route('main.index');
+    }
+
+    public function editProfile()
+    {
+        $customer = Auth::guard('web')->user();
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+        return view($this->folder . '/parts/myProfile', [
+            'customer' => $customer,
+            'carts' => $carts,
+            'total' => $total
+        ]);
+
     }
 
 
@@ -301,7 +460,10 @@ class mainService extends BaseService
     public function updateQuantityOfCart($request)
     {
 
-        $cart = cart::where('product_id', $request->product_id)->where('customer_id', auth('web')->user()->id)->first();
+        $cart = cart::where('product_id', $request->product_id)
+            ->where('customer_id', auth('web')->user()->id)
+            ->first();
+
         if ($cart) {
             $cart->update([
                 'quantity' => $request->quantity
@@ -310,6 +472,31 @@ class mainService extends BaseService
         }
 
         return response()->json(['status' => 201]);
+
+    }
+
+    public function showCheckout()
+    {
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+
+
+        return view($this->folder . '/parts/checkout',[
+            'carts' => $carts,
+            'total' => $total
+        ]);
+
 
     }
 
@@ -440,7 +627,24 @@ class mainService extends BaseService
 
     public function ShowContact()
     {
-        return view($this->folder . '/parts/contact');
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+
+        return view($this->folder . '/parts/contact',[
+            'carts' => $carts,
+            'total' => $total
+        ]);
 
     }
 
@@ -456,7 +660,23 @@ class mainService extends BaseService
 
     public function about()
     {
-        return view($this->folder . '/parts/about');
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+        return view($this->folder . '/parts/about',[
+            'carts' => $carts,
+            'total' => $total
+        ]);
 
     }
 

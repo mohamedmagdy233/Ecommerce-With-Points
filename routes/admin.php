@@ -26,7 +26,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "admin" middleware group. Now create something great!
 |
 */
-Route::any('register/{code}', [InviteController::class, 'register'])->name('register');
 
 Route::group(
     [

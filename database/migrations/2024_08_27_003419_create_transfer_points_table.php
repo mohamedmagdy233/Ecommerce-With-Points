@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('from_id')->constrained('customers');
             $table->foreignId('to_id')->constrained('customers');
-            $table->foreignId('admin_id')->constrained('admins');
+            $table->foreignId('admin_id')->nullable()->constrained('admins');
             $table->integer('points');
             $table->timestamps();
         });
