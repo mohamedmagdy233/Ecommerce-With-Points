@@ -6,7 +6,11 @@ use App\Models\cart;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Fav;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Product;
 use App\Models\TransferPoints;
+use App\Models\Waste;
 use App\Models\Waste as ObjModel;
 use App\Services\BaseService;
 use App\Services\CategoryService;
@@ -164,6 +168,7 @@ class mainService extends BaseService
             return redirect('/')->with('error', 'لا يوجد نقاط كافية');
         }
         $customerFrom->points -= $data['points'];
+        $customerFrom->pointsFromWhere='عمليه تحويل نقاط';
         $customerFrom->save();
 
         $customerTo = Customer::find($data['to_id']);
@@ -171,9 +176,9 @@ class mainService extends BaseService
         $customerTo->save();
 
 
-        $transferPoints=TransferPoints::create($data);
+        TransferPoints::create($data);
 
-        return redirect('/')->with('success', 'تمت العملية بنجاح');
+        return redirect('transfer/points')->with('success', 'تمت العملية بنجاح');
 
     }
 
@@ -341,10 +346,10 @@ class mainService extends BaseService
     }
 
 
-    public function addOrder ($request)
+    public function addOrder( $request)
     {
 
-    {
+//        return $request;
         $customer = Auth::guard('web')->user();
 
         if (!$customer) {
@@ -354,63 +359,136 @@ class mainService extends BaseService
         $validatedData = $request->validate([
             'product_ids' => 'required|array',
             'product_ids.*' => 'exists:products,id',
-            'quantity' => 'required|array',
-            'quantity.*' => 'integer|min:1',
+            'quantities' => 'required|array',
+            'quantities.*' => 'integer|min:1',
             'total_price' => 'required|numeric|min:0',
             'address' => 'nullable|string',
+            'use_points' => 'nullable|integer|min:0',
+            'award_points' => 'nullable|integer|min:0',
         ], [
             'product_ids.*.exists' => 'هذا المنتج غير موجود',
-            'quantity.*.integer' => 'الكمية يجب ان تكون عدد صحيح',
-            'quantity.*.min' => 'الكمية يجب ان تكون على الأقل واحد',
+            'quantities.*.integer' => 'الكمية يجب ان تكون عدد صحيح',
+            'quantities.*.min' => 'الكمية يجب ان تكون على الأقل واحد',
             'total_price.numeric' => 'السعر يجب ان يكون رقم',
             'total_price.min' => 'السعر يجب ان يكون على الأقل صفر',
+            'use_points.integer' => 'نقاط الاستخدام يجب أن تكون رقم صحيح',
+            'award_points.integer' => 'النقاط المكتسبة يجب أن تكون رقم صحيح',
         ]);
 
         // Extract validated data
         $product_ids = $validatedData['product_ids'];
-        $quantities = $validatedData['quantity'];
+        $quantities = $validatedData['quantities'];
         $use_points = $validatedData['use_points'] ?? 0;
         $total_price = $validatedData['total_price'];
-        $address = $validatedData['address'];
-        $total_award_points = $validatedData['total_award_points'] ?? 0;
+        $address = $validatedData['address']?? null;
+        $award_points = $validatedData['award_points'] ?? 0;
 
-        if ($customer->points < $use_points) {
-            return response()->json(['status' => 400, 'message' => 'Insufficient points.']);
+        // Check if customer has enough points
+        if ($use_points > 0 && $customer->points < $use_points) {
+            return redirect()->back()->with('error', 'لا يوجد نقاط كافية.');
         }
 
+        // Deduct used points from customer
         $customer->points -= $use_points;
         $customer->save();
 
         // Create a new order
-        $order = new Order(); // Assuming Order is the model for orders
-        $order->customer_id = $customer->id; // Use authenticated customer's ID
+        $order = new Order();
+        $order->customer_id = $customer->id;
         $order->address = $address;
         $order->use_points = $use_points;
         $order->status = 'pending';
         $order->total = $total_price;
-        $order->lastPointOfOrder = $total_award_points;
+        $order->lastPointOfOrder = $award_points;
         $order->save();
 
-        // Loop through product_ids and quantities
-        foreach ($product_ids as $product_id) {
+        foreach ($product_ids as $index => $product_id) {
             $product = Product::find($product_id);
-            $product->quantity -= $quantities[$product_id];
-            $product->save();
 
-            // Attach product to order with quantity and price
-            $order->products()->attach($product_id, [
-                'quantity' => $quantities[$product_id],
-                'price' => $product->price,
-                'total_price' => $product->price * $quantities[$product_id]
-            ]);
+            if ($product) {
+                $product->quantity -= $quantities[$index];
+                $product->save();
+
+                $order->products()->attach($product_id, [
+                    'quantity' => $quantities[$index],
+                    'price' => $product->price,
+                    'total_price' => $product->price * $quantities[$index]
+                ]);
+            }
         }
 
-        // Update customer's award points
-        $customer->points += $total_award_points;
+        $customer->points += $award_points;
+        if ($customer->customer_id !== null) {
+            $parent_customer = Customer::find($customer->customer_id);
+            $parent_customer->points += $award_points;
+            $parent_customer->save();
+        }
         $customer->save();
 
-        return redirect()->route('orders.index')->with('success', 'Your order has been placed successfully.');
+        $emptyCart = cart::where('customer_id', $customer->id)->get();
+
+        foreach ($emptyCart as $item) {
+            $item->delete();
+        }
+
+        return redirect('/')->with('success', 'تم تأكيد طلبك بنجاح.');
     }
+
+    public function myOrders()
+    {
+
+        $myOrders=Order::where('customer_id',auth('web')->user()->id)
+            ->with('products')
+            ->get();
+
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+
+        return view($this->folder.'/parts/my_orders',[
+            'myOrders' => $myOrders,
+            'carts' => $carts,
+            'total' => $total
+        ]);
+
+    }
+
+
+    public function deleteOrder($id)
+    {
+
+        $order = Order::find($id);
+        $lastPointOfOrder = $order->lastPointOfOrder;
+
+        $customer = Customer::find($order->customer_id);
+        $customer->points -= $lastPointOfOrder;
+        $customer->points += $order->use_points;
+        $customer->save();
+        if ($customer->customer_id !== null) {
+            $parent_customer = Customer::find($customer->customer_id);
+            $parent_customer->points -= $lastPointOfOrder;
+
+            $parent_customer->save();
+        }
+
+        $orderProducts = OrderProduct::where('order_id', $id)->get();
+        foreach ($orderProducts as $orderProduct) {
+          $orderProduct->delete();
+        }
+
+        $order->delete();
+
+        return redirect()->back()->with('success', 'تم حذف الطلب بنجاح.');
     }
 
 
@@ -442,6 +520,19 @@ class mainService extends BaseService
         $product = $this->productService->getById($id);
 
         if (auth('web')->check()) {
+
+            $cart= cart::where('product_id', $id)
+                ->where('customer_id', auth('web')->user()->id)
+                ->first();
+
+
+            if ($cart){
+
+                $cart->update([
+                    'quantity' =>$cart->quantity + 1
+                ]);
+                return redirect('/')->with('success', 'تم التعديل بنجاح');
+            }
             $cart = cart::create([
                 'product_id' => $product->id,
                 'quantity' => 1,
@@ -484,17 +575,27 @@ class mainService extends BaseService
 
                 return  $item->total;
             });
+            $award_points = $carts->sum(function ($item) {
+                $item->award_points = $item->product->award_points * $item->quantity;
+
+                return  $item->award_points;
+            });
         }else
         {
             $carts = [];
             $total = 0;
+            $award_points = 0;
+
 
         }
 
 
+
+
         return view($this->folder . '/parts/checkout',[
             'carts' => $carts,
-            'total' => $total
+            'total' => $total,
+            'award_points' => $award_points
         ]);
 
 
@@ -563,9 +664,60 @@ class mainService extends BaseService
 
     }
 
+
+    public function myPoints()
+    {
+        $pointsFromWaste=Waste::where('customer_id',auth('web')->user()->id)->get();
+        $myOrders=Order::where('customer_id',auth('web')->user()->id)
+            ->with('products')
+            ->get();
+
+       $customers = Customer::where('customer_id','=',auth('web')->user()->id)->get();
+       if ($customers->count() != 0) {
+       foreach ($customers as $customer) {
+
+               $orderFromSubCustomer=Order::where('customer_id',$customer->id)
+                   ->with('products')
+                   ->get();
+
+
+       }
+   }else
+   {
+       $orderFromSubCustomer=[];
+   }
+
+
+
+        $pointsFromTransferPoints=TransferPoints::where('to_id',auth('web')->user()->id)->get();
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+        return view($this->folder . '/parts/my_points',[
+            'pointsFromWaste' => $pointsFromWaste,
+            'pointsFromTransferPoints' => $pointsFromTransferPoints,
+            'carts' => $carts,
+            'total' => $total,
+            'myOrders' => $myOrders,
+            'orderFromSubCustomer' => $orderFromSubCustomer
+        ]);
+
+    }
+
     public function index()
     {
         $products=$this->productService->getAll();
+        $products=$products->take(8);
         $bestSellers=$this->productService->getBestSellers();
         $categories=$this->categoryService->getAll();
         if (auth('web')->check()) {
@@ -587,10 +739,37 @@ class mainService extends BaseService
 
 
 
+
+
         return view($this->folder . '/index',[
             'products' => $products,
             'bestSellers' => $bestSellers,
             'categories' => $categories,
+            'carts' => $carts,
+            'total' => $total
+        ]);
+
+    }
+
+
+    public function allProducts()
+    {
+        $products=$this->productService->getAll();
+        if (auth('web')->check()) {
+            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+        return view($this->folder . '/parts/all-products',[
+            'products' => $products,
             'carts' => $carts,
             'total' => $total
         ]);

@@ -5,7 +5,7 @@
                 <div class="product-isotope-heading">
                     <div class="section-title-wrapper">
                         <span class="title-highlighter highlighter-primary"><i class="far fa-shopping-basket"></i>منتجاتنا</span>
-                        <h2 class="title">منتجات جديده </h2>
+                        <a href="{{route('allProducts')}}" class="title highlighter-primary">منتجات جديده </a>
                     </div>
                 </div>
                 <div class="row row--15 isotope-list">

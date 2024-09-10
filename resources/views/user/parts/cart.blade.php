@@ -19,18 +19,18 @@
                                 </a>
                                 <button class="close-btn" data-id="{{ $product->id }}"><i class="fas fa-times"></i></button>
                             </div>
+
                             <div class="item-content">
                                 <h3 class="item-title"><a href="{{ route('product.details', $product->id) }}">{{ $product->name }}</a></h3>
                                 <div class="item-price">
                                     <span class="currency-symbol"></span>{{ $product->price }}
                                 </div>
-{{--                                <div class="pro-qty item-quantity">--}}
-{{--                                    <label for="quantity-{{ $product->id }}"></label>--}}
+                                <div class="pro-qty item-quantity">
+                                    <label for="quantity-{{ $product->id }}"></label>
 {{--                                    <button type="button" class="qty-btn minus-btn" data-id="{{ $product->id }}">-</button>--}}
-{{--                                    <input type="number" name="quantity[{{ $product->id }}]" value="{{ $cart->quantity }}" min="1" id="quantity-{{ $product->id }}" class="quantity-input">--}}
+                                    <input type="number" disabled name="quantity" value="{{ $cart->quantity }}" min="1"  class="quantity-input">
 {{--                                    <button type="button" class="qty-btn plus-btn" data-id="{{ $product->id }}">+</button>--}}
-{{--                                    <input type="hidden" name="product_ids[]" value="{{ $product->id }}">--}}
-{{--                                </div>--}}
+                                </div>
 
                             </div>
                         </li>

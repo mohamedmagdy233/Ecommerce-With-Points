@@ -45,9 +45,12 @@ Route::group(['middleware' => 'web-auth'], function () {
     Route::get('show/checkout', [MainController::class, 'showCheckout'])->name('showCheckout');
     Route::post('add/to/fav/{id}', [MainController::class, 'addToFav'])->name('addToFav');
     Route::get('get/wishlist', [MainController::class, 'getWishlist'])->name('wishlist');
+    Route::get('my/points', [MainController::class, 'myPoints'])->name('my.points');
 
 
-    Route::get('add/order', [MainController::class, 'addOrder'])->name('addOrder');
+    Route::post('add/order', [MainController::class, 'addOrder'])->name('addOrder');
+    Route::get('show/myOrder', [MainController::class, 'myOrders'])->name('my.orders');
+    Route::get('delete/order/{id}', [MainController::class, 'deleteOrder'])->name('order.delete');
 
 
 
@@ -60,6 +63,7 @@ Route::group(['middleware' => 'web-auth'], function () {
 
 Route::get('products', [MainController::class, 'showProductsInSlider'])->name('main.products');
 Route::get('products/details/{id}', [MainController::class, 'productDetails'])->name('product.details');
+Route::get('all/Products', [MainController::class, 'allProducts'])->name('allProducts');
 
 Route::get('products/by/category/{id}', [MainController::class, 'productsByCategory'])->name('productsByCategory');
 

@@ -24,7 +24,7 @@
                                     <h5 class="title"><a href="{{route('product.details', $bestSeller->product_id)}}">#00{{$bestSeller->product_id}}</a></h5>
                                     <div class="product-hover-action">
                                         <ul class="cart-action">
-                                            <li class="select-option"><a href="{{route('addToCart', $bestSeller->product_id)}}">اضف الى السلة</a></li>
+                                            <li class="select-option"><a href="{{route('addOneProductToCart', $bestSeller->product_id)}}">اضف الى السلة</a></li>
 
                                             @auth('web')
                                                 @if(\App\Models\Fav::where('customer_id', Auth::user('web')->id)->where('product_id', $bestSeller->id)->exists())

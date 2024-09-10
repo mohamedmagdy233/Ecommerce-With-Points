@@ -77,7 +77,9 @@ class WasteService extends BaseService
     {
         $customer = $this->customerService->getById($data['customer_id']);
         $customer->points = $customer->points + $data['points_transferred'] ;
+        $customer->pointsFromWhere='عمليه استبدال نفايات';
         $customer->save();
+
         $data['admin_id'] = auth('admin')->user()->id;
         $model = $this->createData($data);
         if ($model) {

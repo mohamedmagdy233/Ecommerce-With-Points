@@ -9,6 +9,14 @@
 @include('user.parts.header')
 
 
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+
+
 <main class="main-wrapper"><!-- End Header -->
 
 

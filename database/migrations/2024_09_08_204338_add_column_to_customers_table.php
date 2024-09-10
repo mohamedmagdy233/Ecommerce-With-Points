@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('customers', function (Blueprint $table) {
             $table->foreignId('customer_id')->nullable()->constrained('customers');
+            $table->string('pointsFromWhere')->nullable();
         });
     }
 

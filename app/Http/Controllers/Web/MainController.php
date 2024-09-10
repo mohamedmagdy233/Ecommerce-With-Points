@@ -113,6 +113,13 @@ class MainController extends Controller
 
     }
 
+    public function allProducts()
+    {
+
+        return $this->objService->allProducts();
+
+    }
+
     public function addToCart(Request $request)
     {
 
@@ -183,10 +190,32 @@ class MainController extends Controller
 
     }
 
+    public function myPoints()
+    {
+
+        return $this->objService->myPoints();
+
+    }
+
     public function addOrder(Request $request)
     {
 
         return $this->objService->addOrder($request);
+
+    }
+
+    public function myOrders()
+    {
+
+        return $this->objService->myOrders();
+
+    }
+
+    public function deleteOrder($id)
+    {
+
+        return $this->objService->deleteOrder($id);
+
 
     }
 

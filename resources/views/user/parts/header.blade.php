@@ -1,3 +1,15 @@
+<style>
+    .my-account-dropdown {
+
+        font-size: 1.2rem; /* Increase font size for better readability */
+        padding: 10px 15px; /* Adjust padding for more substantial buttons */
+    }
+
+    .my-account:hover .my-account-dropdown {
+        display: block;
+    }
+
+</style>
 <header class="header axil-header header-style-5">
 
     <!-- Start Mainmenu Area  -->
@@ -18,7 +30,7 @@
 
                         <ul class="mainmenu">
                             <li><a href="{{route('main.index')}}">الرئيسيه</a></li>
-                            <li><a href="#products">المنتجات</a></li>
+                            <li><a href="{{route('allProducts')}}">المنتجات</a></li>
                             <li><a href="#category">الاقسام</a></li>
                             <li><a href="{{route('main.ShowContact')}}">تواصل معنا</a></li>
                             <li><a href="{{route('main.about')}}">من نحن</a></li>
@@ -46,31 +58,26 @@
                             <a href="javascript:void(0)">
                                 <i class="flaticon-person"></i>
                             </a>
-                            <div class="my-account-dropdown">
-
+                            <div class="my-account-dropdown p-4 shadow-lg bg-white rounded" style="min-width: 220px;">
                                 @if(Auth('web')->check())
-
-                                    <a class="axil-btn btn-bg-primary" href="{{route('logout')}}">تسجيل خروج</a>
-                                   <hr>
-                                    <a class="axil-btn btn-bg-secondary" href="{{route('editProfile')}}">تعديل حسابي</a>
-
-                                    <hr>
-                                    <a class="axil-btn btn-bg-primary" href="{{route('referral.customers')}}">العملاء المرتبطين</a>
-                                    <hr>
-                                    <a class="axil-btn btn-bg-secondary" href="{{route('transfer.points.customer')}}">تحويل نقاط</a>
-
+                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('logout') }}">تسجيل خروج</a>
+                                    <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('editProfile') }}">تعديل حسابي</a>
+                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('referral.customers') }}">العملاء المرتبطين</a>
+                                    <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('transfer.points.customer') }}">تحويل نقاط</a>
+                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('my.points') }}">نقاطي</a>
+                                    <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('my.orders') }}">طلباتي</a>
                                 @else
-                                <div class="login-btn">
-                                        <a href="{{route('main.login')}}" class="axil-btn btn-bg-primary">تسجيل
-                                            الدخول</a>
+                                    <div class="login-btn mb-3">
+                                        <a href="{{ route('main.login') }}" class="btn btn-primary btn-lg w-100">تسجيل الدخول</a>
                                     </div>
-                                <div class="reg-footer text-center">ليس لديك حساب؟<a
-                                                href="{{route('main.register')}}"
-                                                class="btn-link">انشاء حساب</a></div>
-
+                                    <div class="reg-footer text-center">
+                                        ليس لديك حساب؟
+                                        <a href="{{ route('main.register') }}" class="btn btn-link">انشاء حساب</a>
+                                    </div>
                                 @endif
                             </div>
                         </li>
+
                         <li class="axil-mobile-toggle">
                             <button class="menu-btn mobile-nav-toggler">
                                 <i class="flaticon-menu-2"></i>
