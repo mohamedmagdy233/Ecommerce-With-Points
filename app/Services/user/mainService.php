@@ -136,7 +136,7 @@ class mainService extends BaseService
 //                                      ->orWhere('to_id',auth('web')->user()->id)
                                       ->get();
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -205,7 +205,7 @@ class mainService extends BaseService
         $customer = Auth::guard('web')->user();
         $relatedCustomers =Customer::where('customer_id',$customer->id)->get();
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -237,7 +237,7 @@ class mainService extends BaseService
     {
         $customer = Auth::guard('web')->user();
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -280,7 +280,7 @@ class mainService extends BaseService
         $productDetails=$this->productService->getById($id);
         $relatedProducts=$this->productService->getRelatedProducts();
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -315,7 +315,7 @@ class mainService extends BaseService
             return redirect('/')->withErrors($vaildator)->with('error', 'حدث خطأ ما');
         }
 
-        $cart= cart::where('product_id', $request->product_id)
+        $cart= Cart::where('product_id', $request->product_id)
             ->where('customer_id', auth('web')->user()->id)
             ->first();
 
@@ -328,7 +328,7 @@ class mainService extends BaseService
             return redirect('/')->with('success', 'تم التعديل بنجاح');
         }
 
-        $addToCart = cart::create([
+        $addToCart = Cart::create([
 
             'product_id' => $request->product_id,
             'quantity' => $request->quantity,
@@ -425,7 +425,7 @@ class mainService extends BaseService
         }
         $customer->save();
 
-        $emptyCart = cart::where('customer_id', $customer->id)->get();
+        $emptyCart = Cart::where('customer_id', $customer->id)->get();
 
         foreach ($emptyCart as $item) {
             $item->delete();
@@ -442,7 +442,7 @@ class mainService extends BaseService
             ->get();
 
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -521,7 +521,7 @@ class mainService extends BaseService
 
         if (auth('web')->check()) {
 
-            $cart= cart::where('product_id', $id)
+            $cart= Cart::where('product_id', $id)
                 ->where('customer_id', auth('web')->user()->id)
                 ->first();
 
@@ -533,7 +533,7 @@ class mainService extends BaseService
                 ]);
                 return redirect('/')->with('success', 'تم التعديل بنجاح');
             }
-            $cart = cart::create([
+            $cart = Cart::create([
                 'product_id' => $product->id,
                 'quantity' => 1,
                 'customer_id' => auth('web')->user()->id,
@@ -551,7 +551,7 @@ class mainService extends BaseService
     public function updateQuantityOfCart($request)
     {
 
-        $cart = cart::where('product_id', $request->product_id)
+        $cart = Cart::where('product_id', $request->product_id)
             ->where('customer_id', auth('web')->user()->id)
             ->first();
 
@@ -569,7 +569,7 @@ class mainService extends BaseService
     public function showCheckout()
     {
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -604,7 +604,7 @@ class mainService extends BaseService
     public function deleteFromCart($id)
     {
 
-        $cart = cart::where('product_id', $id)->where('customer_id', auth('web')->user()->id)->first();
+        $cart = Cart::where('product_id', $id)->where('customer_id', auth('web')->user()->id)->first();
 
         if ($cart) {
             $cart->delete();
@@ -617,7 +617,7 @@ class mainService extends BaseService
     public function showCart()
     {
 
-        $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+        $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
 
         if (!$carts){
 
@@ -639,7 +639,7 @@ class mainService extends BaseService
         $fav = Fav::where('customer_id', auth('web')->user()->id)->get();
         $products = [];
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -691,7 +691,7 @@ class mainService extends BaseService
 
         $pointsFromTransferPoints=TransferPoints::where('to_id',auth('web')->user()->id)->get();
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -721,7 +721,7 @@ class mainService extends BaseService
         $bestSellers=$this->productService->getBestSellers();
         $categories=$this->categoryService->getAll();
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
          $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -756,7 +756,7 @@ class mainService extends BaseService
     {
         $products=$this->productService->getAll();
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -781,7 +781,7 @@ class mainService extends BaseService
         $products=$this->productService->getByCategoryId($id);
         $category=$this->categoryService->getById($id);
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -807,7 +807,7 @@ class mainService extends BaseService
     public function ShowContact()
     {
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -840,7 +840,7 @@ class mainService extends BaseService
     public function about()
     {
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
@@ -862,7 +862,7 @@ class mainService extends BaseService
     public function termsAndPrivacyAndFaqs()
     {
         if (auth('web')->check()) {
-            $carts = cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
             $total =   $carts->sum(function ($item) {
                 $item->total = $item->product->price * $item->quantity;
 
