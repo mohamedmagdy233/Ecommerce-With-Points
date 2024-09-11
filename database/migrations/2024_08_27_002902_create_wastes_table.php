@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('quantity');
             $table->string('points_transferred');
             $table->foreignId('waste_section_id')->constrained('waste_sections');
-            $table->foreignId('admin_id')->constrained();
-            $table->foreignId('customer_id')->constrained();
+            $table->foreignId('admin_id')->constrained()->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->boolean('status')->default(1)->comment('1=active, 0=inactive');
             $table->timestamps();
         });
     }
