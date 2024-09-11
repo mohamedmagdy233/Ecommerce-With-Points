@@ -2,7 +2,7 @@
 
 namespace App\Services\user;
 
-use App\Models\cart;
+use App\Models\Cart;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Fav;
