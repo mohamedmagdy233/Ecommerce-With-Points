@@ -167,7 +167,7 @@ class mainService extends BaseService
         $customerFrom = Customer::find($data['from_id']);
         if ($data['points'] > $customerFrom->points) {
 
-            return redirect('/')->with('error', 'لا يوجد نقاط كافية');
+            return redirect()->back()->with('error', 'لا يوجد نقاط كافية');
         }
         $customerFrom->points -= $data['points'];
         $customerFrom->pointsFromWhere='عمليه تحويل نقاط';
@@ -180,7 +180,7 @@ class mainService extends BaseService
 
         TransferPoints::create($data);
 
-        return redirect('transfer/points')->with('success', 'تمت العملية بنجاح');
+        return redirect()->back()->with('success', 'تمت العملية بنجاح');
 
     }
 
@@ -197,7 +197,7 @@ class mainService extends BaseService
         $returnPointsFromCustomerTo->save();
 
         $transferPoints->delete();
-        return redirect('/')->with('success', 'تمت العملية بنجاح');
+        return redirect()->back()->with('success', 'تمت العملية بنجاح');
 
     }
 
@@ -609,7 +609,7 @@ class mainService extends BaseService
                 $cart->update([
                     'quantity' =>$cart->quantity + 1
                 ]);
-                return redirect('/')->with('success', 'تم التعديل بنجاح');
+                return redirect()->back()->with('success', 'تم التعديل بنجاح');
             }
             $cart = Cart::create([
                 'product_id' => $product->id,
@@ -617,9 +617,9 @@ class mainService extends BaseService
                 'customer_id' => auth('web')->user()->id,
             ]);
             if ($cart) {
-                return redirect('/')->with('success', 'تم الاضافة بنجاح');
+                return redirect()->back()->with('success', 'تم الاضافة بنجاح');
             } else {
-                return redirect('/')->with('error', 'حدث خطأ ما');
+                return redirect()->back()->with('error', 'حدث خطأ ما');
             }
         }
 
