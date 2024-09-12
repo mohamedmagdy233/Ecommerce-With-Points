@@ -66,6 +66,7 @@
                                     <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('transfer.points.customer') }}">تحويل نقاط</a>
                                     <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('my.points') }}">نقاطي</a>
                                     <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('my.orders') }}">طلباتي</a>
+                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('transfer.wastes') }}">تحويل نفايات</a>
                                 @else
                                     <div class="login-btn mb-3">
                                         <a href="{{ route('main.login') }}" class="btn btn-primary btn-lg w-100">تسجيل الدخول</a>

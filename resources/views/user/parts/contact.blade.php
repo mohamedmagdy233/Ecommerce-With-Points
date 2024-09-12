@@ -40,7 +40,7 @@
                             <p>إذا كان لديك منتجات رائعة تصنعها أو تتطلع إلى العمل معنا، فأرسل لنا رسالة.</p>
 
                             <form id="contact-form" method="POST" action="{{route('main.storeContact')}}"
-                                  class="axil-contact-form">
+                                 >
                                 @csrf
                                 <div class="row row--10">
                                     <div class="col-lg-4">

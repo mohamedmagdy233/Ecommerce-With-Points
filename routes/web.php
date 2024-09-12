@@ -53,6 +53,13 @@ Route::group(['middleware' => 'web-auth'], function () {
     Route::get('delete/order/{id}', [MainController::class, 'deleteOrder'])->name('order.delete');
 
 
+    Route::get('transfer/wastes', [MainController::class, 'transferWastes'])->name('transfer.wastes');
+    Route::post('store/transfer/wastes', [MainController::class, 'storeTransferWastes'])->name('storeTransferWastes');
+    Route::get('delete/transfer/wastes/{id}', [MainController::class, 'deleteTransferWaste'])->name('deleteTransferWaste');
+
+
+
+
 
 });
 

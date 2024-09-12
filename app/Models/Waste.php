@@ -15,6 +15,7 @@ class Waste extends Model
         'admin_id',
         'customer_id',
         'points_transferred',
+        'status',
     ];
 
     public function customer()
@@ -25,5 +26,10 @@ class Waste extends Model
     public function admin()
     {
         return $this->belongsTo(Admin::class);
+    }
+
+    public function wasteSection()
+    {
+        return $this->belongsTo(WasteSection::class);
     }
 }

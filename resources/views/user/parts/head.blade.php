@@ -11,6 +11,7 @@
     <!-- Include Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    @flasher_render
 
 
     <!-- CSS
@@ -27,6 +28,11 @@
     <link rel="stylesheet" href="{{asset('user/assets/css/vendor/magnific-popup.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/vendor/base.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/style.css')}}">
+
+
+
+
+
 
 
 

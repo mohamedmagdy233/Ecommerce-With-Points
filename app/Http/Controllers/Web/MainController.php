@@ -220,6 +220,28 @@ class MainController extends Controller
     }
 
 
+    public function transferWastes()
+    {
+
+        return $this->objService->transferWastes();
+
+    }
+
+    public function storeTransferWastes(Request $request)
+    {
+
+        return $this->objService->storeTransferWastes($request);
+
+    }
+
+    public function deleteTransferWaste($id)
+    {
+
+        return $this->objService->deleteTransferWaste($id);
+
+    }
+
+
     public function ShowContact()
     {
 

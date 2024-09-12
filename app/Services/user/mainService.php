@@ -12,11 +12,13 @@ use App\Models\Product;
 use App\Models\TransferPoints;
 use App\Models\Waste;
 use App\Models\Waste as ObjModel;
+use App\Models\WasteSection;
 use App\Services\BaseService;
 use App\Services\CategoryService;
 use App\Services\CustomerService;
 use App\Services\ProductService;
 use App\Services\WasteSectionService;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -464,6 +466,82 @@ class mainService extends BaseService
     }
 
 
+    public function transferWastes()
+    {
+        $trnsferWastes =Waste::where('customer_id',auth('web')->user()->id)
+            ->with('wasteSection')
+            ->get();
+        $wasteCategories = WasteSection::get();
+        if (auth('web')->check()) {
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+
+        return view($this->folder.'/parts/transfer_waste',[
+            'carts' => $carts,
+            'total' => $total,
+            'wasteCategories' => $wasteCategories,
+            'trnsferWastes' => $trnsferWastes
+        ]);
+
+    }
+
+
+    public function storeTransferWastes($request)
+    {
+
+        $validatedData = $request->validate([
+            'waste_section_id' => 'required|exists:waste_sections,id',
+            'quantity' => 'required',
+            'points_transferred' => 'required',
+        ]);
+
+
+        $waste = new Waste();
+        $waste->customer_id = auth('web')->user()->id;
+        $waste->waste_section_id = $request->waste_section_id;
+        $waste->quantity = $request->quantity;
+        $waste->status=0;
+        $waste->points_transferred = $request->points_transferred;
+
+        if ($waste->save()){
+            return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
+        }
+
+        return redirect()->back()->with('error', 'حدث خطأ ما.');
+
+
+    }
+
+    public function deleteTransferWaste($id)
+    {
+
+
+        $waste = Waste::find($id);
+
+        if ($waste){
+
+
+            $waste->delete();
+            return redirect()->back()->with('success', 'تم حذف البيانات بنجاح.');
+        }
+
+
+        return redirect()->back()->with('error', 'حدث خطأ ما.');
+
+
+    }
+
+
     public function deleteOrder($id)
     {
 
@@ -833,7 +911,11 @@ class mainService extends BaseService
 
        Contact::create($data);
 
-        return redirect()->route('main.index')->with('success', 'تم الإرسال بنجاح');
+//        flash('تم الإرسال بنجاح', 'success');
+
+//        Flasher::addSuccess('The operation was successful!');
+
+        return redirect()->back();
 
     }
 
