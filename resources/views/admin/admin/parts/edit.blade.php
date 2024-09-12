@@ -43,16 +43,18 @@
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12">
                 <div class="form-group">
                     <label for="password" class="form-control-label">{{ trns('password_confirmation') }}</label>
                     <input type="password" class="form-control" name="password_confirmation" id="password">
                 </div>
             </div>
+
+
             <div class="col-12">
                 <div class="form-group">
                     <label for="permissions" class="form-control-label">{{ trns('system_permissions') }}</label>
-                    <select class="form-control" name="permissions[]" id="permissions" multiple>
+                    <select class="form-control form-control-lg" style="    height: 131px;" name="permissions[]" id="permissions" multiple>
                         <option value="">{{ trns('select_permissions') }}</option>
                         @foreach(\App\Enums\RoleEnum::cases() as $permission)
                             <option value="{{ $permission->value }}" {{ in_array($permission->value, old('permissions', $user->permissions ?? [])) ? 'selected' : '' }}>

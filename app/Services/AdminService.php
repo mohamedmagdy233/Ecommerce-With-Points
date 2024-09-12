@@ -115,7 +115,10 @@ class AdminService extends BaseService
         }
 
         if ($this->updateData($id, $data)) {
-            $admin->syncRoles($data['role_id']);
+            if (isset($data['permissions'])) {
+                $permissions = $data['permissions']; // Assuming this is an array of permission names or IDs
+                $admin->syncPermissions($permissions);
+            }
             return response()->json(['status' => 200]);
         } else {
             return response()->json(['status' => 405]);

@@ -314,7 +314,7 @@ class mainService extends BaseService
             'product_id.exists' => 'المنتج غير موجود',
         ]);
         if ($vaildator->fails()) {
-            return redirect('/')->withErrors($vaildator)->with('error', 'حدث خطأ ما');
+            return redirect()->back()->withErrors($vaildator)->with('error', 'حدث خطأ ما');
         }
 
         $cart= Cart::where('product_id', $request->product_id)
@@ -327,7 +327,7 @@ class mainService extends BaseService
             $cart->update([
                 'quantity' =>$cart->quantity + $request->quantity
             ]);
-            return redirect('/')->with('success', 'تم التعديل بنجاح');
+            return redirect()->back()->with('success', 'تم التعديل بنجاح');
         }
 
         $addToCart = Cart::create([
@@ -338,7 +338,7 @@ class mainService extends BaseService
         ]);
 
         if ($addToCart) {
-            return redirect('/')->with('success', 'تم الاضافة بنجاح');
+            return redirect()->back()->with('success', 'تم الاضافة بنجاح');
 
 
         }
