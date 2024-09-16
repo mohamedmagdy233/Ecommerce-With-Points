@@ -1,6 +1,7 @@
 /node_modules
 /bootstrap/cache/*
 .env
+/storage/
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml

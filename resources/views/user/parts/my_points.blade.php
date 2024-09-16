@@ -24,6 +24,8 @@
                 </li>
             </ul>
 
+
+{{--            tesr--}}
             <!-- Tab Content -->
             <div class="tab-content" id="pointsTabContent">
                 <!-- Points from Waste -->
