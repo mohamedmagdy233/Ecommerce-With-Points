@@ -50,4 +50,11 @@ class AdminController extends Controller
         $data = $request->validated();
         return $this->objService->update($id, $data);
     }
+
+
+    public function massDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        return $this->objService->deleteAll($ids);
+    }
 }//end class

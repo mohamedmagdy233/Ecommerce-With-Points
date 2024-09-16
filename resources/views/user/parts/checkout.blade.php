@@ -3,10 +3,40 @@
 
 @include('user.parts.head')
 @include('user.parts.header')
+<style>
+    body {
+        font-weight: bold;
+        font-size: 18px; /* Adjust the size for the entire body */
+    }
+
+    h4.title {
+        font-size: 24px; /* Adjust size for the titles */
+    }
+
+    .form-group label {
+        font-size: 16px; /* Adjust size for form labels */
+    }
+
+    .form-group input, .form-group select {
+        font-size: 14px; /* Adjust size for input fields and select boxes */
+    }
+
+    .axil-order-summery .title {
+        font-size: 20px; /* Adjust size for order summary title */
+    }
+
+    .summery-table th, .summery-table td {
+        font-size: 16px; /* Adjust size for table text */
+    }
+
+    .checkout-btn {
+        font-size: 18px; /* Adjust size for the checkout button */
+    }
+</style>
 
 <main class="main-wrapper">
     <!-- Start Checkout Area  -->
-    <div class="axil-checkout-area axil-section-gap">
+    <div class="axil-checkout-area axil-section-gap" >
         <div class="container">
             <!-- Ensure the form has an id 'orderForm' -->
             <form action="{{route('addOrder')}}" method="POST" id="orderForm">
@@ -81,7 +111,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group" id="address" style="display: none;">
                                         <label>العنوان <span>*</span></label>
-                                        <input type="text" name="address" class="form-control">
+                                        <input type="text" name="address" value="{{auth('web')->user()->address}}" class="form-control">
                                     </div>
                                 </div>
                             </div>

@@ -50,6 +50,54 @@ enum RoleEnum: string
     case EDIT_SETTING = 'edit_setting';      // Permission to edit a setting
     case DELETE_SETTING = 'delete_setting';  // Permission to delete a setting
 
+    public function toArabic(): string
+    {
+        return match ($this) {
+            self::VIEW_HOME => 'عرض الصفحة الرئيسية',
+            self::VIEW_ADMINS => 'عرض قائمة المسؤولين',
+            self::VIEW_CUSTOMERS => 'عرض قائمة العملاء',
+            self::VIEW_CATEGORIES => 'عرض الفئات',
+            self::VIEW_PRODUCTS => 'عرض المنتجات',
+            self::VIEW_WASTES_SECTION => 'عرض أقسام النفايات',
+            self::VIEW_WASTES => 'عرض النفايات',
+            self::VIEW_TRANSFER_POINTS => 'عرض نقاط التحويل',
+            self::VIEW_ORDERS => 'عرض الطلبات',
+            self::VIEW_INVITE_LINKS => 'عرض روابط الدعوة',
+            self::VIEW_SETTINGS => 'عرض الإعدادات',
+            self::LOGOUT => 'تسجيل الخروج',
+
+            // Additional translations
+            self::ADD_NEW_CUSTOMER => 'إضافة عميل جديد',
+            self::EDIT_NEW_CUSTOMER => 'تعديل عميل جديد',
+            self::DELETE_NEW_CUSTOMER => 'حذف عميل جديد',
+
+            self::ADD_NEW_ADMIN => 'إضافة مسؤول جديد',
+            self::EDIT_NEW_ADMIN => 'تعديل مسؤول جديد',
+            self::DELETE_NEW_ADMIN => 'حذف مسؤول جديد',
+
+            self::ADD_CATEGORY => 'إضافة فئة',
+            self::EDIT_CATEGORY => 'تعديل فئة',
+            self::DELETE_CATEGORY => 'حذف فئة',
+
+            self::ADD_PRODUCT => 'إضافة منتج',
+            self::EDIT_PRODUCT => 'تعديل منتج',
+            self::DELETE_PRODUCT => 'حذف منتج',
+
+            self::ADD_WASTES_SECTION => 'إضافة قسم النفايات',
+            self::EDIT_WASTES_SECTION => 'تعديل قسم النفايات',
+            self::DELETE_WASTES_SECTION => 'حذف قسم النفايات',
+            self::ADD_WASTE => 'إضافة نفاية',
+            self::EDIT_WASTE => 'تعديل نفاية',
+            self::DELETE_WASTE => 'حذف نفاية',
+
+            self::ADD_ORDER => 'إضافة طلب',
+            self::EDIT_ORDER => 'تعديل طلب',
+            self::DELETE_ORDER => 'حذف طلب',
+            self::ADD_SETTING => 'إضافة إعداد',
+            self::EDIT_SETTING => 'تعديل إعداد',
+            self::DELETE_SETTING => 'حذف إعداد',
+        };
+    }
 
 
 

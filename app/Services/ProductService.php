@@ -25,44 +25,41 @@ class ProductService extends BaseService
                 ->addColumn('action', function ($products) {
                     $buttons = '';
                     if (auth()->user()->can('edit_product')) {
-
                         $buttons .= '
-                            <button type="button" data-id="' . $products->id . '" class="btn btn-pill btn-info-light editBtn">
-                            <i class="fa fa-edit"></i>
-                            </button>
-                       ';
+                <button type="button" data-id="' . htmlspecialchars($products->id, ENT_QUOTES, 'UTF-8') . '" class="btn btn-pill btn-info-light editBtn">
+                <i class="fa fa-edit"></i>
+                </button>
+            ';
                     }
                     if (auth()->user()->can('delete_product')) {
-
                         $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                        data-bs-target="#delete_modal" data-id="' . $products->id . '" data-title="' . $products->name . '">
-                        <i class="fas fa-trash"></i>
-                        </button>';
-
-
+            data-bs-target="#delete_modal" data-id="' . htmlspecialchars($products->id, ENT_QUOTES, 'UTF-8') . '" data-title="' . htmlspecialchars($products->name, ENT_QUOTES, 'UTF-8') . '">
+            <i class="fas fa-trash"></i>
+            </button>';
                     }
 
                     return $buttons;
                 })->addColumn('image', function ($products) {
                     if ($products->image != null) {
                         return '
-                    <img alt="image" onclick="window.open(this.src)" class="avatar avatar-md rounded-circle" src="' . asset('storage/' . $products->image) . '">
-                    ';
+            <img alt="image" onclick="window.open(this.src)" class="avatar avatar-md rounded-circle" src="' . htmlspecialchars(asset('storage/' . $products->image), ENT_QUOTES, 'UTF-8') . '">
+            ';
                     } else {
                         return '
-                    <img alt="image" onclick="window.open(this.src)" class="avatar avatar-md rounded-circle" src="' . asset('assets/uploads/avatar.png') . '">
-                    ';
+            <img alt="image" onclick="window.open(this.src)" class="avatar avatar-md rounded-circle" src="' . htmlspecialchars(asset('assets/uploads/avatar.png'), ENT_QUOTES, 'UTF-8') . '">
+            ';
                     }
-                })->editColumn('admin_id', function ($products) {
-
-                    return $products->admin->user_name;
-                })->editColumn('description', function ($products) {
-
-                    return substr($products->description, 0, 20) . '...';
+                })
+                ->editColumn('admin_id', function ($products) {
+                    return htmlspecialchars($products->admin->user_name, ENT_QUOTES, 'UTF-8');
+                })
+                ->editColumn('description', function ($products) {
+                    return htmlspecialchars(substr($products->description, 0, 20), ENT_QUOTES, 'UTF-8') . '...';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
+
         } else {
             return view($this->folder . '/index');
         }

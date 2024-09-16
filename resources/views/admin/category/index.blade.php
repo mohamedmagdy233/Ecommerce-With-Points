@@ -3,9 +3,11 @@
 @section('title')
     {{ config()->get('app.name') }} | {{ trns('categories') }}
 @endsection
+
 @section('page_name')
     {{ trns('categories') }}
 @endsection
+
 @section('content')
 
     <div class="row">
@@ -14,14 +16,17 @@
                 <div class="card-header">
                     <h3 class="card-title"> {{ trns('categories') }} {{ trns(config()->get('app.name')) }}</h3>
                     @can('add_category')
-                    <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-									<span>
-										<i class="fe fe-plus"></i>
-									</span> {{ trns('add new category') }}
-                        </button>
-                    </div>
+                        <div class="">
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
+                            <span>
+                                <i class="fe fe-plus"></i>
+                            </span> {{ trns('add new category') }}
+                            </button>
+                        </div>
                     @endcan
+                    <button class="btn btn-danger text-white" id="delete-selected">
+                        <i class="fe fe-trash"></i> {{ trns('delete selected') }}
+                    </button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -29,7 +34,10 @@
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
                             <tr class="fw-bolder text-muted bg-light">
-                                <th class="min-w-25px">#</th>
+                                <th class="min-w-25px">
+                                    <input type="checkbox" id="select-all" onclick="selectAllCheckboxes(this)">
+                                </th>
+                                <th class="min-w-50px">#</th>
                                 <th class="min-w-50px">{{ trns('name') }}</th>
                                 <th class="min-w-125px">{{ trns('image') }}</th>
                                 <th class="min-w-125px">{{ trns('slug') }}</th>
@@ -90,9 +98,19 @@
     </div>
     @include('admin/layouts/myAjaxHelper')
 @endsection
+
 @section('ajaxCalls')
     <script>
         var columns = [
+            {
+                data: 'id',
+                name: 'id',
+                render: function (data, type, row) {
+                    return `<input type="checkbox" class="row-checkbox" value="${data}">`;
+                },
+                orderable: false,
+                searchable: false
+            },
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'image', name: 'image'},
@@ -109,7 +127,44 @@
         // Add Using Ajax
         showEditModal('{{route('categories.edit',':id')}}');
         editScript();
+
+        // Handle deletion of selected rows
+        $('#delete-selected').on('click', function () {
+            var selectedIds = [];
+            $('.row-checkbox:checked').each(function () {
+                selectedIds.push($(this).val());
+            });
+
+            if (selectedIds.length > 0) {
+                if (confirm('{{ trns("are_you_sure_you_want_to_delete_selected") }}')) {
+                    // Send an AJAX request to delete selected rows
+                    $.ajax({
+                        url: '{{ route('massDeleteCategories') }}', // Ensure you have a route for this
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            ids: selectedIds
+                        },
+                        success: function (response) {
+                            toastr.error('تم الحذف بنجاح');
+                            table.ajax.reload();
+                        },
+                        error: function (xhr) {
+                            toastr.error('حدث خطأ');
+                        }
+                    });
+                }
+            } else {
+                alert('{{ trns("no_rows_selected") }}');
+            }
+        });
+
+        // Select all checkboxes
+        function selectAllCheckboxes(selectAllCheckbox) {
+            var checkboxes = document.getElementsByClassName('row-checkbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = selectAllCheckbox.checked;
+            }
+        }
     </script>
 @endsection
-
-

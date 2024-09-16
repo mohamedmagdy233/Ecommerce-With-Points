@@ -157,12 +157,25 @@ abstract class BaseService
         return response()->json(['status' => 405]);
     }
 
-    /**
-     * Delete files associated with the model.
-     *
-     * @param Model $model
-     * @return void
-     */
+    public function deleteAll($ids)
+    {
+        $items = $this->model->whereIn('id', $ids)->get();
+        foreach ($items as $item) {
+            $this->deleteAssociatedFiles($item);
+
+            $item->delete();
+        }
+        if ($items) {
+            return response()->json(['status' => 200]);
+        }
+
+        return response()->json(['status' => 405]);
+
+
+
+    }
+
+
     protected function deleteAssociatedFiles(Model $model): void
     {
         // Check and delete single image or file

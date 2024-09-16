@@ -37,18 +37,62 @@
                     @endforeach
                 </ul>
 
-                <div class="cart-footer">
-                    <h3 class="cart-subtotal">
-                        <span class="subtotal-title">الاجمالي:</span>
-                        <span class="subtotal-amount">{{ $total }}</span>
-                    </h3>
-                    <a href="{{route('showCheckout')}}" style="margin-right: 165px;"> اطلب المنتجات الان</a>
+            <div class="cart-footer">
+                <h3 class="cart-subtotal">
+                    <span class="subtotal-title">الاجمالي:</span>
+                    <span class="subtotal-amount">{{ $total }}</span>
+                </h3>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <a href="{{route('showCheckout')}}" class="btn btn-bg-secondary">
+                            اطلب المنتجات الان
+                        </a>
+                    </div>
                 </div>
-{{--            </form>--}}
+            </div>
     </div>
 </div>
 
 </div>
+
+
+<style>
+    .cart-footer {
+        padding: 20px;
+        background-color: #f7f7f7;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .cart-subtotal {
+        margin-bottom: 10px;
+    }
+
+    .subtotal-title {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .subtotal-amount {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .btn-bg-secondary {
+        background-color: #808080; /* change the background color */
+        border-color: #808080; /* change the border color */
+        color: #ffffff; /* change the text color */
+        padding: 10px 20px; /* adjust the padding */
+        border-radius: 5px; /* add a rounded corner */
+        font-size: 16px; /* adjust the font size */
+    }
+
+    .btn-bg-secondary:hover {
+        background-color: #666666; /* change the background color on hover */
+        border-color: #666666; /* change the border color on hover */
+    }
+</style>
 {{--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--}}
 {{--<script>--}}
 {{--    $(document).ready(function() {--}}

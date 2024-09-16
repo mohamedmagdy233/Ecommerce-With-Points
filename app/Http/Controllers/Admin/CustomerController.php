@@ -22,6 +22,13 @@ class CustomerController extends Controller
         return $this->objService->index($request);
     }
 
+    public function massDeleteCategories(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        return $this->objService->deleteAll($ids);
+
+    }
+
     public function create()
     {
         return $this->objService->create();

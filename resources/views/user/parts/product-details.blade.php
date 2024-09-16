@@ -1,4 +1,4 @@
-<html class="no-js" lang="ar">
+<html  lang="ar">
 
 @include('user.parts.head')
 <style>
@@ -137,7 +137,7 @@
                                     <div class="inner">
                                         <h2 class="product-title">{{$productDetails->name}}</h2>
                                         <div class="price-amount price-offer-amount">
-                                            <span class="price current-price">جمالي : {{$productDetails->price}}</span>
+                                            <span class="price current-price">اجمالي : {{$productDetails->price}}</span>
                                         </div>
                                         <div
                                             class="product-action-wrapper d-flex align-items-center justify-content-start mt-3">
@@ -155,7 +155,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- Start Product Action -->
-                                                <button type="submit" class="btn btn-primary btn-sm ml-3">
+                                                <button type="submit" class="btn btn-primary btn-sm ml-3" style="margin-bottom: 22px;">
                                                     <i class="fas fa-cart-plus"></i> أضف إلى السلة
                                                 </button>
                                             </form>
@@ -231,23 +231,23 @@
                                 <div class="axil-product product-style-one">
                                     <div class="thumbnail text-center">
                                         <a href="{{route('product.details', $relatedProduct->id)}}">
-                                            <img data-sal-delay="400" data-sal-duration="1500"
+                                            <img style="height: 200px; object-fit: cover;"
                                                  src="{{asset('storage/'.$relatedProduct->image)}}" alt="Product Images"
                                                  class="img-fluid">
                                         </a>
                                         <div class="product-hover-action">
 
 
-                                                <!-- Start Product Action -->
-                                                <ul class="product-action list-unstyled mb-0 d-flex justify-content-center">
-                                                    <li class="add-to-cart">
-                                                        <a href="{{route('addOneProductToCart', $relatedProduct->id)}}"
-                                                               style="background-color: red;    font-size: large; border-color: red;"
-                                                               class="add-to-cart-link btn btn-danger btn-sm"
-                                                               >أضف إلى السلة
-                                                            </a>
-                                                    </li>
-                                                </ul>
+                                            <!-- Start Product Action -->
+                                            <ul class="product-action list-unstyled mb-0 d-flex justify-content-center">
+                                                <li class="add-to-cart">
+                                                    <a href="{{route('addOneProductToCart', $relatedProduct->id)}}"
+                                                       style="background-color: red;    font-size: large; border-color: red;"
+                                                       class="add-to-cart-link btn btn-danger btn-sm"
+                                                    >أضف إلى السلة
+                                                    </a>
+                                                </li>
+                                            </ul>
 
                                         </div>
                                     </div>
@@ -255,7 +255,7 @@
                                         <div class="inner">
                                             <h5 class="title"><a
                                                     href="{{route('product.details', $relatedProduct->id)}}">
-                                                    #00{{$relatedProduct->id}}
+                                                   {{$relatedProduct->name}}
                                                     <span class="verified-icon"><i
                                                             class="fas fa-badge-check"></i></span></a>
                                             </h5>
@@ -272,13 +272,49 @@
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </div></main>
 
 
 @include('user.parts.footer')
 @include('user.parts.cart')
 @include('user.layouts.js')
+<style>
+    .btn-primary {
+        background-color: #007bff; /* change the background color */
+        border-color: #007bff; /* change the border color */
+        color: #ffffff; /* change the text color */
+        padding: 10px 20px; /* adjust the padding */
+        border-radius: 5px; /* add a rounded corner */
+        font-size: 16px; /* adjust the font size */
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9; /* change the background color on hover */
+        border-color: #0069d9; /* change the border color on hover */
+    }
+
+    .add-to-wishlist {
+        background-color: #ffffff; /* change the background color */
+        border: none; /* remove the border */
+        padding: 10px 20px; /* adjust the padding */
+        border-radius: 5px; /* add a rounded
+
+
+
+
+</style>
+<style>
+    .add-to-cart-link {
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .add-to-cart-link:hover {
+        background-color: #0069d9;
+        border-color: #0069d9;
+    }
+</style>
 
 <script>
     document.querySelectorAll('.qty-btn').forEach(function (button) {

@@ -27,3 +27,17 @@
         </div>
     </div>
 </div>
+<style>
+    .axil-categorie-area .categrie-product img {
+        height: 150px; /* adjust the height value as needed */
+        object-fit: cover;
+        width: 100%;
+    }
+
+
+    .axil-categorie-area .categrie-product img {
+        height: 20vh; /* adjust the height value as needed */
+        object-fit: cover;
+        width: 100%;
+    }
+</style>

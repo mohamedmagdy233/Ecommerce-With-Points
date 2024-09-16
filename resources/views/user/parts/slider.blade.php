@@ -13,9 +13,9 @@
                 <div class="main-slider-large-thumb">
                     <div class="slider-thumb-activation-two axil-slick-dots">
                         <!-- Start of the loop -->
-                        @foreach($products as $product)
+                        @forelse($products as $product)
                             <div class="single-slide slick-slide">
-                                <div class="axil-product product-style-five">
+                                <div class="axil-product product-style-five" style="height: 350px;"> <!-- Add a fixed height here -->
                                     <div class="thumbnail">
                                         <a href="{{ route('product.details', $product->id) }}">
                                             <img src="{{ asset('storage/'.$product->image) }}" alt="Product Images">
@@ -38,7 +38,11 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+
+                             <p>لا يوجد منتجات</p>
+
+                        @endforelse
                         <!-- End of the loop -->
                     </div>
                 </div>
@@ -46,3 +50,18 @@
         </div>
     </div>
 </div>
+<style>
+    .axil-product {
+        height: 350px; /* Add a fixed height here */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .axil-product .thumbnail {
+        flex: 1;
+    }
+
+    .axil-product .product-content {
+        flex: 1;
+    }
+</style>

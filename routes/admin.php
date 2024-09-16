@@ -44,9 +44,13 @@ Route::group(
 
             #============================ Admin ====================================
             Route::resource('admins', AdminController::class);
+            Route::any('massDelete', [AdminController::class, 'massDelete'])->name('massDelete');
+
 
             #============================ customers ====================================
             Route::resource('customers', CustomerController::class);
+            Route::any('massDeleteCategories', [CustomerController::class, 'massDeleteCategories'])->name('massDeleteCategories');
+
 
             #============================ customers ====================================
             Route::resource('categories', CategoryController::class);

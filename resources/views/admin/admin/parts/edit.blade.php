@@ -54,11 +54,14 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="permissions" class="form-control-label">{{ trns('system_permissions') }}</label>
-                    <select class="form-control form-control-lg" style="    height: 131px;" name="permissions[]" id="permissions" multiple>
-                        <option value="">{{ trns('select_permissions') }}</option>
+                    <select class="form-control form-control-lg" style="height: 131px;" name="permissions[]" id="permissions" multiple>
+                        <!-- "Select All" Option -->
+                        <option value="select_all">اختر الكل</option>
+
+                        <!-- Other options for permissions -->
                         @foreach(\App\Enums\RoleEnum::cases() as $permission)
                             <option value="{{ $permission->value }}" {{ in_array($permission->value, old('permissions', $user->permissions ?? [])) ? 'selected' : '' }}>
-                                {{ $permission->value }}
+                                {{ $permission->toArabic() }}
                             </option>
                         @endforeach
                     </select>
@@ -75,3 +78,19 @@
 <script>
     $('.dropify').dropify()
 </script>
+
+<script>
+    document.getElementById('permissions').addEventListener('change', function() {
+        if (this.value === 'select_all') {
+
+            Array.prototype.forEach.call(this.options, function(option) {
+                if (option.value !== 'select_all') {
+                    option.selected = true;
+                }
+            });
+
+            this.options[0].selected = false;
+        }
+    });
+</script>
+
