@@ -60,7 +60,7 @@
                         <div class="axil-product product-style-one has-color-pick mt--40">
                             <div class="thumbnail">
                                 <a href="{{route('product.details', $product->id)}}">
-                                    <img src="{{asset('storage/'.$product->image)}}" alt="Product Images">
+                                    <img style=" height: 156px;" src="{{asset('storage/'.$product->image)}}" alt="Product Images">
                                 </a>
 
                                 <div class="product-hover-action">

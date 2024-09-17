@@ -99,14 +99,14 @@
             </li>
         @endcan
 
-        @can('view_invite_links')
-            <li class="slide">
-                <a class="side-menu__item {{ Route::currentRouteName() == 'invite_links.index' ? 'active' : '' }}" href="{{ route('invite_links.index') }}">
-                    <i class="fa fa-link side-menu__icon"></i>
-                    <span class="side-menu__label">{{ trns('invitation_link') }}</span>
-                </a>
-            </li>
-        @endcan
+{{--        @can('view_invite_links')--}}
+{{--            <li class="slide">--}}
+{{--                <a class="side-menu__item {{ Route::currentRouteName() == 'invite_links.index' ? 'active' : '' }}" href="{{ route('invite_links.index') }}">--}}
+{{--                    <i class="fa fa-link side-menu__icon"></i>--}}
+{{--                    <span class="side-menu__label">{{ trns('invitation_link') }}</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--        @endcan--}}
 
         @can('view_settings')
             <li class="slide">
