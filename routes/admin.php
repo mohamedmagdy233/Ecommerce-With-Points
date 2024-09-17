@@ -52,8 +52,10 @@ Route::group(
             Route::any('customers/deleteSelected', [CustomerController::class, 'deleteSelected'])->name('customers.deleteSelected');
 
 
-            #============================ customers ====================================
+            #============================ categories ====================================
             Route::resource('categories', CategoryController::class);
+            Route::any('categories/deleteSelected', [CategoryController::class, 'massDeleteCategories'])->name('massDeleteCategories');
+
 
             #============================ products ====================================
             Route::resource('products', ProductController::class);

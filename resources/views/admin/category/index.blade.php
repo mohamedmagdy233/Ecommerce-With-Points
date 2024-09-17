@@ -16,17 +16,20 @@
                 <div class="card-header">
                     <h3 class="card-title"> {{ trns('categories') }} {{ trns(config()->get('app.name')) }}</h3>
                     @can('add_category')
-                        <div class="">
+                        <div class="d-flex">
+                            <button class="btn btn-danger text-white" id="delete-selected">
+                                <i class="fe fe-trash"></i> {{ trns('delete selected') }}
+                            </button>
+                            </button>
+                            <span class="mr-2"></span>
                             <button class="btn btn-secondary btn-icon text-white addBtn">
-                            <span>
-                                <i class="fe fe-plus"></i>
-                            </span> {{ trns('add new category') }}
+                        <span>
+                            <i class="fe fe-plus"></i>
+                        </span> {{ trns('add new customer') }}
                             </button>
                         </div>
                     @endcan
-                    <button class="btn btn-danger text-white" id="delete-selected">
-                        <i class="fe fe-trash"></i> {{ trns('delete selected') }}
-                    </button>
+
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -51,9 +54,8 @@
             </div>
         </div>
 
-        <!--Delete MODAL -->
-        <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+        <!-- Delete MODAL -->
+        <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -64,8 +66,7 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>{{  trns('are_you_sure_you_want_to_delete_this_obj')}} <span id="title"
-                                                                                        class="text-danger"></span>?</p>
+                        <p>{{ trns('are_you_sure_you_want_to_delete_this_obj') }} <span id="title" class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
@@ -83,7 +84,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="example-Modal3">{{  trns('object_details')}}</h5>
+                        <h5 class="modal-title" id="example-Modal3">{{ trns('object_details') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -117,15 +118,16 @@
             {data: 'slug', name: 'slug'},
             {data: 'admin_id', name: 'admin_id'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
-        showData('{{route('categories.index')}}', columns);
+        ];
+        showData('{{ route('categories.index') }}', columns);
+
         // Delete Using Ajax
-        deleteScript('{{route('categories.destroy',':id')}}');
+        deleteScript('{{ route('categories.destroy', ':id') }}');
         // Add Using Ajax
-        showAddModal('{{route('categories.create')}}');
+        showAddModal('{{ route('categories.create') }}');
         addScript();
-        // Add Using Ajax
-        showEditModal('{{route('categories.edit',':id')}}');
+        // Edit Using Ajax
+        showEditModal('{{ route('categories.edit', ':id') }}');
         editScript();
 
         // Handle deletion of selected rows
@@ -136,7 +138,7 @@
             });
 
             if (selectedIds.length > 0) {
-                if (confirm('{{ trns("are_you_sure_you_want_to_delete_selected") }}')) {
+                if (confirm('هل أنت متأكد من الحذف')) {
                     // Send an AJAX request to delete selected rows
                     $.ajax({
                         url: '{{ route('massDeleteCategories') }}', // Ensure you have a route for this
@@ -146,8 +148,8 @@
                             ids: selectedIds
                         },
                         success: function (response) {
-                            toastr.error('تم الحذف بنجاح');
-                            table.ajax.reload();
+                            toastr.success('تم الحذف  بنجاح');
+                            $('#dataTable').DataTable().ajax.reload();
                         },
                         error: function (xhr) {
                             toastr.error('حدث خطأ');
@@ -155,16 +157,24 @@
                     });
                 }
             } else {
-                alert('{{ trns("no_rows_selected") }}');
+                alert('يرجى تحديد عنصر واحد على الاقل');
             }
         });
 
         // Select all checkboxes
         function selectAllCheckboxes(selectAllCheckbox) {
-            var checkboxes = document.getElementsByClassName('row-checkbox');
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = selectAllCheckbox.checked;
-            }
+            $('.row-checkbox').prop('checked', selectAllCheckbox.checked);
         }
+
+        // Handle unchecking the "Select All" checkbox if any row checkbox is unchecked
+        $(document).on('click', '.row-checkbox', function () {
+            if (!$(this).prop('checked')) {
+                $('#select-all').prop('checked', false);
+            } else {
+                if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+                    $('#select-all').prop('checked', true);
+                }
+            }
+        });
     </script>
 @endsection

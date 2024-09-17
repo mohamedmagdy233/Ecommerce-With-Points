@@ -164,7 +164,7 @@
             });
 
             if (selected.length > 0) {
-                if (confirm('{{ trns('are_you_sure_you_want_to_delete_selected_items') }}')) {
+                if (confirm('هل أنت متأكد من الحذف')) {
                     $.ajax({
                         url: '{{ route('customers.deleteSelected') }}',
                         method: 'POST',

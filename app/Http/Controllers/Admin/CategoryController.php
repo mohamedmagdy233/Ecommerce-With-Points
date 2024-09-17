@@ -46,4 +46,11 @@ class CategoryController extends Controller
 
         return $this->service->delete($id);
     }
+
+    public function massDeleteCategories(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        return $this->service->deleteAll($ids);
+
+    }
 }
