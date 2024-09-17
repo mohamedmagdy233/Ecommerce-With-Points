@@ -49,7 +49,7 @@ Route::group(
 
             #============================ customers ====================================
             Route::resource('customers', CustomerController::class);
-            Route::any('massDeleteCategories', [CustomerController::class, 'massDeleteCategories'])->name('massDeleteCategories');
+            Route::any('customers/deleteSelected', [CustomerController::class, 'deleteSelected'])->name('customers.deleteSelected');
 
 
             #============================ customers ====================================

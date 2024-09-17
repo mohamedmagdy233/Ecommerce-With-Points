@@ -55,4 +55,11 @@ class CustomerController extends Controller
         return $this->objService->delete($id);
 
     }
+
+    public function deleteSelected(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        return $this->objService->deleteAll($ids);
+
+    }
 }

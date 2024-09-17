@@ -193,4 +193,5 @@ return array (
   'are_you_sure_you_want_to_delete_selected_items' => 'Are You Sure You Want To Delete Selected Items',
   'an_error_occurred' => 'An Error Occurred',
   'please_select_at_least_one_category_to_delete' => 'Please Select At Least One Category To Delete',
+  'please_select_at_least_one_item' => 'Please Select At Least One Item',
 );
