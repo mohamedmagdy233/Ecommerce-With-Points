@@ -186,7 +186,7 @@
                     });
                 }
             } else {
-                alert('{{ trns('please_select_at_least_one_item') }}');
+                alert('يرجى تحديد عنصر واحد على الاقل');
             }
         });
     </script>
