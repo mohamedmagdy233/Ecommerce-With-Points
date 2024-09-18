@@ -59,19 +59,24 @@ Route::group(
 
             #============================ products ====================================
             Route::resource('products', ProductController::class);
+            route::post('products/delete-selected', [ProductController::class, 'deleteSelected'])->name('massDeleteProducts');
 
 
             #============================ wastes ====================================
             Route::resource('wastes', WasteController::class);
+            route::post('wastes/delete-selected', [WasteController::class, 'deleteSelected'])->name('massDeleteWastes');
 
             #============================ wastes ====================================
             Route::resource('wastes_section', WasteSectionController::class);
+            route::post('wastes_section/delete-selected', [WasteSectionController::class, 'deleteSelected'])->name('massDeleteWastesSection');
 
             #============================ transfer points ====================================
             Route::resource('transfer_points', TransferPointsController::class);
+            route::post('transfer_points/delete-selected', [TransferPointsController::class, 'deleteSelected'])->name('massDeleteTransferPoints');
 
             #============================ transfer points ====================================
             Route::resource('orders', OrderController::class);
+            route::post('orders/delete-selected', [OrderController::class, 'deleteSelected'])->name('massDeleteOrders');
             Route::any('destroy/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
             Route::any('orders/show/order', [OrderController::class, 'showOrder'])->name('orders.showOrder');
             Route::any('orders/change/order/status/{id}', [OrderController::class, 'changeOrderStatus'])->name('changeOrderStatus');

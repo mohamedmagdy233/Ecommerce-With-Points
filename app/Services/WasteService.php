@@ -31,7 +31,8 @@ class WasteService extends BaseService
                             </a>
                        ';
 
-
+                    }
+                    else{
 
                     if (auth()->user()->can('delete_waste')) {
 
@@ -42,10 +43,9 @@ class WasteService extends BaseService
                         </button>';
 
                     }
-                    }
-                    else{
 
-                        $buttons .= 'تم التاكيد';
+
+//                        $buttons .= 'تم التاكيد';
                     }
 
 
@@ -53,6 +53,10 @@ class WasteService extends BaseService
                 })->editColumn('description', function ($wastes) {
 
                     return substr($wastes->description, 0, 50) . '...';
+
+                })->editColumn('waste_section_id', function ($wastes) {
+
+                    return $wastes->wasteSection->name;
 
                 })->editColumn('customer_id', function ($wastes) {
 

@@ -33,6 +33,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+
         return $this->service->store($request);
     }
 
@@ -51,6 +52,11 @@ class OrderController extends Controller
 
     public function destroy($id)
     {
+       $order = $this->service->getById($id);
+       $customer = $order->customer;
+        $customer->points= $customer->points - $order->lastPointOfOrder;
+        $customer->save();
+
         return $this->service->delete($id);
     }
 
@@ -69,6 +75,13 @@ class OrderController extends Controller
     public function updateStatus(Request $request)
     {
         return $this->service->updateStatus($request);
+
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        return $this->service->destroySelected($ids);
 
     }
 }

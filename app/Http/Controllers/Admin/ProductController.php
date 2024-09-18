@@ -46,5 +46,12 @@ class ProductController extends Controller
 
     }
 
+    public function deleteSelected(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        return $this->objService->deleteAll($ids);
+
+    }
+
 
 }

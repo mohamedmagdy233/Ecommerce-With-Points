@@ -60,14 +60,12 @@
                             </a>
                             <div class="my-account-dropdown p-4 shadow-lg bg-white rounded" style="min-width: 220px;">
                                 @if(Auth('web')->check())
-                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('logout') }}">
-                                        <i class="fas fa-sign-out-alt"></i> تسجيل خروج
-                                    </a>
+
                                     <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('editProfile') }}">
                                         <i class="fas fa-user-edit"></i> تعديل حسابي
                                     </a>
-                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('referral.customers') }}">
-                                        <i class="fas fa-users"></i> العملاء المرتبطين
+                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('my.orders') }}">
+                                        <i class="fas fa-box"></i> طلباتي
                                     </a>
                                     <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('transfer.points.customer') }}">
                                         <i class="fas fa-exchange-alt"></i> تحويل نقاط
@@ -75,11 +73,18 @@
                                     <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('my.points') }}">
                                         <i class="fas fa-coins"></i> نقاطي
                                     </a>
-                                    <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('my.orders') }}">
-                                        <i class="fas fa-box"></i> طلباتي
+
+                                    <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('referral.customers') }}">
+                                        <i class="fas fa-users"></i> العملاء المرتبطين
                                     </a>
+
+
+
                                     <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('transfer.wastes') }}">
                                         <i class="fas fa-recycle"></i> تحويل نفايات
+                                    </a>
+                                    <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('logout') }}">
+                                        <i class="fas fa-sign-out-alt"></i> تسجيل خروج
                                     </a>
                                 @else
                                     <div class="login-btn mb-3">

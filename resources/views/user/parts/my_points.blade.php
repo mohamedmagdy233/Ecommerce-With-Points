@@ -11,17 +11,22 @@
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs" id="pointsTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="points-from-waste-tab" data-bs-toggle="tab" href="#points-from-waste" role="tab" aria-controls="points-from-waste" aria-selected="true">نقاطي من النفايات</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="points-from-transfers-tab" data-bs-toggle="tab" href="#points-from-transfers" role="tab" aria-controls="points-from-transfers" aria-selected="false">نقاطي من التحويلات</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="points-from-orders-tab" data-bs-toggle="tab" href="#points-from-orders" role="tab" aria-controls="points-from-orders" aria-selected="false">نقاطي من الطلبات</a>
+                    <a class="nav-link active" id="points-from-orders-tab" data-bs-toggle="tab" href="#points-from-orders" role="tab" aria-controls="points-from-orders" aria-selected="false">نقاطي من الطلبات</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="points-from-sub-customers-tab" data-bs-toggle="tab" href="#points-from-sub-customers" role="tab" aria-controls="points-from-sub-customers" aria-selected="false">نقاطي من طلبات العملاء المرتبطين</a>
                 </li>
+
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="points-from-transfers-tab" data-bs-toggle="tab" href="#points-from-transfers" role="tab" aria-controls="points-from-transfers" aria-selected="false">نقاطي من التحويلات</a>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link " id="points-from-waste-tab" data-bs-toggle="tab" href="#points-from-waste" role="tab" aria-controls="points-from-waste" aria-selected="true">نقاطي من النفايات</a>
+                </li>
+
+
+
             </ul>
 
 
@@ -29,7 +34,7 @@
             <!-- Tab Content -->
             <div class="tab-content" id="pointsTabContent">
                 <!-- Points from Waste -->
-                <div class="tab-pane fade show active" id="points-from-waste" role="tabpanel" aria-labelledby="points-from-waste-tab">
+                <div class="tab-pane fade  " id="points-from-waste" role="tabpanel" aria-labelledby="points-from-waste-tab">
                     <div class="product-table-heading">
                         <h4 class="title">نقاطي من النفايات </h4>
                     </div>
@@ -103,7 +108,7 @@
                 </div>
 
                 <!-- Points from Orders -->
-                <div class="tab-pane fade" id="points-from-orders" role="tabpanel" aria-labelledby="points-from-orders-tab">
+                <div class="tab-pane fade show active" id="points-from-orders" role="tabpanel" aria-labelledby="points-from-orders-tab">
                     <div class="product-table-heading">
                         <h4 class="title">نقاطي من الطلبات </h4>
                     </div>

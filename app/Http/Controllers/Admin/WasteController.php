@@ -50,6 +50,23 @@ class WasteController extends Controller
 
     public function destroy($id)
     {
+        $waste = $this->objService->getById($id);
+        $customer = $waste->customer;
+        $customer->points = $customer->points - $waste->points_transferred;
+        $customer->save();
         return $this->objService->delete($id);
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        foreach ($ids as $id) {
+            $waste = $this->objService->getById($id);
+            $customer = $waste->customer;
+            $customer->points = $customer->points - $waste->points_transferred;
+            $customer->save();
+        }
+        return $this->objService->deleteAll($ids);
+
     }
 }

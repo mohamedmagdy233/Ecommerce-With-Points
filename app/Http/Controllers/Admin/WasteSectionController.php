@@ -36,4 +36,12 @@ class WasteSectionController extends Controller
     public function destroy($id){
         return $this->service->delete($id);
     }
+
+    public function deleteSelected(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        return $this->service->deleteAll($ids);
+
+    }
+
 }

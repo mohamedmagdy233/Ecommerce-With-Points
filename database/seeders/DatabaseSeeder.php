@@ -27,14 +27,14 @@ class DatabaseSeeder extends Seeder
 
 //        Admin::factory(10)->create();
 //        Customer::factory(20)->create();
-
+//
 //        WasteSection::factory(2)->create();
 //        Category::factory(5)->create();
-
+//
 //        Product::factory(30)->create();
-
+//
 //        Fav::factory(5)->create();
-
+//
 //        Waste::factory(5)->create();
 
 

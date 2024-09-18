@@ -368,8 +368,7 @@ class OrderService extends BaseService
         return redirect()->route($this->route . '.index');
     }
 
-    public
-    function destroy($id)
+    public function destroy($id)
     {
         $order = $this->getById($id);
         $productOrders = OrderProduct::where('order_id', $order->id)->get();
@@ -379,6 +378,28 @@ class OrderService extends BaseService
         }
         $order->delete();
         return redirect()->route($this->route . '.index');
+
+    }
+
+    public function destroySelected($ids)
+    {
+
+        foreach ($ids as $id) {
+            $order = $this->getById($id);
+            $productOrders = OrderProduct::where('order_id', $order->id)->get();
+            $order = $this->getById($id);
+            $customer = $order->customer;
+            $customer->points= $customer->points - $order->lastPointOfOrder;
+            $customer->save();
+
+            foreach ($productOrders as $productOrder) {
+                $productOrder->delete();
+            }
+            $order->delete();
+
+        }
+        return redirect()->route($this->route . '.index');
+
 
     }
 

@@ -34,4 +34,11 @@ class TransferPointsController extends Controller
 //
 //        return $this->objService->edit($id);
 //    }
+
+    public function deleteSelected(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        return $this->objService->deleteAll($ids);
+
+    }
 }
