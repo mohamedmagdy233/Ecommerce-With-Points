@@ -44,9 +44,16 @@
                 </h3>
                 <div class="row justify-content-center">
                     <div class="col-auto">
+                        @if(count($carts) == 0)
+                            <a href="{{ route('main.index') }}" class="btn btn-bg-secondary">
+                                العودة للصفحة الرئيسية
+                            </a>
+                        @else
                         <a href="{{route('showCheckout')}}" class="btn btn-bg-secondary">
                             اطلب المنتجات الان
                         </a>
+                        @endif
+
                     </div>
                 </div>
             </div>
