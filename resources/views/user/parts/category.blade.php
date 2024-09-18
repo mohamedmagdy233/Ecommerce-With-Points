@@ -8,7 +8,7 @@
 
             <div class="categrie-product-activation-3 slick-layout-wrapper--15 axil-slick-arrow  arrow-top-slide">
 
-                @foreach($categories as $category)
+                @forelse($categories as $category)
 
                     <div class="slick-single-layout slick-slide">
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100" data-sal-duration="500">
@@ -20,8 +20,10 @@
                     </div>
 
 
-                @endforeach
+                    @empty
 
+                        <p class="text-center  font-weight-bold has-medium-font-size" > لا يوجد منتجات</p>
+                    @endforelse
 
             </div>
         </div>

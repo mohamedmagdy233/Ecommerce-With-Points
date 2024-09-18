@@ -5,7 +5,7 @@
                 <h2 class="title">الاكثر مبيعا</h2>
             </div>
             <div class="new-arrivals-product-activation-2 slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide product-slide-mobile">
-                @foreach($bestSellers as $bestSeller)
+                @forelse($bestSellers as $bestSeller)
                     <div class="slick-single-layout">
                         <div class="axil-product product-style-six">
                             <div class="thumbnail">
@@ -33,7 +33,10 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+
+                    <p class="text-center  font-weight-bold has-medium-font-size" > لا يوجد منتجات</p>
+                @endforelse
             </div>
         </div>
     </div>

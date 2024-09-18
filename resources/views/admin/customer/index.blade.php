@@ -173,15 +173,11 @@
                             ids: selected
                         },
                         success: function (response) {
-                            if(response.success) {
-                                toastr.success(response.message); // Display success message
-                            } else {
-                                toastr.error(response.message); // Display error message if any
-                            }
-                            $('#dataTable').DataTable().ajax.reload(); // Reload the DataTable
+                            toastr.success('تم الحذف بنجاح');
+                            $('#dataTable').DataTable().ajax.reload();
                         },
                         error: function (xhr) {
-                            toastr.error('{{ trns('error_occurred') }}'); // Generic error message
+                            toastr.error('حدث خطأ');
                         }
                     });
                 }

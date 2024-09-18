@@ -225,7 +225,7 @@
                     </div>
                     <div class="row row--15 isotope-list">
 
-                        @foreach($relatedProducts as $relatedProduct)
+                        @forelse($relatedProducts as $relatedProduct)
 
                             <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30 product music">
                                 <div class="axil-product product-style-one">
@@ -267,7 +267,10 @@
                                 </div>
                             </div>
 
-                        @endforeach
+                            @empty
+
+                                <p class="text-center  font-weight-bold has-medium-font-size" > لا يوجد منتجات</p>
+                            @endforelse
                     </div>
                 </div>
             </div>
