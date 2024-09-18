@@ -57,9 +57,9 @@
 {{--                    </a>--}}
 {{--                </div>--}}
                 <!-- FULL-SCREEN -->
-                <div class="dropdown profile-1">
+{{--                <div class="dropdown profile-1">--}}
 {{--                    <a href="#" data-bs-toggle="dropdown" class="nav-link pl-2 pr-2  leading-none d-flex">--}}
-{{--                        <div class="text-center mt-3 d-none d-xl-block">--}}حاح
+{{--                        <div class="text-center mt-3 d-none d-xl-block">--}}{{--حاح--}}
 {{--                            <i class=" mdi mdi-translate mb-0" style="font-size: 20px;color: #5371ad !important;"></i>--}}
 {{--                        </div>--}}
 {{--                    </a>--}}
@@ -74,7 +74,7 @@
 {{--                            <i class="dropdown-icon mdi  mdi-earth"></i> {{ trns('English') }}--}}
 {{--                        </a>--}}
 {{--                    </div>--}}
-                </div>
+{{--                </div>--}}
 
                 <div class="dropdown profile-1">
                     @php
