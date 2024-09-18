@@ -24,7 +24,7 @@
                                     <div class="product-content">
                                         <div class="inner">
                                             <h5 class="title">
-                                                <a href="{{ route('product.details', $product->id) }}">#00{{ $product->id }}</a>
+                                                <a href="{{ route('product.details', $product->id) }}">{{ $product->name }}</a>
                                             </h5>
                                             <div class="product-price-variant">
                                                 <span class="price current-price">{{ $product->price }}</span>

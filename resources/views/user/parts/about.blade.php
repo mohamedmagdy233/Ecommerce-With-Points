@@ -75,44 +75,44 @@
             <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="{{asset('user/assets/images/icons/service1.png')}}" alt="Service">
+                        <img src="{{asset('user/assets/images/icons/service1.png')}}" alt="الخدمة">
                     </div>
                     <div class="content">
-                        <h6 class="title">Fast &amp; Secure Delivery</h6>
-                        <p>Tell about your service.</p>
+                        <h6 class="title">توصيل سريع وآمن</h6>
+                        <p>أخبر عن خدمتك.</p>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="{{asset('user/assets/images/icons/service2.png')}}" alt="Service">
+                        <img src="{{asset('user/assets/images/icons/service2.png')}}" alt="الخدمة">
                     </div>
                     <div class="content">
-                        <h6 class="title">Money Back Guarantee</h6>
-                        <p>Within 10 days.</p>
+                        <h6 class="title">ضمان استعادة الأموال</h6>
+                        <p>خلال 10 أيام.</p>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="{{asset('user/assets/images/icons/service3.png')}}" alt="Service">
+                        <img src="{{asset('user/assets/images/icons/service3.png')}}" alt="الخدمة">
                     </div>
                     <div class="content">
-                        <h6 class="title">24 Hour Return Policy</h6>
-                        <p>No question ask.</p>
+                        <h6 class="title">سياسة إرجاع خلال 24 ساعة</h6>
+                        <p>دون طرح أسئلة.</p>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="{{asset('user/assets/images/icons/service4.png')}}" alt="Service">
+                        <img src="{{asset('user/assets/images/icons/service4.png')}}" alt="الخدمة">
                     </div>
                     <div class="content">
-                        <h6 class="title">Pro Quality Support</h6>
-                        <p>24/7 Live support.</p>
+                        <h6 class="title">دعم بجودة احترافية</h6>
+                        <p>دعم مباشر 24/7.</p>
                     </div>
                 </div>
             </div>

@@ -70,18 +70,18 @@
             <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="{{asset('user/assets/images/icons/service1.png')}}" alt="Service">
+                        <img src="{{asset('user/assets/images/icons/service1.png')}}" alt="الخدمة">
                     </div>
                     <div class="content">
-                        <h6 class="title"> توصيل امان</h6>
-                        <p>لمده 24 ساعة.</p>
+                        <h6 class="title">توصيل سريع وآمن</h6>
+                        <p>أخبر عن خدمتك.</p>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="{{asset('user/assets/images/icons/service2.png')}}" alt="Service">
+                        <img src="{{asset('user/assets/images/icons/service2.png')}}" alt="الخدمة">
                     </div>
                     <div class="content">
                         <h6 class="title">ضمان استعادة الأموال</h6>
@@ -92,22 +92,22 @@
             <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="{{asset('user/assets/images/icons/service3.png')}}" alt="Service">
+                        <img src="{{asset('user/assets/images/icons/service3.png')}}" alt="الخدمة">
                     </div>
                     <div class="content">
-                        <h6 class="title">سياسة الإرجاع خلال 24 ساعة</h6>
-                        <p> من خلال 24 ساعة</p>
+                        <h6 class="title">سياسة إرجاع خلال 24 ساعة</h6>
+                        <p>دون طرح أسئلة.</p>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="service-box service-style-2">
                     <div class="icon">
-                        <img src="{{asset('user/assets/images/icons/service4.png')}}" alt="Service">
+                        <img src="{{asset('user/assets/images/icons/service4.png')}}" alt="الخدمة">
                     </div>
                     <div class="content">
-                        <h6 class="title">دعم الجودة الاحترافية</h6>
-                        <p>دعم مباشر على مدار 24/7.</p>
+                        <h6 class="title">دعم بجودة احترافية</h6>
+                        <p>دعم مباشر 24/7.</p>
                     </div>
                 </div>
             </div>
