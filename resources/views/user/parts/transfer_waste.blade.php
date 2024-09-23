@@ -24,7 +24,7 @@
 <div class="axil-wishlist-area axil-section-gap">
     <div class="container">
         <div class="product-table-heading">
-            <h4 class="title"> النفايات</h4>
+            <h4 class="title"> طلب تحويل نفايات</h4>
         </div>
         <form class="account-details-form" method="post" action="{{route('storeTransferWastes')}}">
             @csrf

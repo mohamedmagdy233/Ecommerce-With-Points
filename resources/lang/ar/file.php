@@ -39,7 +39,7 @@
   'elements' => 'عناصر',
   'error' => 'خطأ',
   'updated_successfully' => 'تم التحديث بنجاح',
-  'add' => 'يضيف',
+  'add' => 'إضافة',
   'object_details' => 'التفاصيل ',
   'delete' => 'يمسح',
   'are_you_sure_you_want_to_delete_this_obj' => 'هل أنت متأكد أنك تريد حذف هذا Obj',

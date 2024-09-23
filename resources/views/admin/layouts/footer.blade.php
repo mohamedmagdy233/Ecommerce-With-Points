@@ -5,7 +5,7 @@
                 <span style="font-family: 'Britannic Bold'">{{ trns('powered_by_') }}</span>
                 <a href="https://github.com/mohamedmagdy233/" target="_blank">
                     <img style="max-width:5%"
-                         src="{{asset('storm.webp')}}">
+                         src="{{asset('storm.png')}}">
                 </a>
             </div>
         </div>

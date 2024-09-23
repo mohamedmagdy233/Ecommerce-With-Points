@@ -41,4 +41,22 @@ class TransferPointsController extends Controller
         return $this->objService->deleteAll($ids);
 
     }
+
+    public function destroy($id)
+    {
+         $operation=TransferPoints::find($id);
+         if($operation){
+             $from_customer=$operation->fromCustomer;
+             $to_customer=$operation->toCustomer;
+
+             $from_customer->points=$from_customer->points+$operation->points;
+             $to_customer->points=$to_customer->points-$operation->points;
+             $from_customer->save();
+             $to_customer->save();
+
+         }
+
+
+         return $this->objService->delete($id);
+    }
 }

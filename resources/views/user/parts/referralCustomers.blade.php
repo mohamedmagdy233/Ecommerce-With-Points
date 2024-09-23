@@ -49,7 +49,7 @@
                     <th scope="col" class="text-center">اسم العميل</th>
                     <th scope="col" class="text-center">رقم الهاتف </th>
                     <th scope="col" class="text-center">الرابط الخاص بيه </th>
-                    <th scope="col" class="text-center">العنوان</th>
+{{--                    <th scope="col" class="text-center">العنوان</th>--}}
                 </tr>
                 </thead>
                 <tbody>
@@ -63,7 +63,7 @@
                                 نسخ الرابط
                             </button>
                         </td>
-                        <td class="text-center">{{$relatedCustomer->address}}</td>
+{{--                        <td class="text-center">{{$relatedCustomer->address}}</td>--}}
                     </tr>
                 @endforeach
 

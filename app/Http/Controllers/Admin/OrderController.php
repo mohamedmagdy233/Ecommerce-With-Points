@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 use App\Services\OrderService as ObjService;
@@ -55,6 +56,12 @@ class OrderController extends Controller
        $order = $this->service->getById($id);
        $customer = $order->customer;
         $customer->points= $customer->points - $order->lastPointOfOrder;
+        if ($order->customer->customer_id !== null) {
+
+            $parantCustomer = Customer::where('id', $order->customer->customer_id)->first();
+            $parantCustomer->points = $parantCustomer->points - $order->lastPointOfOrder;
+            $parantCustomer->save();
+        }
         $customer->save();
 
         return $this->service->delete($id);

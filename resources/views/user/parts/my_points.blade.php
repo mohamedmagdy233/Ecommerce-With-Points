@@ -11,32 +11,34 @@
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs" id="pointsTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="points-from-orders-tab" data-bs-toggle="tab" href="#points-from-orders" role="tab" aria-controls="points-from-orders" aria-selected="false">نقاطي من الطلبات</a>
+                    <a class="nav-link active" id="points-from-orders-tab" data-bs-toggle="tab" href="#points-from-orders" role="tab" aria-controls="points-from-orders" aria-selected="false">
+                        <i class="fas fa-shopping-cart"></i> نقاطي من الطلبات
+                    </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="points-from-sub-customers-tab" data-bs-toggle="tab" href="#points-from-sub-customers" role="tab" aria-controls="points-from-sub-customers" aria-selected="false">نقاطي من طلبات العملاء المرتبطين</a>
+                    <a class="nav-link" id="points-from-sub-customers-tab" data-bs-toggle="tab" href="#points-from-sub-customers" role="tab" aria-controls="points-from-sub-customers" aria-selected="false">
+                        <i class="fas fa-users"></i> نقاطي من طلبات العملاء المرتبطي</a>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="points-from-transfers-tab" data-bs-toggle="tab" href="#points-from-transfers" role="tab" aria-controls="points-from-transfers" aria-selected="false">نقاطي من التحويلات</a>
+                    <a class="nav-link" id="points-from-transfers-tab" data-bs-toggle="tab" href="#points-from-transfers" role="tab" aria-controls="points-from-transfers" aria-selected="false">
+                        <i class="fas fa-exchange-alt"></i> نقاطي من التحويلات
+                    </a>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="points-from-waste-tab" data-bs-toggle="tab" href="#points-from-waste" role="tab" aria-controls="points-from-waste" aria-selected="true">نقاطي من النفايات</a>
+                    <a class="nav-link " id="points-from-waste-tab" data-bs-toggle="tab" href="#points-from-waste" role="tab" aria-controls="points-from-waste" aria-selected="true">
+                        <i class="fas fa-recycle"></i> نقاطي من النفايات
+                    </a>
                 </li>
-
-
-
             </ul>
 
-
-{{--            tesr--}}
             <!-- Tab Content -->
             <div class="tab-content" id="pointsTabContent">
                 <!-- Points from Waste -->
-                <div class="tab-pane fade  " id="points-from-waste" role="tabpanel" aria-labelledby="points-from-waste-tab">
+                <div class="tab-pane fade" id="points-from-waste" role="tabpanel" aria-labelledby="points-from-waste-tab">
                     <div class="product-table-heading">
-                        <h4 class="title">نقاطي من النفايات </h4>
+                        <h4 class="title">نقاطي من النفايات</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -51,14 +53,14 @@
                             @forelse($pointsFromWaste as $pointFromWaste)
                                 <tr id="product-row-{{ $pointFromWaste->id }}">
                                     <td class="text-center">{{ $pointFromWaste->points_transferred }}</td>
-                                    <td class="text-center">   بسبب تحول عدد {{ $pointFromWaste->quantity }} من النفايات</td>
+                                    <td class="text-center">بسبب تحول عدد {{ $pointFromWaste->quantity }} من النفايات</td>
                                 </tr>
                                 @php $totalPointsFromWaste += $pointFromWaste->points_transferred; @endphp
-                                @empty
-                                    <tr>
-                                        <td class="text-center" colspan="3">لا يوجد نقاط</td>
-                                    </tr>
-                                @endforelse
+                            @empty
+                                <tr>
+                                    <td class="text-center" colspan="3">لا يوجد نقاط</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                             <tfoot>
                             <tr>
@@ -73,7 +75,7 @@
                 <!-- Points from Transfers -->
                 <div class="tab-pane fade" id="points-from-transfers" role="tabpanel" aria-labelledby="points-from-transfers-tab">
                     <div class="product-table-heading">
-                        <h4 class="title">نقاطي من التحويلات </h4>
+                        <h4 class="title">نقاطي من التحويلات</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -88,7 +90,7 @@
                             @forelse($pointsFromTransferPoints as $pointFromTransferPoints)
                                 <tr id="product-row-{{ $pointFromTransferPoints->id }}">
                                     <td class="text-center">{{ $pointFromTransferPoints->points }}</td>
-                                    <td class="text-center">قام "{{ $pointFromTransferPoints->fromCustomer->name }}"  بتحويل النقاط لك </td>
+                                    <td class="text-center">قام "{{ $pointFromTransferPoints->fromCustomer->name }}" بتحويل النقاط لك</td>
                                 </tr>
                                 @php $totalPointsFromTransfer += $pointFromTransferPoints->points; @endphp
                             @empty
@@ -110,7 +112,7 @@
                 <!-- Points from Orders -->
                 <div class="tab-pane fade show active" id="points-from-orders" role="tabpanel" aria-labelledby="points-from-orders-tab">
                     <div class="product-table-heading">
-                        <h4 class="title">نقاطي من الطلبات </h4>
+                        <h4 class="title">نقاطي من الطلبات</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -126,7 +128,7 @@
                                 @foreach($myOrder->products as $product)
                                     <tr>
                                         <td class="text-center">{{  $product->award_points }}</td>
-                                        <td class="text-center">تم اضافه النقاط لحسابك بسبب شراء منتج :  {{ $product->name }}</td>
+                                        <td class="text-center">تم اضافه النقاط لحسابك بسبب شراء منتج : {{ $product->name }}</td>
                                     </tr>
                                     @php $totalPointsFromOrders += $product->award_points; @endphp
                                 @endforeach
@@ -149,7 +151,7 @@
                 <!-- Points from Sub-Customer Orders -->
                 <div class="tab-pane fade" id="points-from-sub-customers" role="tabpanel" aria-labelledby="points-from-sub-customers-tab">
                     <div class="product-table-heading">
-                        <h4 class="title">نقاطي من طلبات  العملاء المرتبطين </h4>
+                        <h4 class="title">نقاطي من طلبات العملاء المرتبطين</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -165,7 +167,7 @@
                                 @foreach($myOrder->products as $product)
                                     <tr>
                                         <td class="text-center">{{  $product->award_points }}</td>
-                                        <td class="text-center"> قام "{{ $myOrder->customer->name }}" بشراء منتج :  {{ $product->name }} </td>
+                                        <td class="text-center">قام "{{ $myOrder->customer->name }}" بشراء منتج : {{ $product->name }}</td>
                                     </tr>
                                     @php $totalPointsFromSubCustomers += $product->award_points; @endphp
                                 @endforeach
@@ -184,6 +186,18 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Total Sum of All Points Section -->
+                <div class="sum-all-points-section">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">مجموع النقاط الكلي</th>
+                            <th class="text-center" id="sumAllPoints">0</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -196,5 +210,21 @@
 @include('user.parts.footer')
 @include('user.layouts.js')
 @include('user.parts.cart')
+
+<script>
+    $(document).ready(function() {
+        // Calculate total points from each section
+        var totalPointsFromWaste = {{ $totalPointsFromWaste }};
+        var totalPointsFromTransfer = {{ $totalPointsFromTransfer }};
+        var totalPointsFromOrders = {{ $totalPointsFromOrders }};
+        var totalPointsFromSubCustomers = {{ $totalPointsFromSubCustomers }};
+
+        // Sum all points
+        var totalAllPoints = totalPointsFromWaste + totalPointsFromTransfer + totalPointsFromOrders + totalPointsFromSubCustomers;
+
+        // Display total points in the summary section
+        $('#sumAllPoints').text(totalAllPoints);
+    });
+</script>
 
 </html>

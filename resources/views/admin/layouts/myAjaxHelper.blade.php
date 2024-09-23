@@ -17,13 +17,15 @@
                 serverSide: true,
                 ajax: routeOfShow,
                 columns: columns,
+                emptyTable: "",
                 order: [
                     [0, "DESC"]
                 ],
                 "language": {
                     "sProcessing": "{{ trns('processing...') }}",
                     "sLengthMenu": "{{ trns('show') }} _MENU_ {{ trns('records') }}",
-                    "sZeroRecords": "{{ trns('no_records_found') }}",
+                    "sZeroRecords": "",
+                    "sEmptyTable": "",
                     "sInfo": "{{ trns('showing') }} _START_ {{ trns('to') }} _END_ {{ trns('of') }} _TOTAL_ {{ trns('records') }}",
                     "sInfoEmpty": "{{ trns('showing') }} 0 {{ trns('to') }} 0 {{ trns('of') }} 0 {{ trns('records') }}",
                     "sInfoFiltered": "({{ trns('filtered_from') }} _MAX_ {{ trns('total_records') }})",

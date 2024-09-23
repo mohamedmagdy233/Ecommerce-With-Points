@@ -45,7 +45,7 @@ class TransferPointsService extends BaseService
 
                 })->editColumn('admin_id', function ($transfer) {
 
-                    return $transfer->admin->user_name;
+                    return $transfer->admin->user_name ?? $transfer->fromCustomer->name;
                 })->addColumn('points_of_from', function ($transfer) {
 
                     return $transfer->fromCustomer->points;

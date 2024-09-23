@@ -25,12 +25,21 @@
                                 <div class="item-price">
                                     <span class="currency-symbol"></span>{{ $product->price }}
                                 </div>
-                                <div class="pro-qty item-quantity">
+
+                                <div class="item-quantity">
                                     <label for="quantity-{{ $product->id }}"></label>
-{{--                                    <button type="button" class="qty-btn minus-btn" data-id="{{ $product->id }}">-</button>--}}
-                                    <input type="number" disabled name="quantity" value="{{ $cart->quantity }}" min="1"  class="quantity-input">
-{{--                                    <button type="button" class="qty-btn plus-btn" data-id="{{ $product->id }}">+</button>--}}
+
+                                    <!-- Minus button -->
+                                    <button type="button" class="qty-btn minus-btn" data-id="{{ $product->id }}">-</button>
+
+                                    <!-- Quantity input -->
+                                    <input type="number" id="quantity-{{ $product->id }}" name="quantity" value="1" min="1" class="quantity-input">
+
+                                    <!-- Plus button -->
+                                    <button type="button" class="qty-btn plus-btn" data-id="{{ $product->id }}">+</button>
                                 </div>
+
+
 
                             </div>
                         </li>
@@ -70,6 +79,7 @@
         border: 1px solid #ddd;
         border-radius: 5px;
     }
+
 
     .cart-subtotal {
         margin-bottom: 10px;
@@ -146,4 +156,53 @@
 {{--    });--}}
 {{--</script>--}}
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).on('click', '.minus-btn', function() {
+        let input = $(this).next('.quantity-input');
+        let value = parseInt(input.val());
+        let productId = $(this).data('id');
+
+        if (value > parseInt(input.attr('min'))) {
+            value--;
+            input.val(value);
+            updateQuantity(productId, value); // Call AJAX function to update quantity
+        }
+    });
+
+    $(document).on('click', '.plus-btn', function() {
+        let input = $(this).prev('.quantity-input');
+        let value = parseInt(input.val());
+        let productId = $(this).data('id');
+
+        value++;
+        input.val(value);
+        updateQuantity(productId, value); // Call AJAX function to update quantity
+    });
+
+    function updateQuantity(productId, quantity) {
+        $.ajax({
+            url: '{{ route("updateQuantityOfCart") }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                product_id: productId,
+                quantity: quantity
+            },
+            success: function(response) {
+                if (response.status === 200) {
+                    toastr.success('تم التحديث بنجاح', 'Success');
+                    // Optionally update the cart total, assuming it's part of the response
+                    $('.subtotal-amount').text(response.total);
+                } else {
+                    toastr.warning('حدث خطأ', 'Warning');
+                }
+            },
+            error: function(xhr) {
+                toastr.error('حدث خطأ', 'Error');
+            }
+        });
+    }
+</script>
 
