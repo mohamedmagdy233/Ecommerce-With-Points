@@ -9,6 +9,7 @@
         "ext-fileinfo": "*",
         "a6digital/laravel-default-profile-image": "^2.0",
         "alisalehi/laravel-lang-files-translator": "^1.0",
+        "bacon/bacon-qr-code": "^3.0",
         "buglinjo/laravel-webp": "^2.3",
         "convertio/convertio-php": "^0.4.0",
         "fruitcake/laravel-cors": "^2.0",

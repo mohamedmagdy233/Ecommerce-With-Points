@@ -167,7 +167,7 @@
                                 @foreach($myOrder->products as $product)
                                     <tr>
                                         <td class="text-center">{{  $product->award_points }}</td>
-                                        <td class="text-center">قام "{{ $myOrder->customer->name }}" بشراء منتج : {{ $product->name }}</td>
+                                        <td class="text-center">قام "{{ $myOrder->customer->name }}" بشراء منتج  </td>
                                     </tr>
                                     @php $totalPointsFromSubCustomers += $product->award_points; @endphp
                                 @endforeach

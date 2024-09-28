@@ -16,7 +16,7 @@
                             <button class="btn btn-secondary btn-icon text-white addBtn mr-2">
                         <span>
                             <i class="fe fe-plus"></i>
-                        </span> إضافة نفاية جديدة
+                        </span> إضافة
                             </button>
                             <span class="d-inline-block mr-2">  </span>
 
@@ -41,7 +41,7 @@
                                 <th class="min-w-50px">قسم النفايات</th>
                                 <th class="min-w-50px">النقاط المحولة</th>
                                 <th class="min-w-125px">العميل</th>
-                                <th class="min-w-50px">أضيف بواسطة</th>
+                                <th class="min-w-50px">من  مسؤول عن الاستلام</th>
                                 <th class="min-w-50px rounded-end">الإجراءات</th>
                             </tr>
                             </thead>

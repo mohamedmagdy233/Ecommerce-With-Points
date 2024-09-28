@@ -41,7 +41,7 @@
                             <td class="product-title"><a
                                     href="{{route('product.details',$product->id)}}">{{ $product->name }}</a></td>
                             <td class="product-price" data-title="Price"><span
-                                    class="currency-symbol">$</span>{{ $product->price }}</td>
+                                    class="currency-symbol">$</span>{{ $product->price }}{{$setting->currency}}</td>
                             <td class="product-stock-status" data-title="Status">{{$product->category->name}}</td>
                             <td class="product-add-cart"><a href="{{route('addOneProductToCart',$product->id)}}"
                                                             class="axil-btn btn-outline">اضف للسلة</a></td>

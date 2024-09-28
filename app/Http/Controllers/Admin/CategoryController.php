@@ -28,7 +28,7 @@ class CategoryController extends Controller
         return $this->service->create();
     }
 
-    public function store(CategoryRequest $request){
+    public function store(Request $request){
         return $this->service->store($request->all());
     }
 
@@ -38,7 +38,7 @@ class CategoryController extends Controller
     }
 
 
-    public function update(CategoryRequest $request, $id){
+    public function update(Request $request, $id){
         return $this->service->update($request->all(), $id);
     }
 

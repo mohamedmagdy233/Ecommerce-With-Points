@@ -8,6 +8,48 @@
     .my-account:hover .my-account-dropdown {
         display: block;
     }
+    /* Initially set the background color */
+    .axil-mainmenu {
+        background-color: rgb(255, 172, 196);
+        transition: background-color 0.3s ease, top 0.3s ease;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 9999;
+    }
+
+    /* When scrolling down, hide the navbar */
+    .navbar-hidden {
+        top: -100px; /* Adjust this value to move the navbar off the screen */
+    }
+
+    /* When scrolling up or at the top, show the navbar */
+    .navbar-visible {
+        top: 0;
+        background-color: rgb(255, 172, 196); /* Keep your original color or adjust */
+    }
+
+    <script>
+     let lastScrollTop = 0;
+    const navbar = document.querySelector('.axil-mainmenu');
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+    // Scroll down - hide the navbar
+    navbar.classList.add('navbar-hidden');
+    navbar.classList.remove('navbar-visible');
+    } else {
+      // Scroll up - show the navbar
+      navbar.classList.add('navbar-visible');
+          navbar.classList.remove('navbar-hidden');
+      }
+        lastScrollTop = scrollTop;
+    });
+    </script>
+
+
 
 </style>
 <header class="header axil-header header-style-5">
@@ -83,6 +125,10 @@
                                     <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('transfer.wastes') }}">
                                         <i class="fas fa-recycle"></i> تحويل نفايات
                                     </a>
+                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('myQrCode') }}">
+                                        <i class="fas fa-recycle"></i>الماسح الضوئي
+                                    </a>
+
                                     <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('logout') }}">
                                         <i class="fas fa-sign-out-alt"></i> تسجيل خروج
                                     </a>

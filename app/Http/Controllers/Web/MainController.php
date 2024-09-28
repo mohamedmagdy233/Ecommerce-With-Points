@@ -190,6 +190,13 @@ class MainController extends Controller
 
     }
 
+    public function myQrCode()
+    {
+
+        return $this->objService->myQrCode();
+
+    }
+
     public function myPoints()
     {
 

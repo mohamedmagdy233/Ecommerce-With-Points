@@ -89,7 +89,7 @@
                                                 href="{{route('product.details', $product->id)}}">{{$product->name}}</a>
                                     </h5>
                                     <div class="product-price-variant">
-                                        <span class="price current-price">{{$product->price}}</span>
+                                        <span class="price current-price">{{$product->price}}{{$setting->currency}}</span>
                                     </div>
                                 </div>
                             </div>

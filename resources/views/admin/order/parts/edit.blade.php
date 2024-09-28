@@ -10,6 +10,33 @@
 
     }
 </style>
+<style>
+    .side-app {
+        padding-top: 0 !important;
+        background-color: #ffffff;
+    }
+
+    /* Add margin to form control elements */
+    .form-control {
+        margin-bottom: 10px; /* Adjust the bottom margin */
+    }
+
+    /* Add margin to specific columns for better spacing */
+    .col-3, .col-2, .col-6 {
+        margin-bottom: 10px; /* Adjust margin for better separation between fields */
+    }
+
+    /* Add margin to buttons */
+    .add-product-button, .remove-product-button {
+        margin-top: 10px; /* Adds top margin to align buttons better */
+    }
+
+    /* Adjust footer button spacing */
+    .modal-footer {
+        margin-top: 10px; /* Adds space above the footer buttons */
+    }
+</style>
+
 {{--test--}}
 
 @section('page_name')

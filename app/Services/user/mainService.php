@@ -433,7 +433,15 @@ class mainService extends BaseService
             $item->delete();
         }
 
-        return redirect('/')->with('success', 'تم تأكيد طلبك بنجاح.');
+        $order->load('customer', 'products');
+
+
+
+
+        return view('user.parts.invoice', ['order' => $order]);
+
+
+//        return redirect('/')->with('success', 'تم تأكيد طلبك بنجاح.');
     }
 
     public function myOrders()
@@ -711,6 +719,32 @@ class mainService extends BaseService
 
     }
 
+    public function myQrCode()
+    {
+        $auth = auth()->user();
+        if (auth('web')->check()) {
+            $carts = Cart::with('product')->where('customer_id', auth('web')->user()->id)->get();
+            $total =   $carts->sum(function ($item) {
+                $item->total = $item->product->price * $item->quantity;
+
+                return  $item->total;
+            });
+        }else
+        {
+            $carts = [];
+            $total = 0;
+
+        }
+
+        return view($this->folder . '/parts/myQrCode',[
+            'carts' => $carts,
+            'total' => $total,
+            'auth'=>$auth
+        ]);
+
+
+    }
+
     public function getWishlist()
     {
 
@@ -748,6 +782,7 @@ class mainService extends BaseService
         $pointsFromWaste=Waste::where('customer_id',auth('web')->user()->id)->get();
         $myOrders=Order::where('customer_id',auth('web')->user()->id)
             ->with('products')
+            ->orderBy('created_at', 'desc')
             ->get();
 
        $customers = Customer::where('customer_id','=',auth('web')->user()->id)->get();

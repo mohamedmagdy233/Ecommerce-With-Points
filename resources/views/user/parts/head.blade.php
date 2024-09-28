@@ -10,6 +10,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <!-- Include Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+
 
     @flasher_render
 
@@ -28,6 +31,13 @@
     <link rel="stylesheet" href="{{asset('user/assets/css/vendor/magnific-popup.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/vendor/base.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/style.css')}}">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+    </style>
 
 
 

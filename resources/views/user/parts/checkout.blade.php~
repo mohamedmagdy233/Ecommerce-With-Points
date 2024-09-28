@@ -139,7 +139,7 @@
                                         </tr>
                                     @endforeach
                                     <tr class="order-total">
-                                        <td class="order-total-amount" colspan="2">السعر  قبل الخصم: {{ $total }}</td>
+                                        <td class="order-total-amount" colspan="2">السعر الاجمالي قبل الخصم: {{ $total }}</td>
                                     </tr>
                                     </tbody>
                                 </table>

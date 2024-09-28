@@ -10,6 +10,28 @@
 
     }
 </style>
+<style>
+    .side-app {
+        padding-top: 0 !important;
+        background-color: #ffffff;
+    }
+
+    /* Add margin to all form control inputs */
+    .form-control {
+        margin-bottom: 10px; /* Adjust the bottom margin as needed */
+    }
+
+    /* Add margin to specific columns for better spacing */
+    .col-3, .col-2, .col-1, .col-6 {
+        margin-bottom: 10px; /* Adjust margin as needed */
+    }
+
+    /* Add margin to buttons */
+    .add-product-button, .remove-product-button {
+        margin-top: 20px; /* Adds top margin to align buttons better */
+    }
+</style>
+
 {{--test--}}
 
 @section('page_name')
@@ -26,7 +48,7 @@
                 <div class="row mb-2">
                     <div class="col-3">
                         <label for="product_ids[]" class="form-control-label">{{ trns('product') }}</label>
-                        <select name="product_ids[]" class="form-control product-select">
+                        <select name="product_ids[]" class="form-control product-select" required>
                             <option value="" disabled selected>{{ trns('choose') }}</option>
                             @foreach($products as $product)
                                 <option value="{{ $product->id }}" data-price="{{ $product->price }}"
@@ -74,8 +96,8 @@
             <div class="col-6">
                 <label for="delivery_type" class="form-control-label">{{ trns('delivery_type') }}</label>
                 <select name="delivery_type" id="delivery_type" class="form-control">
-                    <option value="" disabled selected>{{ trns('choose') }}</option>
-                    <option value="1"> الاستلام في المحل</option>
+{{--                    <option value="" disabled selected>{{ trns('choose') }}</option>--}}
+                    <option value="1" selected> الاستلام في المحل</option>
                     <option value="2"> التوصيل للمنزل</option>
                 </select>
             </div>
@@ -89,7 +111,7 @@
             <!-- Customer Selection -->
             <div class="col-6">
                 <label for="to_customer" class="form-control-label">{{ trns('customer') }}</label>
-                <select name="customer_id" id="to_customer" class="form-control">
+                <select name="customer_id" id="to_customer" class="form-control" required>
                     <option value="" disabled selected>{{ trns('choose') }}</option>
                     @foreach($customers as $customer)
                         <option value="{{ $customer->id }}"

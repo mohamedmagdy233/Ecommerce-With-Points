@@ -110,7 +110,7 @@
   'customer' => 'عميل',
   'value_in_points' => 'القيمة بالنقاط',
   'added_by' => 'تمت الإضافة بواسطة',
-  'choose' => 'يختار',
+  'choose' => 'اختر',
   'transfer_points' => 'تحويل النقاط',
   'add new transfer' => 'إضافة نقل جديد',
   'from' => 'من',

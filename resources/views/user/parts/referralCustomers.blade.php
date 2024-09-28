@@ -47,7 +47,7 @@
                 <thead>
                 <tr>
                     <th scope="col" class="text-center">اسم العميل</th>
-                    <th scope="col" class="text-center">رقم الهاتف </th>
+                    <th scope="col" class="text-center">تاريخ الانضمام </th>
                     <th scope="col" class="text-center">الرابط الخاص بيه </th>
 {{--                    <th scope="col" class="text-center">العنوان</th>--}}
                 </tr>
@@ -57,7 +57,7 @@
                 @foreach($relatedCustomers as $relatedCustomer)
                     <tr id="product-row-{{ $relatedCustomer->id }}">
                         <td class="text-center">{{$relatedCustomer->name}}</td>
-                        <td class="text-center">{{$relatedCustomer->phone}}</td>
+                        <td class="text-center">{{$relatedCustomer->created_at->format('Y-m-d')}}</td>
                         <td class="text-center">
                             <button class="custom-copy-button ml-2" onclick="copyToClipboard('{{ url('/') . '/register?user_id=' . $relatedCustomer->id }}')">
                                 نسخ الرابط

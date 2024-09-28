@@ -67,10 +67,17 @@
 
 
 
-                                <div class="col-12">
+                                <div class="col-6">
                                     <label for="location_url" class="form-control-label">{{ trns('location_url') }}</label>
                                     <input type="url" class="form-control" name="location_url" id="location_url"
                                            value="{{isset($setting) ? $setting->location_url : ''}}">
+                                </div>
+
+
+                                <div class="col-6">
+                                    <label for="currency" class="form-control-label">العمله</label>
+                                    <input type="text" class="form-control" name="currency" id="currency"
+                                           value="{{isset($setting) ? $setting->currency : ''}}">
                                 </div>
                             </div>
 

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Category as ObjModel;
+use App\Models\Media;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
@@ -78,20 +79,38 @@ class CategoryService extends BaseService
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
-        $data['slug']=$this->generateCode();
 
-        $data['admin_id'] = auth('admin')->user()->id;
+        $category=ObjModel::create([
+            'name' => $data['name'],
+            'slug' => $this->generateCode(),
+            'admin_id' => auth('admin')->user()->id,
 
-        if (array_key_exists('image', $data)) {
-            $data['image'] = $data['image']->store('uploads/categories', 'public');
+
+
+        ]);
+
+
+        if (isset($data['image'])) {
+            $imagePaths = [];
+
+            foreach ($data['image'] as $file) {
+                $path = $file->store('uploads/categories', 'public');
+                $imagePaths[] = $path;
+            }
+
+            $category->media()->create([
+                'image' => json_encode($imagePaths),
+            ]);
         }
 
-        $model = $this->createData($data);
-        if ($model) {
+
+        if ($category->save()) {
             return response()->json(['status' => 200]);
         } else {
             return response()->json(['status' => 405]);
         }
+
+
     }
     protected function generateCode(): string
     {
@@ -107,31 +126,70 @@ class CategoryService extends BaseService
         return view($this->folder . '/parts/edit',[
 
             'category' => $category,
+            'images' => $this->images($category->id),
             'route' => route($this->route . '.update', $category->id),
         ]);
+    }
+
+    public function images($id)
+    {
+        $media = Media::where('modelable_id', $id)->first();
+
+        $images = json_decode($media->image, true);
+
+        return $images;
+
     }
 
     public function update($data ,$id)
     {
         $category=$this->getById($id);
 
-        $data['slug']=$this->generateCode();
 
-        $data['admin_id'] = auth('admin')->user()->id;
+        $category->update([
+            'name' => $data['name'],
+            'slug' => $this->generateCode(),
+            'admin_id' => auth('admin')->user()->id,
 
-        if (array_key_exists('image', $data)) {
+        ]);
 
-            if ($category->image != null) {
-                Storage::delete('public/' . $category->image);
+        if (isset($data['image'])) {
+
+            $categoryImages = Media::where('modelable_id', $id)->get();
+
+            foreach ($categoryImages as $image) {
+                $imagePaths = json_decode($image->image, true);
+
+                if (is_array($imagePaths)) {
+                    foreach ($imagePaths as $path) {
+                        if (Storage::disk('public')->exists($path)) {
+                            Storage::disk('public')->delete($path);
+                        }
+                    }
+                }
+                $image->delete();
             }
 
-            $data['image'] = $data['image']->store('uploads/categories', 'public');
-        }
 
-        if ($this->updateData($id, $data)) {
-            return response()->json(['status' => 200]);
-        } else {
-            return response()->json(['status' => 405]);
+            if (isset($data['image'])) {
+                $imagePaths = [];
+
+                foreach ($data['image'] as $file) {
+                    $path = $file->store('uploads/categories', 'public');
+                    $imagePaths[] = $path;
+                }
+
+                $category->media()->create([
+                    'image' => json_encode($imagePaths),
+                ]);
+            }
+
+
+            if ($category->save()) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 405]);
+            }
         }
     }
 

@@ -5,6 +5,10 @@ namespace App\Services;
 use App\Models\Customer as ObjModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Writer;
 use Yajra\DataTables\DataTables;
 
 class CustomerService extends BaseService
@@ -48,11 +52,22 @@ class CustomerService extends BaseService
                 })->addColumn('WhatsApp', function ($customers) {
 
                     return '<a target="_blank" href="https://wa.me/'.$customers->phone.'"><i class="fab fa-2x   fa-whatsapp"></i></a>';
+
                 })->editColumn('link', function ($customers) {
+                    $url = url('/') . '/register?user_id=' . $customers->id;
 
-                    return url('/').'/register?user_id='.$customers->id;
-                 })
+                    // Generate QR code using BaconQrCode
+                    $renderer = new ImageRenderer(
+                        new RendererStyle(200),
+                        new SvgImageBackEnd()
+                    );
+                    $writer = new Writer($renderer);
+                    $qrCodeSvg = $writer->writeString($url); // SVG format for QR Code
 
+                    // Return both the referral link and QR code
+                    return '<a href="' . $url . '" target="_blank">Referral Link</a><br>' .
+                        '<div>' . $qrCodeSvg . '</div>';
+                })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);

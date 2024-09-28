@@ -72,7 +72,8 @@
                         <th scope="col" class="text-center">من</th>
                         <th scope="col" class="text-center">إلى </th>
                         <th scope="col" class="text-center">النقاط</th>
-                        <th scope="col" class="text-center">العمليات</th>
+                        <th scope="col" class="text-center">التاريخ</th>
+{{--                        <th scope="col" class="text-center">العمليات</th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -81,12 +82,13 @@
                             <td class="text-center">{{ $transferPoint->fromCustomer->name }}</td>
                             <td class="text-center">{{ $transferPoint->toCustomer->name }}</td>
                             <td class="text-center">{{ $transferPoint->points }}</td>
-                            <td class="text-center">
-                                <!-- Delete button -->
-                                <a  class="btn btn-danger btn-sm" href="{{ route('deleteTransferPoints', $transferPoint->id) }}">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            </td>
+                            <td class="text-center">{{ $transferPoint->created_at->format('Y-m-d') }}</td>
+{{--                            <td class="text-center">--}}
+{{--                                <!-- Delete button -->--}}
+{{--                                <a  class="btn btn-danger btn-sm" href="{{ route('deleteTransferPoints', $transferPoint->id) }}">--}}
+{{--                                    <i class="fa fa-trash"></i>--}}
+{{--                                </a>--}}
+{{--                            </td>--}}
                         </tr>
                         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
                             <div class="modal-dialog" role="document">
@@ -138,7 +140,7 @@
                     @empty
 
                         <tr>
-                            <td colspan="4" class="text-center">لا يوجد نفايات</td>
+{{--                            <td colspan="4" class="text-center">لا يوجد نفايات</td>--}}
                         </tr>
                     @endforelse
                     </tbody>

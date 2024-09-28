@@ -43,40 +43,29 @@
         width: 100%;
     }
 </style>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Slick Carousel JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-<!-- Initialize Slick Carousel -->
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.categrie-product-activation-3').slick({
-            slidesToShow: 4,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-            rtl: true,
-            arrows: true,
-            dots: false,
-            responsive: [
-                {
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                    }
-                },
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 2,
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 1,
-                    }
+<script>
+    // Initialize Slick Slider
+    $('.categrie-product-activation-3').slick({
+        slidesToShow: 3, // adjust the number of slides to show
+        slidesToScroll: 1,
+        autoplay: true, // enable autoplay
+        autoplaySpeed: 2000, // adjust the autoplay speed
+        arrows: true, // enable navigation arrows
+        dots: false, // disable dots navigation
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2
                 }
-            ]
-        });
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
+        ]
     });
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Media;
 use App\Models\OrderProduct;
 use App\Models\Product as ObjModel;
 use Illuminate\Support\Facades\Storage;
@@ -78,16 +79,35 @@ class ProductService extends BaseService
     public function store($data): \Illuminate\Http\JsonResponse
 
     {
+        $product=ObjModel::create([
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'price' => $data['price'],
+            'category_id' => $data['category_id'],
+            'award_points' => $data['award_points'],
+            'quantity' => $data['quantity'],
+            'admin_id' => auth('admin')->user()->id,
 
-        if($data['image'] != null){
 
-            $data['image'] = $data['image']->store('uploads/products', 'public');
+
+        ]);
+
+
+        if (isset($data['image'])) {
+            $imagePaths = [];
+
+            foreach ($data['image'] as $file) {
+                $path = $file->store('uploads/products', 'public');
+                $imagePaths[] = $path;
+            }
+
+            $product->media()->create([
+                'image' => json_encode($imagePaths),
+            ]);
         }
 
-        $data['admin_id'] = auth('admin')->user()->id;
 
-        $model = $this->createData($data);
-        if ($model) {
+        if ($product->save()) {
             return response()->json(['status' => 200]);
         } else {
             return response()->json(['status' => 405]);
@@ -102,8 +122,20 @@ class ProductService extends BaseService
 
             'categories' => $this->categoryService->getAll(),
 
+            'images' => $this->images($product->id),
+
             'route' => route($this->route . '.update', $product->id),
         ]);
+    }
+
+    public function images($id)
+    {
+        $media = Media::where('modelable_id', $id)->first();
+
+        $images = json_decode($media->image, true);
+
+        return $images;
+
     }
 
     public function update($data, $id)
@@ -111,18 +143,53 @@ class ProductService extends BaseService
 
         $product = $this->getById($id);
 
-        if(array_key_exists('image', $data)){
+        $product->update([
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'price' => $data['price'],
+            'category_id' => $data['category_id'],
+            'award_points' => $data['award_points'],
+            'quantity' => $data['quantity'],
+            'admin_id' => auth('admin')->user()->id,
+        ]);
 
-            Storage::delete('public/'.$product->image);
+        if (isset($data['image'])) {
 
-            $data['image'] = $data['image']->store('uploads/products', 'public');
-        }
+            $productImages = Media::where('modelable_id', $id)->get();
 
-        $data['admin_id'] = auth('admin')->user()->id;
-        if ($this->updateData($id, $data)) {
-            return response()->json(['status' => 200]);
-        } else {
-            return response()->json(['status' => 405]);
+            foreach ($productImages as $image) {
+                $imagePaths = json_decode($image->image, true);
+
+                if (is_array($imagePaths)) {
+                    foreach ($imagePaths as $path) {
+                        if (Storage::disk('public')->exists($path)) {
+                            Storage::disk('public')->delete($path);
+                        }
+                    }
+                }
+                $image->delete();
+            }
+
+
+            if (isset($data['image'])) {
+                $imagePaths = [];
+
+                foreach ($data['image'] as $file) {
+                    $path = $file->store('uploads/products', 'public');
+                    $imagePaths[] = $path;
+                }
+
+                $product->media()->create([
+                    'image' => json_encode($imagePaths),
+                ]);
+            }
+
+
+            if ($product->save()) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 405]);
+            }
         }
     }
 

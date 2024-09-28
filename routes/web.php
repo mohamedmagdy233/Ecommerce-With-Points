@@ -46,6 +46,7 @@ Route::group(['middleware' => 'web-auth'], function () {
     Route::post('add/to/fav/{id}', [MainController::class, 'addToFav'])->name('addToFav');
     Route::get('get/wishlist', [MainController::class, 'getWishlist'])->name('wishlist');
     Route::get('my/points', [MainController::class, 'myPoints'])->name('my.points');
+    Route::get('my/QrCode', [MainController::class, 'myQrCode'])->name('myQrCode');
 
 
     Route::post('add/order', [MainController::class, 'addOrder'])->name('addOrder');
@@ -78,6 +79,12 @@ Route::get('contact', [MainController::class, 'ShowContact'])->name('main.ShowCo
 Route::get('about', [MainController::class, 'about'])->name('main.about');
 Route::post('store/contact', [MainController::class, 'storeContact'])->name('main.storeContact');
 Route::get('terms/privacy/faqs', [MainController::class, 'termsAndPrivacyAndFaqs'])->name('termsAndPrivacyAndFaqs');
+
+Route::get('test', function () {
+    return view('user.parts.invoice');
+});
+
+
 
 
 

@@ -42,4 +42,10 @@ class Product extends Model
         return $this->hasMany(Cart::class);
 
     }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'modelable');
+
+    }
 }

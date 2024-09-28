@@ -23,5 +23,12 @@ class Category extends Model
     public function admin()
     {
         return $this->belongsTo(Admin::class);
+
+
+    }
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'modelable');
+
     }
 }

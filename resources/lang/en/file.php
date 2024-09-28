@@ -194,4 +194,5 @@ return array (
   'an_error_occurred' => 'An Error Occurred',
   'please_select_at_least_one_category_to_delete' => 'Please Select At Least One Category To Delete',
   'please_select_at_least_one_item' => 'Please Select At Least One Item',
+  'images' => 'Images',
 );

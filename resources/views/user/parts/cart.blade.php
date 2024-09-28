@@ -2,6 +2,7 @@
     <div class="cart-content-wrap">
         <div class="cart-header">
             <h2 class="header-title">سله الشراء</h2>
+            <a id="home" style="padding: 10px;" href="{{route('main.index')}}" class="cart-close sidebar-close"><i class="fas fa-home"></i></a>
             <button class="cart-close sidebar-close"><i class="fas fa-times"></i></button>
         </div>
         <div class="cart-body">
@@ -23,7 +24,7 @@
                             <div class="item-content">
                                 <h3 class="item-title"><a href="{{ route('product.details', $product->id) }}">{{ $product->name }}</a></h3>
                                 <div class="item-price">
-                                    <span class="currency-symbol"></span>{{ $product->price }}
+                                    <span class="currency-symbol"></span>{{ $product->price }}{{$setting->currency}}
                                 </div>
 
                                 <div class="item-quantity">
@@ -73,6 +74,8 @@
 
 
 <style>
+
+
     .cart-footer {
         padding: 20px;
         background-color: #f7f7f7;

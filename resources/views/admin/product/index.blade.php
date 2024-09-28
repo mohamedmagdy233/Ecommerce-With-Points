@@ -39,8 +39,8 @@
                                 <th class="min-w-50px">الاسم</th>
                                 <th class="min-w-125px">الوصف</th>
                                 <th class="min-w-50px">سعر البيع</th>
-                                <th class="min-w-50px">نقاط المكافأة</th>
-                                <th class="min-w-125px">الصورة</th>
+                                <th class="min-w-50px">النقاط </th>
+{{--                                <th class="min-w-125px">الصورة</th>--}}
                                 <th class="min-w-125px">الكمية</th>
                                 <th class="min-w-125px">أضيف بواسطة</th>
                                 <th class="min-w-50px rounded-end">الإجراءات</th>
@@ -113,7 +113,7 @@
             {data: 'description', name: 'description'},
             {data: 'price', name: 'price'},
             {data: 'award_points', name: 'award_points'},
-            {data: 'image', name: 'image'},
+            // {data: 'image', name: 'image'},
             {data: 'quantity', name: 'quantity'},
             {data: 'admin_id', name: 'admin_id'},
             {data: 'action', name: 'action', orderable: false, searchable: false},

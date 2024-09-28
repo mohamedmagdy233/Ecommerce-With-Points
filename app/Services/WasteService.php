@@ -11,7 +11,7 @@ class WasteService extends BaseService
     protected string $folder = 'admin/waste';
     protected string $route = 'wastes';
 
-    public function __construct(ObjModel $model ,protected CustomerService $customerService ,protected WasteSectionService $wasteSectionService)
+    public function __construct(ObjModel $model, protected CustomerService $customerService, protected WasteSectionService $wasteSectionService)
     {
         parent::__construct($model);
     }
@@ -23,7 +23,7 @@ class WasteService extends BaseService
             return DataTables::of($wastes)
                 ->addColumn('action', function ($wastes) {
                     $buttons = '';
-                    if ($wastes->status == 0){
+                    if ($wastes->status == 0) {
 
                         $buttons .= '
                             <a href="' . route($this->route . '.edit', $wastes->id) . '"  class="btn btn-pill btn-info-light ">
@@ -31,21 +31,22 @@ class WasteService extends BaseService
                             </a>
                        ';
 
-                    }
-                    else{
 
-                    if (auth()->user()->can('delete_waste')) {
+                    } else {
+
+                        if (auth()->user()->can('delete_waste')) {
+                            $buttons .= '<button class="btn btn-pill btn-danger-light me-2" data-bs-toggle="modal"
+                 data-bs-target="#delete_modal" data-id="' . $wastes->id . '" data-title="' . $wastes->name . '">
+                 <i class="fas fa-trash"></i>
+                 </button>';
+                        }
+
+                        $buttons .= '<button class="btn btn-pill btn-primary-light" disabled>
+                            تم التاكيد
+             </button>';
 
 
-                        $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                        data-bs-target="#delete_modal" data-id="' . $wastes->id . '" data-title="' . $wastes->name . '">
-                        <i class="fas fa-trash"></i>
-                        </button>';
-
-                    }
-
-
-//                        $buttons .= 'تم التاكيد';
+//                        $buttons .= '|  تم التاكيد  ';
                     }
 
 
@@ -66,7 +67,7 @@ class WasteService extends BaseService
                     return $wastes->admin ? $wastes->admin->name : $wastes->customer->name;
                 })->addColumn('value_in_points_per_unit', function ($wastes) {
 
-                    return $wastes->value_in_points/$wastes->quantity;
+                    return $wastes->value_in_points / $wastes->quantity;
 
                 })->editColumn('status', function ($wastes) {
 
@@ -75,7 +76,6 @@ class WasteService extends BaseService
                 }
 
                 )
-
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
@@ -85,11 +85,10 @@ class WasteService extends BaseService
     }
 
 
-
     public function create()
     {
-        return view($this->folder . '/parts/create',[
-             'customers' => $this->customerService->getAll(),
+        return view($this->folder . '/parts/create', [
+            'customers' => $this->customerService->getAll(),
             'wasteSections' => $this->wasteSectionService->getAll(),
             'route' => route($this->route . '.store'),
         ]);
@@ -98,8 +97,8 @@ class WasteService extends BaseService
     public function store($data): \Illuminate\Http\JsonResponse
     {
         $customer = $this->customerService->getById($data['customer_id']);
-        $customer->points = $customer->points + $data['points_transferred'] ;
-        $customer->pointsFromWhere='عمليه استبدال نفايات';
+        $customer->points = $customer->points + $data['points_transferred'];
+        $customer->pointsFromWhere = 'عمليه استبدال نفايات';
         $customer->save();
 
         $data['admin_id'] = auth('admin')->user()->id;
@@ -116,10 +115,10 @@ class WasteService extends BaseService
         $id = $waste->id;
         $waste = $this->getById($id);
 
-        $waste->status=1;
+        $waste->status = 1;
         $waste->save();
 
-        $customer= $this->customerService->getById($waste->customer_id);
+        $customer = $this->customerService->getById($waste->customer_id);
         $customer->points += $waste->points_transferred;
         $customer->save();
         if ($customer->customer_id !== null) {
@@ -128,7 +127,7 @@ class WasteService extends BaseService
             $parent_customer->save();
         }
 
-        if ( $customer->save()) {
+        if ($customer->save()) {
             return redirect()->back()->with('success', 'تم تاكيد البيانات بنجاح.');
         } else {
             return redirect()->back()->with('success', 'حدث خطأ ما.');
@@ -136,7 +135,7 @@ class WasteService extends BaseService
 
     }
 
-    public function update($data ,$id)
+    public function update($data, $id)
     {
         $data['admin_id'] = auth('admin')->user()->id;
         if ($this->updateData($id, $data)) {
