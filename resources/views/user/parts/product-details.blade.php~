@@ -132,7 +132,7 @@
                         </div>
                     </div>
 
-
+                    
                     <div class="col-lg-6 mb--40">
                         <div class="h-100">
                             <div class="position-sticky sticky-top">
@@ -235,10 +235,9 @@
                                     <div class="thumbnail text-center">
                                         <a href="{{route('product.details', $relatedProduct->id)}}">
                                             <img style="height: 200px; object-fit: cover;"
-                                                 src="{{ asset('storage/' . json_decode($relatedProduct->media->first()->image, true)[0])}}" alt="Product Images"
+                                                 src="{{asset('storage/'.$relatedProduct->image)}}" alt="Product Images"
                                                  class="img-fluid">
                                         </a>
-
                                         <div class="product-hover-action">
 
 

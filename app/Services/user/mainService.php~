@@ -6,7 +6,6 @@ use App\Models\Cart;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\Fav;
-use App\Models\Media;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -864,18 +863,6 @@ class mainService extends BaseService
         ]);
 
     }
-
-    public function images($id)
-    {
-        $media = Media::where('modelable_id', $id)->first();
-
-        $images = json_decode($media->image, true);
-
-        return $images;
-
-    }
-
-
 
 
     public function allProducts()

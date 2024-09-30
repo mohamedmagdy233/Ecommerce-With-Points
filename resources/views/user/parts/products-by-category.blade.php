@@ -60,8 +60,19 @@
                         <div class="axil-product product-style-one has-color-pick mt--40">
                             <div class="thumbnail">
                                 <a href="{{route('product.details', $product->id)}}">
-                                    <img style=" height: 156px;" src="{{asset('storage/'.$product->image)}}" alt="Product Images">
-                                </a>
+                                    @foreach($product->media as $media)
+                                        @if(!empty($media->image))
+                                            @foreach(json_decode($media->image, true) as $imagePath)
+                                                <div class="card-details ms-1 me-1">
+                                                    <img src="{{ asset('storage/' . $imagePath) }}" alt="{{ $product->name }}">
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <div class="card-details ms-1 me-1">
+                                                <img src="{{ asset('assets/upload/no-data.gif') }}" alt="No Image Available">
+                                            </div>
+                                        @endif
+                                    @endforeach                                </a>
 
                                 <div class="product-hover-action">
                                     <ul class="cart-action">

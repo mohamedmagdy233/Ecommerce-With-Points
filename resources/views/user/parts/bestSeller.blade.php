@@ -11,7 +11,7 @@
                         <div class="axil-product product-style-six">
                             <div class="thumbnail">
                                 <a href="{{ route('product.details', $bestSeller->product_id) }}">
-                                    <img data-sal="fade" data-sal-delay="200" data-sal-duration="1500" src="{{ asset('storage/'.$bestSeller->product->image) }}" alt="Product Images">
+                                    <img data-sal="fade" data-sal-delay="200" data-sal-duration="1500" src="{{  asset('storage/' . json_decode($bestSeller->product->media->first()->image, true)[0]) }}" alt="Product Images">
                                 </a>
                                 <span class="product-price">{{$bestSeller->product->price}} {{$setting->currency}}</span> <!-- Price badge over image -->
                             </div>
