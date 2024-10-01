@@ -13,7 +13,7 @@
                     <div class="slick-single-layout slick-slide">
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100" data-sal-duration="500">
                             <a href="{{route('productsByCategory', $category->id)}}">
-                                <img class="img-fluid" src="{{  asset('storage/' . json_decode($category->product->media->first()->image, true)[0]) }}" alt="category images">
+                                <img class="img-fluid" src="{{  asset('storage/' . json_decode($category->media->first()->image, true)[0]) }}" alt="category images">
                                 <h6 class="cat-title">{{$category->name}}</h6>
                             </a>
                         </div>
