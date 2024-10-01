@@ -83,7 +83,7 @@
                             <li><a href="{{route('termsAndPrivacyAndFaqs')}}">السياسة</a></li>
                         </ul>
                         <ul class="quick-link ">
-                            <li> كل الحقوق محفوظة بواسطه : <a target="_blank" href="https://github.com/mohamedmagdy233">فريق العاصفه</a>.
+                            <li> كل الحقوق محفوظة بواسطه .
                             </li>
                         </ul>
                     </div>
