@@ -53,20 +53,20 @@ class CustomerService extends BaseService
 
                     return '<a target="_blank" href="https://wa.me/'.$customers->phone.'"><i class="fab fa-2x   fa-whatsapp"></i></a>';
 
-                })->editColumn('link', function ($customers) {
-                    $url = url('/') . '/register?user_id=' . $customers->id;
-
-                    // Generate QR code using BaconQrCode
-                    $renderer = new ImageRenderer(
-                        new RendererStyle(200),
-                        new SvgImageBackEnd()
-                    );
-                    $writer = new Writer($renderer);
-                    $qrCodeSvg = $writer->writeString($url); // SVG format for QR Code
-
-                    // Return both the referral link and QR code
-                    return '<a href="' . $url . '" target="_blank">Referral Link</a><br>' .
-                        '<div>' . $qrCodeSvg . '</div>';
+//                })->editColumn('link', function ($customers) {
+//                    $url = url('/') . '/register?user_id=' . $customers->id;
+//
+//                    // Generate QR code using BaconQrCode
+//                    $renderer = new ImageRenderer(
+//                        new RendererStyle(200),
+//                        new SvgImageBackEnd()
+//                    );
+//                    $writer = new Writer($renderer);
+//                    $qrCodeSvg = $writer->writeString($url); // SVG format for QR Code
+//
+//                    // Return both the referral link and QR code
+//                    return '<a href="' . $url . '" target="_blank">Referral Link</a><br>' .
+//                        '<div>' . $qrCodeSvg . '</div>';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

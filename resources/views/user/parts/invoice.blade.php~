@@ -21,7 +21,7 @@
 <section id="invoice">
     <div class="container my-5 py-5">
         <div class="text-center">
-            <img width="150px" height="150px" src="{{getFile(isset($setting) ? $setting->logo : asset('title.webp'))}}" alt="">
+            <img src="{{getFile(isset($setting) ? $setting->logo : asset('title.webp'))}}" alt="">
         </div>
         <div class="text-center border-top border-bottom my-5 py-3">
             <h2 class="display-5 fw-bold">فاتوره شراء </h2>

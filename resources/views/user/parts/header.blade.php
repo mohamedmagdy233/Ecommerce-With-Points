@@ -10,7 +10,7 @@
     }
     /* Initially set the background color */
     .axil-mainmenu {
-        background-color: rgb(255, 172, 196);
+        background-color:#FEBD69;
         transition: background-color 0.3s ease, top 0.3s ease;
         position: fixed;
         width: 100%;
@@ -125,9 +125,9 @@
                                     <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('transfer.wastes') }}">
                                         <i class="fas fa-recycle"></i> تحويل نفايات
                                     </a>
-                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('myQrCode') }}">
-                                        <i class="fas fa-qrcode"></i>   الماسح الضوئي
-                                    </a>
+{{--                                    <a class="btn btn-primary btn-lg w-100 mb-3" href="{{ route('myQrCode') }}">--}}
+{{--                                        <i class="fas fa-qrcode"></i>   الماسح الضوئي--}}
+{{--                                    </a>--}}
 
                                     <a class="btn btn-secondary btn-lg w-100 mb-3" href="{{ route('logout') }}">
                                         <i class="fas fa-sign-out-alt"></i> تسجيل خروج
