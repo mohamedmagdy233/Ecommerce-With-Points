@@ -14,22 +14,21 @@
                     @forelse($products as $product)
                         <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30 product music">
                             <div class="axil-product product-style-one">
+
                                 <div class="thumbnail">
                                     <a href="{{ route('product.details', $product->id) }}">
-                                        <!-- عرض الصور من جدول media -->
+
+
                                         <div class="owl-carousel owl-theme">
                                             @foreach($product->media as $media)
                                                 @php
-                                                    $images = json_decode($media->image, true); // تحويل JSON إلى مصفوفة
+                                                    $images = json_decode($media->image, true);
                                                 @endphp
 
                                                 @if(is_array($images))
-                                                    @foreach($images as $imagePath)
-                                                        <div class="item">
-                                                            <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                                                 src="{{ asset('storage/' . $imagePath) }}" alt="{{ $product->name }}">
-                                                        </div>
-                                                    @endforeach
+                                                    <a href="{{ route('product.details', $product->id) }}">
+                                                        <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500" src="{{$images[0]}}" alt="Product Images">
+                                                    </a>
                                                 @endif
                                             @endforeach
                                         </div>
