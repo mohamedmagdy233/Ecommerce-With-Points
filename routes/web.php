@@ -17,9 +17,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 
-//Route::get('/', function () {
-//    return view('user/index');
-//})->name('main.index');
+
 
 Route::get('/', [MainController::class, 'index'])->name('main.index');
 
@@ -108,4 +106,9 @@ Route::get('/clear', function () {
     Artisan::call('config:clear');
     Artisan::call('optimize:clear');
     return response()->json(['status' => 'success', 'code' => 1000000000]);
+});
+
+Route::get('/storage', function () {
+    Artisan::call('storage:link');
+    return response()->json(['status' => 'success', 'code' => 200]);
 });
