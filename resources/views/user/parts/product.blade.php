@@ -7,7 +7,7 @@
                         <span class="title-highlighter highlighter-primary">
                             <i class="far fa-shopping-basket"></i> منتجاتنا
                         </span>
-                        <a href="{{ route('allProducts') }}" class="title highlighter-primary">منتجات جديدة</a>
+                        <a href="{{ route('allProducts') }}" class="title highlighter-primary">عرض كل المنتجات</a>
                     </div>
                 </div>
                 <div class="row row--15 isotope-list">
@@ -17,21 +17,19 @@
 
                                 <div class="thumbnail">
                                     <a href="{{ route('product.details', $product->id) }}">
-
-
-                                        <div class="owl-carousel owl-theme">
-                                            @foreach($product->media as $media)
-                                                @php
-                                                    $images = json_decode($media->image, true);
-                                                @endphp
-
-                                                @if(is_array($images))
-                                                    <a href="{{ route('product.details', $product->id) }}">
-                                                        <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500" src="{{$images[0]}}" alt="Product Images">
-                                                    </a>
-                                                @endif
-                                            @endforeach
-                                        </div>
+                                        @foreach($product->media as $media)
+                                            @if(!empty($media->image))
+                                                @foreach(json_decode($media->image, true) as $imagePath)
+                                                    <div class="card-details ms-1 me-1">
+                                                        <img src="{{ asset('storage/' . $imagePath) }}" alt="{{ $product->name }}">
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div class="card-details ms-1 me-1">
+                                                    <img src="{{ asset('assets/upload/no-data.gif') }}" alt="No Image Available">
+                                                </div>
+                                            @endif
+                                        @endforeach
                                     </a>
                                     <div class="product-hover-action">
                                         <ul class="cart-action">
@@ -77,40 +75,40 @@
     </div>
 </div>
 
-<!-- CSS لتعديل الـ Carousel  -->
-<style>
-    .axil-product img {
-        height: 150px;
-        object-fit: cover;
-        width: 100%;
-    }
+{{--<!-- CSS لتعديل الـ Carousel  -->--}}
+{{--<style>--}}
+{{--    .axil-product img {--}}
+{{--        height: 150px;--}}
+{{--        object-fit: cover;--}}
+{{--        width: 100%;--}}
+{{--    }--}}
 
-    .owl-carousel .item {
-        padding: 5px;
-    }
+{{--    .owl-carousel .item {--}}
+{{--        padding: 5px;--}}
+{{--    }--}}
 
-    .owl-carousel .item img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-    }
-</style>
+{{--    .owl-carousel .item img {--}}
+{{--        width: 100%;--}}
+{{--        height: auto;--}}
+{{--        border-radius: 8px;--}}
+{{--    }--}}
+{{--</style>--}}
 
 <!-- سكربت لتفعيل الـ Carousel -->
-<script>
-    $(document).ready(function(){
-        $('.owl-carousel').owlCarousel({
-            items: 1,
-            loop: true,
-            margin: 10,
-            nav: true,
-            dots: true,
-            autoplay: true,
-            autoplayTimeout: 3000,
-            autoplayHoverPause: true
-        });
-    });
-</script>
+{{--<script>--}}
+{{--    $(document).ready(function(){--}}
+{{--        $('.owl-carousel').owlCarousel({--}}
+{{--            items: 1,--}}
+{{--            loop: true,--}}
+{{--            margin: 10,--}}
+{{--            nav: true,--}}
+{{--            dots: true,--}}
+{{--            autoplay: true,--}}
+{{--            autoplayTimeout: 3000,--}}
+{{--            autoplayHoverPause: true--}}
+{{--        });--}}
+{{--    });--}}
+{{--</script>--}}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
