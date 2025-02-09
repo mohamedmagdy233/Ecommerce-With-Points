@@ -1,40 +1,52 @@
 <div class="modal-body">
-    <form id="updateForm" method="POST" enctype="multipart/form-data" action="{{$route}}" >
-    @csrf
+    <form id="updateForm" method="POST" enctype="multipart/form-data" action="{{$route}}">
+        @csrf
         @method('PUT')
         <input type="hidden" value="{{$category->id}}" name="id">
 
         <div class="row">
 
-            <div class="col-12">
+            {{--            <div class="col-12">--}}
 
-                <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('images') }}</label>
-                    <div class="image-stack">
-                        <div class="row">
-                            @foreach($images as $image)
-                                <div class="col-md-4 col-12 mb-5">
-                                    <img style="height: 115px;" src="{{ asset('storage/'.$image) }}" class="stacked-image w-100" />
-                                </div>
-                            @endforeach
+            {{--                <div class="form-group">--}}
+            {{--                    <label for="name" class="form-control-label">{{ trns('images') }}</label>--}}
+            {{--                    <div class="image-stack">--}}
+            {{--                        <div class="row">--}}
+            {{--                            @foreach($images as $image)--}}
+            {{--                                <div class="col-md-4 col-12 mb-5">--}}
+            {{--                                    <img style="height: 115px;" src="{{ asset('storage/'.$image) }}" class="stacked-image w-100" />--}}
+            {{--                                </div>--}}
+            {{--                            @endforeach--}}
 
-                        </div>
+            {{--                        </div>--}}
 
-                    </div>
+            {{--                    </div>--}}
 
-                </div>
-            </div>
+            {{--                </div>--}}
+            {{--            </div>--}}
 
             <div class="form-group">
-
                 <label for="name" class="form-control-label">{{trns('images')}}</label>
-                <div class="upload-area" id="uploadfile">
-                    <div><i style="font-size: 25px;" class="fas fa-file-import"></i></div>
-                    <input type="file" id="fileInput" name="image[]" multiple accept="image/*">
-                    <div id="preview"></div>
-                </div>
+                <input type="file" class="dropify" name="image[]"
+                       @foreach($images as $image)
+
+                           data-default-file="{{ $category->media ? asset('storage/' . $image) : asset('assets/uploads/avatar.png') }}"
+                       @endforeach
+
+                       accept="image/png,image/webp , image/gif, image/jpeg,image/jpg"/>
 
             </div>
+
+            {{--            <div class="form-group">--}}
+
+            {{--                <label for="name" class="form-control-label">{{trns('images')}}</label>--}}
+            {{--                <div class="upload-area" id="uploadfile">--}}
+            {{--                    <div><i style="font-size: 25px;" class="fas fa-file-import"></i></div>--}}
+            {{--                    <input type="file" id="fileInput" name="image[]" multiple accept="image/*">--}}
+            {{--                    <div id="preview"></div>--}}
+            {{--                </div>--}}
+
+            {{--            </div>--}}
 
 
             <div class="col-12">
@@ -120,7 +132,6 @@
     }
 
 </style>
-
 
 
 <script>

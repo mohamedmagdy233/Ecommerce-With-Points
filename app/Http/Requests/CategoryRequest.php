@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CategoryRequest extends FormRequest
 {
@@ -35,7 +34,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => 'image|required|max:10000',
+            'image' => 'required',
         ];
     }
 
@@ -43,7 +42,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => 'image|required|max:10000',
+            'image' => 'nullable',
         ];
     }
 
@@ -53,7 +52,6 @@ class CategoryRequest extends FormRequest
 
             'name.required' => 'يجب ادخال الاسم',
             'image.required' => 'يجب ادخال الصورة',
-            'image.mimes' => 'يجب ان تكون الصورة jpeg,jpg,png,gif',
 
 
         ];

@@ -3,23 +3,22 @@
         @csrf
         <div class="row">
 
+            <div class="form-group">
+                <label for="name" class="form-control-label">{{trns('images')}}</label>
+                <input type="file" class="dropify" name="image[]"
+                       data-default-file="{{ asset('assets/uploads/avatar.png') }}"
+>
+            </div>
 {{--            <div class="form-group">--}}
-{{--                <label for="name" class="form-control-label">الصورة</label>--}}
-{{--                <input type="file" class="dropify" name="image"--}}
-{{--                       data-default-file="{{ asset('assets/uploads/avatar.png') }}"--}}
-{{--                       accept="image/png,image/webp , image/gif, image/jpeg,image/jpg" />--}}
+
+{{--                <label for="name" class="form-control-label">{{trns('images')}}</label>--}}
+{{--                <div class="upload-area" id="uploadfile">--}}
+{{--                    <div><i style="font-size: 25px;" class="fas fa-file-import"></i></div>--}}
+{{--                    <input type="file" id="fileInput" name="image[]"  accept="image/*">--}}
+{{--                    <div id="preview"></div>--}}
+{{--                </div>--}}
 
 {{--            </div>--}}
-            <div class="form-group">
-
-                <label for="name" class="form-control-label">{{trns('images')}}</label>
-                <div class="upload-area" id="uploadfile">
-                    <div><i style="font-size: 25px;" class="fas fa-file-import"></i></div>
-                    <input type="file" id="fileInput" name="image[]" multiple accept="image/*">
-                    <div id="preview"></div>
-                </div>
-
-            </div>
 
 
             <div class="col-12">

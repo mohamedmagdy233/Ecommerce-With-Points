@@ -79,40 +79,32 @@ class CategoryService extends BaseService
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
-
-        $category=ObjModel::create([
+        $category = ObjModel::create([
             'name' => $data['name'],
             'slug' => $this->generateCode(),
             'admin_id' => auth('admin')->user()->id,
-
-
-
         ]);
 
-
         if (isset($data['image'])) {
-            $imagePaths = [];
-
-            foreach ($data['image'] as $file) {
-                $path = $file->store('uploads/categories', 'public');
-                $imagePaths[] = $path;
-            }
-
-            $category->media()->create([
-                'image' => json_encode($imagePaths),
-            ]);
+            $this->storeImages($data['image'], $category);
         }
 
-
-        if ($category->save()) {
-            return response()->json(['status' => 200]);
-        } else {
-            return response()->json(['status' => 405]);
-        }
-
-
+        return response()->json(['status' => $category->save() ? 200 : 405]);
     }
-    protected function generateCode(): string
+
+    protected function storeImages(array $images, ObjModel $category): void
+    {
+        $imagePaths = [];
+
+        foreach ($images as $file) {
+            $path = $file->store('uploads/categories', 'public');
+            $imagePaths[] = $path;
+        }
+
+        $category->media()->create([
+            'image' => json_encode($imagePaths),
+        ]);
+    }    protected function generateCode(): string
     {
         do {
             $slug = Str::random(11);
@@ -141,56 +133,60 @@ class CategoryService extends BaseService
 
     }
 
-    public function update($data ,$id)
+    public function update($data, $id)
     {
-        $category=$this->getById($id);
-
+        $category = $this->getById($id);
 
         $category->update([
             'name' => $data['name'],
-            'slug' => $this->generateCode(),
             'admin_id' => auth('admin')->user()->id,
-
         ]);
 
         if (isset($data['image'])) {
+            $this->deleteExistingImages($id);
+            $this->storeNewImages($data['image'], $category);
+        }
 
-            $categoryImages = Media::where('modelable_id', $id)->get();
+        if ($category->save()) {
+            return response()->json(['status' => 200]);
+        } else {
+            return response()->json(['status' => 405]);
+        }
+    }
 
-            foreach ($categoryImages as $image) {
-                $imagePaths = json_decode($image->image, true);
 
-                if (is_array($imagePaths)) {
-                    foreach ($imagePaths as $path) {
-                        if (Storage::disk('public')->exists($path)) {
-                            Storage::disk('public')->delete($path);
-                        }
+    private function deleteExistingImages($id)
+    {
+        $categoryImages = Media::where('modelable_id', $id)->get();
+
+        foreach ($categoryImages as $image) {
+            $imagePaths = json_decode($image->image, true);
+
+            if (is_array($imagePaths)) {
+                foreach ($imagePaths as $path) {
+                    if (Storage::disk('public')->exists($path)) {
+                        Storage::disk('public')->delete($path);
                     }
                 }
-                $image->delete();
             }
-
-
-            if (isset($data['image'])) {
-                $imagePaths = [];
-
-                foreach ($data['image'] as $file) {
-                    $path = $file->store('uploads/categories', 'public');
-                    $imagePaths[] = $path;
-                }
-
-                $category->media()->create([
-                    'image' => json_encode($imagePaths),
-                ]);
-            }
-
-
-            if ($category->save()) {
-                return response()->json(['status' => 200]);
-            } else {
-                return response()->json(['status' => 405]);
-            }
+            $image->delete();
         }
+    }
+
+    private function storeNewImages($images, $category)
+    {
+        $imagePaths = [];
+
+        foreach ($images as $file) {
+            $path = $file->store('uploads/categories', 'public');
+            $imagePaths[] = $path;
+        }
+
+        $category->media()->create([
+            'image' => json_encode($imagePaths),
+        ]);
+
+        $category->save();
     }
 
 }
